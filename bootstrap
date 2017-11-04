@@ -6,8 +6,8 @@ host="$1"
 
 if ssh root@$host test ! -e /usr/bin/pacman; then
     ssh root@$host wget https://raw.githubusercontent.com/gh2o/digitalocean-debian-to-arch/debian9/install.sh -O install.sh
-    echo "wipe this droplet" | ssh root@host bash install.sh
-    sleep 15
+    ssh root@$host bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped
+    sleep 30
 fi
 
 ssh root@$host pacman --noconfirm --needed -S puppet git
