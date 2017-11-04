@@ -10,12 +10,12 @@ if ssh root@$host test ! -e /usr/bin/pacman; then
     sleep 15
 fi
 
-ssh root@$host pacman --noconfirm -S puppet git
+ssh root@$host pacman --noconfirm --needed -S puppet git
 
 if ssh root@$host test -d /root/bootstrap-tozt; then
-    ssh root@$host sh -c "cd bootstrap-tozt && git pull"
+    ssh root@$host "cd bootstrap-tozt && git pull"
 else
     ssh root@$host git clone git://github.com/doy/bootstrap-tozt
 fi
 
-ssh root@$host sh -c "cd bootstrap-tozt && puppet apply manifest.pp"
+ssh root@$host "cd bootstrap-tozt && puppet apply --modulepath=./modules manifest.pp"

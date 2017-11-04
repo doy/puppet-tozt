@@ -5,6 +5,11 @@ class doy::packages {
       "puppet",
       "vim",
       "lsof",
+      "zsh",
+      "make",
+      "cronie",
+      "fortune-mod",
+      "less",
     ]:
     ensure => 'installed';
   }
