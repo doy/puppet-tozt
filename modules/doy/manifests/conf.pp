@@ -1,7 +1,8 @@
 class doy::conf {
   exec { "git clone doy/conf":
-    command => "git clone git://github.com/doy/conf /home/doy/conf",
+    command => "/usr/bin/git clone git://github.com/doy/conf",
     user => "doy",
+    cwd => "/home/doy",
     creates => "/home/doy/conf",
     require => [
       User["doy"],
@@ -10,7 +11,7 @@ class doy::conf {
   }
 
   exec { "conf make install":
-    command => "make install",
+    command => "/usr/bin/make install",
     user => "doy",
     cwd => "/home/doy/conf",
     creates => "/home/doy/.vimrc",
