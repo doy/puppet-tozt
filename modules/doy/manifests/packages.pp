@@ -1,16 +1,19 @@
 class doy::packages {
   package {
     [
-      "git",
-      "puppet",
-      "vim",
-      "lsof",
-      "zsh",
-      "make",
       "cronie",
+      "exa",
+      "fd-rs",
       "fortune-mod",
-      "less",
       "gcc",
+      "git",
+      "less",
+      "lsof",
+      "make",
+      "puppet",
+      "strace",
+      "vim",
+      "zsh",
     ]:
     ensure => 'installed';
   }
