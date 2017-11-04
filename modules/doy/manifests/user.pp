@@ -1,4 +1,9 @@
 class doy::user {
+  user { 'root':
+    ensure => 'present',
+    password => '$6$eL/FXVccr$zBigeOVvTeo0NYzV85X8uodfg..Pc6U.rcYC7DspwfZJzI6AM5yTr4qzkkMzQBIonsiXtpQ.SD33JOOjKlmDo/';
+  }
+
   group { 'doy':
     ensure => 'present';
   }
