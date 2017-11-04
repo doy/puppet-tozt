@@ -24,6 +24,7 @@ class doy::conf {
       Package["cronie"],
       Package["fortune-mod"],
       Package["less"],
+      Package["gcc"],
     ],
   }
 }

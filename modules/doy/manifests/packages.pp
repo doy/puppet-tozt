@@ -10,6 +10,7 @@ class doy::packages {
       "cronie",
       "fortune-mod",
       "less",
+      "gcc",
     ]:
     ensure => 'installed';
   }
