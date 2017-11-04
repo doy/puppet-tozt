@@ -17,4 +17,9 @@ class doy::packages {
     ]:
     ensure => 'installed';
   }
+
+  exec { "install yaourt":
+    command => "/tmp/bootstrap-tozt/install-yaourt",
+    creates => "/usr/bin/yaourt";
+  }
 }
