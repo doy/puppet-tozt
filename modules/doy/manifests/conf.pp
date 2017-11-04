@@ -11,7 +11,7 @@ class doy::conf {
   }
 
   exec { "conf make install":
-    command => "/usr/bin/make install",
+    command => "/usr/bin/make install INTO=/home/doy",
     user => "doy",
     cwd => "/home/doy/conf",
     creates => "/home/doy/.vimrc",
