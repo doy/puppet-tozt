@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -eux
+set -o pipefail
+
+host="$1"
+
+if ssh root@$host test ! -e /usr/bin/pacman; then
+    ssh root@$host wget https://raw.githubusercontent.com/gh2o/digitalocean-debian-to-arch/debian9/install.sh -O install.sh
+    echo "wipe this droplet" | ssh root@host bash install.sh
+    sleep 15
+fi
+
+ssh root@$host pacman --noconfirm -S puppet git
+
+if ssh root@$host test -d /root/bootstrap-tozt; then
+    ssh root@$host sh -c "cd bootstrap-tozt && git pull"
+else
+    ssh root@$host git clone git://github.com/doy/bootstrap-tozt
+fi
+
+ssh root@$host sh -c "cd bootstrap-tozt && puppet apply manifest.pp"
