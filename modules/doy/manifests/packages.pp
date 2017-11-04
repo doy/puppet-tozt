@@ -10,16 +10,32 @@ class doy::packages {
       "less",
       "lsof",
       "make",
+      "pkg-config",
       "puppet",
       "strace",
+      "sudo",
       "vim",
       "zsh",
     ]:
     ensure => 'installed';
   }
 
+  package {
+    [
+      "yajl"
+    ]:
+    ensure => 'installed',
+    install_options => ["--asdeps"];
+  }
+
   exec { "install yaourt":
     command => "/tmp/bootstrap-tozt/install-yaourt",
-    creates => "/usr/bin/yaourt";
+    creates => "/usr/bin/yaourt",
+    require => [
+      Package["git"],
+      Package["pkg-config"],
+      Package["yajl"],
+      User["doy"],
+    ];
   }
 }

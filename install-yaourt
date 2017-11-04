@@ -4,14 +4,16 @@ set -o pipefail
 
 cd /tmp
 
-git clone https://aur.archlinux.org/package-query.git
+su doy -c "git clone https://aur.archlinux.org/package-query.git"
 (
     cd package-query
-    makepkg -si --noconfirm --needed
+    su doy -c makepkg
+    pacman -U --noconfirm --needed --asdeps package-query-*.pkg.tar.xz
 )
 
-git clone https://aur.archlinux.org/yaourt.git
+su doy -c "git clone https://aur.archlinux.org/yaourt.git"
 (
     cd yaourt
-    makepkg -si --noconfirm --needed
+    su doy -c makepkg
+    pacman -U --noconfirm --needed yaourt-*.pkg.tar.xz
 )
