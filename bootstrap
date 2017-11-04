@@ -10,6 +10,7 @@ if ssh root@$host test ! -e /usr/bin/pacman; then
     sleep 30
 fi
 
+ssh root@$host pacman --noconfirm -Sy
 ssh root@$host pacman --noconfirm --needed -S puppet git ruby-shadow
 
 if ssh root@$host test -d /tmp/bootstrap-tozt; then
