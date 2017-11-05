@@ -28,11 +28,13 @@ class tozt::other_packages {
   }
 
   package::makepkg { 'package-query':
+    ensure => installed,
     asdeps => true,
     require => Package['yajl'];
   }
 
   package::makepkg { 'yaourt':
+    ensure => installed,
     require => Package::Makepkg['package-query'];
   }
 }
