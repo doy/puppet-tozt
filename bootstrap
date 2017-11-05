@@ -3,24 +3,30 @@ set -eux
 set -o pipefail
 
 host="$1"
+conf_location="/usr/local/share/bootstrap-tozt"
+conf_repo="git://github.com/doy/bootstrap-tozt"
 
 remote() {
     ssh root@$host "$@"
 }
 
+ensure_conf_exists() {
+    if remote test -d "$conf_location"; then
+        remote "cd '$conf_location' && git pull"
+    else
+        remote "mkdir -p '$conf_location'"
+        remote "cd '$conf_location' && git clone '$conf_repo' ."
+    fi
+    remote "cd '$conf_location' && git submodule update --init --recursive"
+}
+
 if remote test ! -e /usr/bin/pacman; then
     remote apt-get -y update
     remote apt-get -y install git
-    remote "cd /tmp && git clone git://github.com/doy/bootstrap-tozt"
-    remote "cd /tmp/bootstrap-tozt && git submodule update --init"
-    remote "cd /tmp/bootstrap-tozt/digitalocean-debian-to-arch && bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped --extra_packages 'puppet git ruby-shadow'"
+    ensure_conf_exists
+    remote "cd '$conf_location/digitalocean-debian-to-arch' && bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped --extra_packages 'puppet git ruby-shadow'"
     sleep 30
 fi
 
-if remote test -d /tmp/bootstrap-tozt; then
-    remote "cd /tmp/bootstrap-tozt && git pull"
-else
-    remote "cd /tmp && git clone git://github.com/doy/bootstrap-tozt"
-fi
-
-remote "cd /tmp/bootstrap-tozt && puppet apply --modulepath=./modules manifest.pp"
+ensure_conf_exists
+remote "cd '$conf_location' && puppet apply --modulepath=./modules manifest.pp"
