@@ -28,7 +28,7 @@ class tozt::other_packages {
   }
 
   package::makepkg { 'package-query':
-    extra_options => ["--asdeps"],
+    asdeps => true,
     require => Package['yajl'];
   }
 

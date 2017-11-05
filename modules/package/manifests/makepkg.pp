@@ -1,5 +1,10 @@
-define package::makepkg($extra_options=[]) {
-  $extra_cmdline = join($extra_options, ' ')
+define package::makepkg($asdeps=false) {
+  if $asdeps {
+    $extra_cmdline = " --asdeps"
+  }
+  else {
+    $extra_cmdline = ""
+  }
 
   exec { "install $name":
     command => "
