@@ -9,13 +9,13 @@ define package::yaourt($ensure, $asdeps=false) {
   case $ensure {
     'installed': {
       exec { "/usr/bin/yaourt --noconfirm --needed$asdeps -S $name":
-        unless => "pacman -Q $name > /dev/null 2>&1",
+        unless => "/usr/bin/pacman -Q $name > /dev/null 2>&1",
         require => Package::Makepkg["yaourt"];
       }
     }
     'absent': {
       exec { "/usr/bin/yaourt --noconfirm -Rsn $name":
-        onlyif => "pacman -Q $name > /dev/null 2>&1",
+        onlyif => "/usr/bin/pacman -Q $name > /dev/null 2>&1",
         require => Package::Makepkg["yaourt"];
       }
     }
