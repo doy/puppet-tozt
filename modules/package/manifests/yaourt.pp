@@ -1,4 +1,4 @@
-define package::yaourt($asdeps=false) {
+define package::yaourt($ensure, $asdeps=false) {
   if $asdeps {
     $_asdeps = " --asdeps"
   }
@@ -6,8 +6,21 @@ define package::yaourt($asdeps=false) {
     $_asdeps = ""
   }
 
-  exec { "/usr/bin/yaourt --noconfirm --needed$asdeps $name":
-    unless => "pacman -Q $name > /dev/null 2>&1",
-    require => Package::Makepkg["yaourt"];
+  case $ensure {
+    'installed': {
+      exec { "/usr/bin/yaourt --noconfirm --needed$asdeps -S $name":
+        unless => "pacman -Q $name > /dev/null 2>&1",
+        require => Package::Makepkg["yaourt"];
+      }
+    }
+    'absent': {
+      exec { "/usr/bin/yaourt --noconfirm -Rsn $name":
+        onlyif => "pacman -Q $name > /dev/null 2>&1",
+        require => Package::Makepkg["yaourt"];
+      }
+    }
+    default: {
+      fail("only 'installed' and 'absent' are supported for 'ensure'")
+    }
   }
 }

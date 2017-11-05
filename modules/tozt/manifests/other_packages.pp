@@ -42,6 +42,6 @@ class tozt::other_packages {
       "ipbt",
       "ttyrec",
     ]:
-      ensure => installed,
+    ensure => installed,
   }
 }
