@@ -4,22 +4,26 @@ set -o pipefail
 
 host="$1"
 
-if ssh root@$host test ! -e /usr/bin/pacman; then
-    ssh root@$host apt-get -y update
-    ssh root@$host apt-get -y install git
-    ssh root@$host "cd /tmp && git clone git://github.com/doy/bootstrap-tozt"
-    ssh root@$host "cd /tmp/bootstrap-tozt && git submodule update --init"
-    ssh root@$host "cd /tmp/bootstrap-tozt/digitalocean-debian-to-arch && bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped"
+remote() {
+    ssh root@$host "$@"
+}
+
+if remote test ! -e /usr/bin/pacman; then
+    remote apt-get -y update
+    remote apt-get -y install git
+    remote "cd /tmp && git clone git://github.com/doy/bootstrap-tozt"
+    remote "cd /tmp/bootstrap-tozt && git submodule update --init"
+    remote "cd /tmp/bootstrap-tozt/digitalocean-debian-to-arch && bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped"
     sleep 30
 fi
 
-ssh root@$host pacman --noconfirm -Sy
-ssh root@$host pacman --noconfirm --needed -S puppet git ruby-shadow
+remote pacman --noconfirm -Sy
+remote pacman --noconfirm --needed -S puppet git ruby-shadow
 
-if ssh root@$host test -d /tmp/bootstrap-tozt; then
-    ssh root@$host "cd /tmp/bootstrap-tozt && git pull"
+if remote test -d /tmp/bootstrap-tozt; then
+    remote "cd /tmp/bootstrap-tozt && git pull"
 else
-    ssh root@$host "cd /tmp && git clone git://github.com/doy/bootstrap-tozt"
+    remote "cd /tmp && git clone git://github.com/doy/bootstrap-tozt"
 fi
 
-ssh root@$host "cd /tmp/bootstrap-tozt && puppet apply --modulepath=./modules manifest.pp"
+remote "cd /tmp/bootstrap-tozt && puppet apply --modulepath=./modules manifest.pp"
