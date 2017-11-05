@@ -1,4 +1,4 @@
-class doy::packages {
+class tozt::other_packages {
   package {
     [
       "cronie",
