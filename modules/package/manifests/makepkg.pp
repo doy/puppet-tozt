@@ -1,4 +1,4 @@
-define package::makepkg(extra_options=[]) {
+define package::makepkg($extra_options=[]) {
   $extra_cmdline = join($extra_options, ' ')
 
   exec { "install $name":
