@@ -1,6 +1,8 @@
 class tozt::other_packages {
   package {
     [
+      "autoconf",
+      "automake",
       "cronie",
       "exa",
       "fd-rs",

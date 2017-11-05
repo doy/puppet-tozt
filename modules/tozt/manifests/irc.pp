@@ -19,6 +19,8 @@ class tozt::irc {
     require => [
       Package['bitlbee'],
       Package['libgcrypt'],
+      Package['autoconf'],
+      Package['automake'],
     ];
   }
 }
