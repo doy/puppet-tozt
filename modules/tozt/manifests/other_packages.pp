@@ -35,13 +35,4 @@ class tozt::other_packages {
   package::makepkg { 'yaourt':
     require => Package::Makepkg['package-query'];
   }
-
-  package::yaourt {
-    [
-      "duplicati-latest",
-      "ipbt",
-      "ttyrec",
-    ]:
-    ensure => installed,
-  }
 }
