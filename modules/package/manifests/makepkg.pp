@@ -12,7 +12,7 @@ define package::makepkg($asdeps=false) {
       cd /tmp
       rm -rf 'makepkg-$name'
       su doy -c 'git clone https://aur.archlinux.org/$name.git makepkg-$name'
-      cd '$name'
+      cd 'makepkg-$name'
       su doy -c makepkg
       pacman -U --noconfirm --needed $extra_cmdline $name-*.pkg.tar.xz
     ",
