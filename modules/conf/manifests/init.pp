@@ -1,4 +1,4 @@
-class conf {
+define conf {
   $user = $name
   $home = $user ? {
     'root' => '/root',
