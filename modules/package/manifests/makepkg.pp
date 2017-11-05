@@ -7,6 +7,7 @@ define package::makepkg($asdeps=false) {
   }
 
   exec { "install $name":
+    provider => "shell",
     command => "
       mkdir -p /tmp/makepkg
       cd /tmp/makepkg
