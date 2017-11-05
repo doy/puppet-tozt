@@ -30,7 +30,6 @@ class tozt::other_packages {
   package::makepkg { 'package-query':
     extra_options => ["--asdeps"],
     require => Package['yajl'];
-    ;
   }
 
   package::makepkg { 'yaourt':
