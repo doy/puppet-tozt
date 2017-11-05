@@ -2,6 +2,5 @@
 set -eu
 set -o pipefail
 
-cd /usr/local/share/puppet-tozt
-sudo git pull
-sudo puppet apply --modulepath=./modules manifest.pp
+(cd /usr/local/share/puppet-tozt && sudo git pull)
+sudo puppet apply --modulepath=/usr/local/share/puppet-tozt/modules -e 'include tozt'

@@ -29,4 +29,4 @@ if remote test ! -e /usr/bin/pacman; then
 fi
 
 ensure_conf_exists
-remote "cd '$conf_location' && puppet apply --modulepath=./modules manifest.pp"
+remote "cd '$conf_location' && puppet apply --modulepath=./modules -e 'include tozt'"
