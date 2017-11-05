@@ -9,10 +9,9 @@ define package::makepkg($asdeps=false) {
   exec { "install $name":
     provider => "shell",
     command => "
-      mkdir -p /tmp/makepkg
-      cd /tmp/makepkg
-      rm -rf '$name'
-      su doy -c 'git clone https://aur.archlinux.org/$name.git'
+      cd /tmp
+      rm -rf 'makepkg-$name'
+      su doy -c 'git clone https://aur.archlinux.org/$name.git makepkg-$name'
       cd '$name'
       su doy -c makepkg
       pacman -U --noconfirm --needed $extra_cmdline $name-*.pkg.tar.xz
