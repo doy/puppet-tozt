@@ -2,6 +2,6 @@
 set -eu
 set -o pipefail
 
-cd /usr/local/share/bootstrap-tozt
+cd /usr/local/share/puppet-tozt
 sudo git pull
 sudo puppet apply --modulepath=./modules manifest.pp

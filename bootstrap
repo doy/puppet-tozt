@@ -3,8 +3,8 @@ set -eux
 set -o pipefail
 
 host="$1"
-conf_location="/usr/local/share/bootstrap-tozt"
-conf_repo="git://github.com/doy/bootstrap-tozt"
+conf_location="/usr/local/share/puppet-tozt"
+conf_repo="git://github.com/doy/puppet-tozt"
 
 remote() {
     ssh root@$host "$@"

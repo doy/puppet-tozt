@@ -1,6 +1,6 @@
 class tozt::bootstrap {
-  file { '/usr/local/bin/tozt-puppet':
-    source => 'puppet:///modules/tozt/tozt-puppet',
+  file { '/usr/local/bin/puppet-tozt':
+    source => 'puppet:///modules/tozt/puppet-tozt',
     mode => '0755';
   }
 }
