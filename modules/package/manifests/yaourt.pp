@@ -8,7 +8,7 @@ define package::yaourt($ensure, $asdeps=false) {
 
   case $ensure {
     'installed': {
-      exec { "/usr/bin/yaourt --noconfirm --needed$asdeps -S $name":
+      exec { "/usr/bin/yaourt --noconfirm --needed$_asdeps -S $name":
         unless => "/usr/bin/pacman -Q $name > /dev/null 2>&1",
         require => Package::Makepkg["yaourt"];
       }
