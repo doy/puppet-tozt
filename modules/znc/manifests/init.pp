@@ -5,6 +5,7 @@ class znc {
 
   exec { 'znc --makeconf':
     creates => '/var/lib/znc/.znc/configs/znc.conf',
+    path => '/usr/bin',
     require => Package['znc'];
   }
 
