@@ -13,7 +13,6 @@ class tozt::other_packages {
       "pkg-config",
       "puppet",
       "strace",
-      "sudo",
       "vim",
       "zsh",
     ]:

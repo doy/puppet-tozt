@@ -31,6 +31,11 @@ define tozt::user(
   conf { $user:
   }
 
+  if $user != 'root' {
+    sudo::user { $user:
+    }
+  }
+
   if $shell == '/usr/bin/zsh' {
     Package['zsh'] -> User[$user]
   }
