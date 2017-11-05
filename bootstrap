@@ -5,8 +5,11 @@ set -o pipefail
 host="$1"
 
 if ssh root@$host test ! -e /usr/bin/pacman; then
-    ssh root@$host wget https://raw.githubusercontent.com/gh2o/digitalocean-debian-to-arch/debian9/install.sh -O install.sh
-    ssh root@$host bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped
+    ssh root@$host apt-get -y update
+    ssh root@$host apt-get -y install git
+    ssh root@$host "cd /tmp && git clone git://github.com/doy/bootstrap-tozt"
+    ssh root@$host "cd /tmp/bootstrap-tozt && git submodule update --init"
+    ssh root@$host "cd /tmp/bootstrap-tozt/digitalocean-debian-to-arch && bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped"
     sleep 30
 fi
 
