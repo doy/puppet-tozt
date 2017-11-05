@@ -17,6 +17,7 @@ define package::makepkg($asdeps=false) {
       pacman -U --noconfirm --needed $extra_cmdline $name-*.pkg.tar.xz
     ",
     unless => "pacman -Q $name > /dev/null 2>&1",
+    path => "/usr/bin",
     require => [
       Tozt::User["doy"],
       Package["git"],
