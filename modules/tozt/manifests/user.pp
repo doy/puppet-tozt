@@ -28,6 +28,17 @@ define tozt::user(
     require => Group[$group];
   }
 
+  file { $_home:
+    ensure => 'directory',
+    owner => $user,
+    group => $group,
+    mode => '0700',
+    require => [
+      User[$user],
+      Group[$group],
+    ];
+  }
+
   conf { $user:
   }
 

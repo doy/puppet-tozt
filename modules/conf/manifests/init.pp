@@ -14,6 +14,7 @@ define conf($user=$name, $home=undef) {
     creates => "$_home/conf",
     require => [
       User[$user],
+      File[$_home],
       Package["git"],
     ];
   }
