@@ -27,14 +27,13 @@ class tozt::other_packages {
     install_options => ["--asdeps"];
   }
 
-  exec { "install yaourt":
-    command => "/tmp/bootstrap-tozt/install-yaourt",
-    creates => "/usr/bin/yaourt",
-    require => [
-      Package["git"],
-      Package["pkg-config"],
-      Package["yajl"],
-      User["doy"],
-    ];
+  package::makepkg { 'package-query':
+    extra_options => ["--asdeps"],
+    require => Package['yajl'];
+    ;
+  }
+
+  package::makepkg { 'yaourt':
+    require => Package::Makepkg['package-query'];
   }
 }
