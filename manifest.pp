@@ -7,3 +7,5 @@ include doy::conf
 
 include root::user
 include root::conf
+
+include bootstrap
