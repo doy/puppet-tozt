@@ -7,6 +7,7 @@ class tozt::other_packages {
       "exa",
       "fd-rs",
       "fortune-mod",
+      "fzf",
       "gcc",
       "git",
       "haveged",
