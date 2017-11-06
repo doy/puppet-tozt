@@ -1,6 +1,4 @@
 class tozt::irc {
-  include znc
-
   package {
     [
       "bitlbee",
