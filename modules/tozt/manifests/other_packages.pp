@@ -3,6 +3,7 @@ class tozt::other_packages {
     [
       "autoconf",
       "automake",
+      "bc",
       "cronie",
       "exa",
       "fd-rs",
@@ -11,12 +12,19 @@ class tozt::other_packages {
       "gcc",
       "git",
       "haveged",
+      "htop",
       "less",
       "lsof",
       "make",
+      "mlocate",
+      "ncdu",
+      "ntp",
+      "pass",
       "pkg-config",
       "puppet",
       "strace",
+      "the_silver_searcher",
+      "tmux",
       "vim",
       "zsh",
     ]:
@@ -42,8 +50,15 @@ class tozt::other_packages {
     require => Package::Makepkg['package-query'];
   }
 
-  service { 'haveged':
-    ensure => running,
-    require => Package['haveged'];
+  service {
+    'cronie':
+      ensure => running,
+      require => Package['cronie'];
+    'haveged':
+      ensure => running,
+      require => Package['haveged'];
+    'ntpd':
+      ensure => running,
+      require => Package['ntp'];
   }
 }

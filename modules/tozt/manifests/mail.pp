@@ -1,3 +1,8 @@
 class tozt::mail {
-  include dovecot, postfix
+  include dovecot
+  include postfix
+
+  package { ['procmail', 'mutt']:
+    ensure => installed;
+  }
 }
