@@ -12,4 +12,9 @@ define nginx::site($content=undef, $source=undef, $enabled=true) {
       target => "../sites-available/$name";
     }
   }
+  else {
+    file { "/etc/nginx/sites-enabled/$name":
+      ensure => absent;
+    }
+  }
 }

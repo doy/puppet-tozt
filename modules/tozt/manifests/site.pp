@@ -1,11 +1,23 @@
 class tozt::site {
   nginx::site {
+    "blog-tls":
+      source => 'puppet:///modules/tozt/nginx/blog-tls.conf',
+      enabled => false;
     "blog":
       source => 'puppet:///modules/tozt/nginx/blog.conf';
+    "doy-tls":
+      source => 'puppet:///modules/tozt/nginx/doy-tls.conf',
+      enabled => false;
     "doy":
       source => 'puppet:///modules/tozt/nginx/doy.conf';
+    "mail-tls":
+      source => 'puppet:///modules/tozt/nginx/mail-tls.conf',
+      enabled => false;
     "mail":
       source => 'puppet:///modules/tozt/nginx/mail.conf';
+    "paste-tls":
+      source => 'puppet:///modules/tozt/nginx/paste-tls.conf',
+      enabled => false;
     "paste":
       source => 'puppet:///modules/tozt/nginx/paste.conf';
   }
