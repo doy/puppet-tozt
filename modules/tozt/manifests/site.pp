@@ -1,4 +1,6 @@
 class tozt::site {
+  include roundcubemail
+
   nginx::site {
     "blog-tls":
       source => 'puppet:///modules/tozt/nginx/blog-tls.conf',
