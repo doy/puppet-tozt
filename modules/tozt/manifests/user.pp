@@ -4,6 +4,7 @@ define tozt::user(
   $group=$user,
   $home=undef,
   $extra_groups=[],
+  $homedir_mode='0700',
   $shell='/usr/bin/zsh',
 ) {
   $_home = $home ? {
@@ -32,7 +33,7 @@ define tozt::user(
     ensure => 'directory',
     owner => $user,
     group => $group,
-    mode => '0700',
+    mode => $homedir_mode,
     require => [
       User[$user],
       Group[$group],
