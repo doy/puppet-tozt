@@ -9,6 +9,7 @@ class tozt::other_packages {
       "fortune-mod",
       "gcc",
       "git",
+      "haveged",
       "less",
       "lsof",
       "make",
@@ -38,5 +39,10 @@ class tozt::other_packages {
   package::makepkg { 'yaourt':
     ensure => installed,
     require => Package::Makepkg['package-query'];
+  }
+
+  service { 'haveged':
+    ensure => running,
+    require => Package['haveged'];
   }
 }
