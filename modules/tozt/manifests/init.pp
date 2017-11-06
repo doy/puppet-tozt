@@ -5,5 +5,6 @@ class tozt {
   include tozt::backups
   include tozt::mail
   include tozt::site
+  include tozt::vpn
   include tozt::other_packages
 }
