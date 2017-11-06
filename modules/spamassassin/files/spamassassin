@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if /usr/bin/vendor_perl/sa-update --checkonly; then
+    /usr/bin/vendor_perl/sa-update -v
+fi
