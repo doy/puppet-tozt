@@ -1,7 +1,7 @@
 class roundcubemail {
   include systemd
 
-  package { ['roundcubemail', 'spawn-fcgi']:
+  package { ['roundcubemail', 'spawn-fcgi', 'php-cgi']:
     ensure => installed;
   }
 
