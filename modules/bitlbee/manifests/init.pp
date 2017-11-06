@@ -19,7 +19,7 @@ class bitlbee {
   }
 
   file { '/etc/bitlbee/bitlbee.conf':
-    content => 'puppet:///modules/bitlbee/bitlbee.conf';
+    source => 'puppet:///modules/bitlbee/bitlbee.conf';
   }
 
   service { 'bitlbee':
