@@ -16,6 +16,7 @@ class roundcubemail {
 
   service { 'roundcubemail':
     ensure => running,
+    enabled => true,
     require => [
       File['/etc/systemd/system/roundcubemail.service'],
       Exec['systemctl daemon-reload'],
