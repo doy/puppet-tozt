@@ -15,6 +15,7 @@ class nginx::config {
   exec { 'openssl dhparam -out /etc/nginx/dhparam.pem 4096':
     path => '/usr/bin',
     creates => '/etc/nginx/dhparam.pem',
+    timeout => 3600,
     require => Service["haveged"];
   }
 }
