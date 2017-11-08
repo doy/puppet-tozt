@@ -17,6 +17,7 @@ class tarsnap {
       require => [
         File['/etc/acts.conf'],
         Package::Makepkg['acts'],
+        Package['cronie'],
       ];
   }
 }

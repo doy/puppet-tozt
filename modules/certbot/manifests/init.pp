@@ -7,7 +7,10 @@ class certbot {
     '/etc/cron.daily/certbot':
       source => 'puppet:///modules/certbot/certbot',
       mode => '0755',
-      require => Package['certbot'];
+      require => [
+        Package['certbot'],
+        Package['cronie'],
+      ];
     '/etc/letsencrypt/renewal-hooks':
       ensure => directory,
       require => Package['certbot'];

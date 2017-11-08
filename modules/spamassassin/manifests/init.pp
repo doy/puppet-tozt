@@ -9,6 +9,9 @@ class spamassassin {
     '/etc/cron.daily/spamassassin':
       source => 'puppet:///modules/spamassassin/spamassassin',
       mode => '0755',
-      require => Package['spamassassin'];
+      require => [
+        Package['spamassassin'],
+        Package['cronie'],
+      ];
   }
 }
