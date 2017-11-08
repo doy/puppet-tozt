@@ -24,7 +24,7 @@ class bitlbee {
 
   service { 'bitlbee':
     ensure => running,
-    enabled => true,
+    enable => true,
     require => [
       Package['bitlbee'],
       Package::Makepkg['bitlbee-steam-git'],

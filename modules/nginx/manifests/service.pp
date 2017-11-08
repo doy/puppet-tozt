@@ -1,6 +1,6 @@
 class nginx::service {
   service { 'nginx':
     ensure => running,
-    enabled => true;
+    enable => true;
   }
 }

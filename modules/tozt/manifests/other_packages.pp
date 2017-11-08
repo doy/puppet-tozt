@@ -53,15 +53,15 @@ class tozt::other_packages {
   service {
     'cronie':
       ensure => running,
-      enabled => true,
+      enable => true,
       require => Package['cronie'];
     'haveged':
       ensure => running,
-      enabled => true,
+      enable => true,
       require => Package['haveged'];
     'ntpd':
       ensure => running,
-      enabled => true,
+      enable => true,
       require => Package['ntp'];
   }
 }

@@ -18,7 +18,7 @@ class duplicati {
 
   service { 'duplicati':
     ensure => running,
-    enabled => true,
+    enable => true,
     require => Package::Makepkg['duplicati-latest'];
   }
 }
