@@ -44,7 +44,7 @@ define conf($user=$name, $home=undef) {
       Package["fortune-mod"],
       Package["less"],
       Package["gcc"],
-      Package::Cargo["fancy-prompt"],
+      Package::Cargo["fancy-prompt for $user"],
     ];
   }
 }
