@@ -40,6 +40,9 @@ define tozt::user(
     ];
   }
 
+  rust::user { $user:
+  }
+
   conf { $user:
   }
 

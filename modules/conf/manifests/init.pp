@@ -7,6 +7,11 @@ define conf($user=$name, $home=undef) {
     default => $home,
   }
 
+  package::cargo { 'fancy-prompt':
+    ensure => installed,
+    user => $user,
+  }
+
   exec { "git clone doy/conf for $user":
     command => "/usr/bin/git clone git://github.com/doy/conf",
     user => $user,
@@ -38,6 +43,7 @@ define conf($user=$name, $home=undef) {
       Package["fortune-mod"],
       Package["less"],
       Package["gcc"],
+      Package::Cargo["fancy-prompt"],
     ];
   }
 }
