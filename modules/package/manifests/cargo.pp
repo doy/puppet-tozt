@@ -5,6 +5,7 @@ define package::cargo($package, $user, $ensure) {
         provider => "shell",
         command => "cargo install $package",
         unless => "cargo install --list | grep -q '^$package'",
+        user => $user,
         require => [
           User[$user],
           Rust::User[$user],
@@ -16,6 +17,7 @@ define package::cargo($package, $user, $ensure) {
         provider => "shell",
         command => "cargo uninstall $package",
         onlyif => "cargo install --list | grep -q '^$package'",
+        user => $user,
         require => [
           User[$user],
           Rust::User[$user],
