@@ -6,6 +6,7 @@ define package::cargo($package, $user, $ensure) {
         command => "cargo install $package",
         unless => "cargo install --list | grep -q '^$package'",
         user => $user,
+        timeout => 3600,
         require => [
           User[$user],
           Rust::User[$user],
