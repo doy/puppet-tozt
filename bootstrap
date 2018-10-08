@@ -7,7 +7,8 @@ conf_location="/usr/local/share/puppet-tozt"
 conf_repo="git://github.com/doy/puppet-tozt"
 
 remote() {
-    ssh root@$host "$@"
+    # shellcheck disable=SC2029
+    ssh root@"$host" "$@"
 }
 
 ensure_conf_exists() {
