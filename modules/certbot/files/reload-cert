@@ -3,5 +3,3 @@ set -eu
 set -o pipefail
 
 systemctl restart nginx
-systemctl restart postfix
-systemctl restart dovecot

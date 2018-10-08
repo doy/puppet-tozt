@@ -1,6 +1,4 @@
 class tozt::site {
-  include roundcubemail
-
   nginx::site {
     "blog-tls":
       source => 'puppet:///modules/tozt/nginx/blog-tls.conf',
@@ -12,11 +10,6 @@ class tozt::site {
       enabled => false;
     "doy":
       source => 'puppet:///modules/tozt/nginx/doy.conf';
-    "mail-tls":
-      source => 'puppet:///modules/tozt/nginx/mail-tls.conf',
-      enabled => false;
-    "mail":
-      source => 'puppet:///modules/tozt/nginx/mail.conf';
     "paste-tls":
       source => 'puppet:///modules/tozt/nginx/paste-tls.conf',
       enabled => false;

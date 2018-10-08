@@ -3,8 +3,6 @@ class tozt {
   include tozt::bootstrap
   include tozt::irc
   include tozt::backups
-  include tozt::mail
   include tozt::site
-  include tozt::vpn
   include tozt::other_packages
 }
