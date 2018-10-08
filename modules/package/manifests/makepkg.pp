@@ -23,7 +23,7 @@ define package::makepkg($ensure, $asdeps=false) {
         require => [
           Tozt::User["doy"],
           Package["git"],
-          Package["pkg-config"],
+          Package["pkgconf"],
         ];
       }
     }
