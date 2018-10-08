@@ -7,9 +7,10 @@ define conf($user=$name, $home=undef) {
     default => $home,
   }
 
-  package::cargo { 'fancy-prompt':
-    ensure => installed,
+  package::cargo { "fancy-prompt for $user":
+    package => 'fancy-prompt',
     user => $user,
+    ensure => installed,
   }
 
   exec { "git clone doy/conf for $user":

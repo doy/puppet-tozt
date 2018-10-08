@@ -1,4 +1,4 @@
-define package::cargo($user, $ensure) {
+define package::cargo($package, $user, $ensure) {
   case $ensure {
     'installed': {
       exec { "cargo install $name":
