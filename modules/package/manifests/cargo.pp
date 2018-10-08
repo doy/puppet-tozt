@@ -1,10 +1,10 @@
 define package::cargo($package, $user, $ensure) {
   case $ensure {
     'installed': {
-      exec { "cargo install $name":
+      exec { "cargo install $package":
         provider => "shell",
-        command => "cargo install $name",
-        unless => "cargo install --list | grep -q '^$name'",
+        command => "cargo install $package",
+        unless => "cargo install --list | grep -q '^$package'",
         require => [
           User[$user],
           Rust::User[$user],
@@ -12,10 +12,10 @@ define package::cargo($package, $user, $ensure) {
       }
     }
     'absent': {
-      exec { "uninstall $name":
+      exec { "uninstall $package":
         provider => "shell",
-        command => "cargo uninstall $name",
-        onlyif => "cargo install --list | grep -q '^$name'",
+        command => "cargo uninstall $package",
+        onlyif => "cargo install --list | grep -q '^$package'",
         require => [
           User[$user],
           Rust::User[$user],
