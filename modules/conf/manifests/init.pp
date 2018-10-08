@@ -11,6 +11,7 @@ define conf($user=$name, $home=undef) {
     package => 'fancy-prompt',
     user => $user,
     ensure => installed,
+    require => Package["cmake"],
   }
 
   exec { "git clone doy/conf for $user":

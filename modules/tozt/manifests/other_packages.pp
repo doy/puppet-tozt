@@ -4,6 +4,7 @@ class tozt::other_packages {
       "autoconf",
       "automake",
       "bc",
+      "cmake",
       "cronie",
       "exa",
       "fortune-mod",
