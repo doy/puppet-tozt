@@ -27,6 +27,9 @@ if remote test ! -e /usr/bin/pacman; then
     ensure_conf_exists
     remote "cd '$conf_location/digitalocean-debian-to-arch' && bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped --extra_packages 'puppet git ruby-shadow'"
     sleep 30
+    while ! remote true; do
+        sleep 30
+    done
 fi
 
 ensure_conf_exists
