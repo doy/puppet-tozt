@@ -8,7 +8,7 @@ define package::makepkg($ensure, $asdeps=false) {
 
   case $ensure {
     'installed': {
-      exec { "install $name":
+      exec { "makepkg install $name":
         provider => "shell",
         command => "
           cd /tmp
@@ -28,7 +28,7 @@ define package::makepkg($ensure, $asdeps=false) {
       }
     }
     'absent': {
-      exec { "uninstall $name":
+      exec { "makepkg uninstall $name":
         provider => "shell",
         command => "pacman --noconfirm -Rsn $name",
         onlyif => "pacman -Q $name > /dev/null 2>&1",
