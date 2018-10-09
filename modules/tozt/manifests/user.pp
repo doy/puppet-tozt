@@ -46,6 +46,8 @@ define tozt::user(
   }
   conf::user { $user:
   }
+  ssh::user { $user:
+  }
 
   if $user != 'root' {
     sudo::user { $user:
