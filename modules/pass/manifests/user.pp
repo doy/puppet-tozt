@@ -25,11 +25,12 @@ define pass::user($user=$name, $home=undef) {
       pass git init
       pass git remote add origin tozt.net:pass
     ",
-    creates => "${_home}/.password-store/.git",
+    user => $user,
     path => "/usr/bin",
     environment => [
       "HOME=$_home",
     ],
+    creates => "${_home}/.password-store/.git",
     require => [
       Class['pass'],
       Class['git'],
