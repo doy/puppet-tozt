@@ -1,4 +1,4 @@
-define ssh::user($user=$name) {
+define ssh::user($user=$name, $home=undef) {
   $_home = $home ? {
     undef => $user ? {
       'root' => '/root',
