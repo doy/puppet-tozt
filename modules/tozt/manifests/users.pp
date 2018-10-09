@@ -9,7 +9,3 @@ class tozt::users {
     homedir_mode => '0701';
   }
 }
-
-Package::Makepkg {
-  build_user => 'doy',
-}
