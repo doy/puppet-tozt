@@ -54,4 +54,6 @@ define tozt::user(
   if $shell == '/usr/bin/zsh' {
     Package['zsh'] -> User[$user]
   }
+
+  # XXX set up password-store
 }

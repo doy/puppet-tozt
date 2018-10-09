@@ -6,3 +6,5 @@ configure wireguard
 configure tarsnap
 - copy machine key from... somewhere
 - put it... somewhere?
+
+push canonical password-store repository

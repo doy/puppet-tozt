@@ -48,4 +48,6 @@ define conf($user=$name, $home=undef) {
       Package::Cargo["fancy-prompt for $user"],
     ];
   }
+
+  # XXX use the right branch
 }
