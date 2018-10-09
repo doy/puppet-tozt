@@ -1,4 +1,4 @@
-define package::makepkg($ensure, $asdeps=false) {
+define package::makepkg($ensure, $build_user, $asdeps=false) {
   if $asdeps {
     $extra_cmdline = " --asdeps"
   }
@@ -13,15 +13,15 @@ define package::makepkg($ensure, $asdeps=false) {
         command => "
           cd /tmp
           rm -rf 'makepkg-$name'
-          su doy -c 'git clone https://aur.archlinux.org/$name.git makepkg-$name'
+          su $build_user -c 'git clone https://aur.archlinux.org/$name.git makepkg-$name'
           cd 'makepkg-$name'
-          su doy -c makepkg
+          su $build_user -c makepkg
           pacman -U --noconfirm --needed $extra_cmdline $name-*.pkg.tar.xz
         ",
         unless => "pacman -Q $name > /dev/null 2>&1",
         path => "/usr/bin",
         require => [
-          Tozt::User["doy"],
+          Tozt::User[$build_user],
           Package["git"],
           Package["pkgconf"],
         ];

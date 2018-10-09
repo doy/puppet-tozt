@@ -8,4 +8,8 @@ class tozt::users {
     extra_groups => ['wheel'],
     homedir_mode => '0701';
   }
+
+  Package::Makepkg {
+    build_user => 'doy',
+  }
 }
