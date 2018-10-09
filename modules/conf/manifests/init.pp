@@ -7,18 +7,7 @@ define conf($user=$name, $home=undef) {
     default => $home,
   }
 
-  include cron
-  include git
-
-  package {
-    [
-      "cmake",
-      "fortune-mod",
-      "less",
-      "vim",
-    ]:
-    ensure => installed,
-  }
+  include conf::deps
 
   package::cargo { "fancy-prompt for $user":
     package => 'fancy-prompt',
