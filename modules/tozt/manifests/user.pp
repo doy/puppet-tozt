@@ -44,8 +44,7 @@ define tozt::user(
   }
   pass::user { $user:
   }
-
-  conf { $user:
+  conf::user { $user:
   }
 
   if $user != 'root' {
