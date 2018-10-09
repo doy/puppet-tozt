@@ -2,7 +2,7 @@ class tozt::services {
   package {
     [
       "mlocate",
-      "ntpd",
+      "ntp",
     ]:
     ensure => installed,
   }
