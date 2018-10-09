@@ -19,7 +19,7 @@ define pass::user($user=$name, $home=undef) {
     ]
   }
 
-  exec { 'initialize password-store repository':
+  exec { "initialize password-store repository for $user":
     provider => "shell",
     command => "
       pass git init
