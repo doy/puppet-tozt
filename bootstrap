@@ -2,7 +2,7 @@
 set -eux
 set -o pipefail
 
-host="$1"
+host="${1:-new.tozt.net}"
 conf_location="/usr/local/share/puppet-tozt"
 conf_repo="git://github.com/doy/puppet-tozt"
 
