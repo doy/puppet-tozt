@@ -1,0 +1,8 @@
+configure wireguard
+- copy config file from algo to /etc/wireguard/algo.conf
+- change allowed ips:
+  - AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32
+
+configure tarsnap
+- copy machine key from... somewhere
+- put it... somewhere?
