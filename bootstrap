@@ -33,5 +33,5 @@ if remote test ! -e /usr/bin/pacman; then
 fi
 
 ensure_conf_exists
-"$(dirname "$0")"/sync-secrets
+"$(dirname "$0")"/sync-secrets "$host"
 remote "cd '$conf_location' && puppet apply --modulepath=./modules -e 'include tozt'"
