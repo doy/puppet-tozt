@@ -27,6 +27,9 @@ define pass::user($user=$name, $home=undef) {
     ",
     creates => "${_home}/.password-store/.git",
     path => "/usr/bin",
+    environment => [
+      "HOME=$_home",
+    ],
     require => [
       Class['pass'],
       Class['git'],
