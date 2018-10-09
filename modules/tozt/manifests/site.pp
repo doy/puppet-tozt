@@ -2,17 +2,17 @@ class tozt::site {
   nginx::site {
     "blog-tls":
       source => 'puppet:///modules/tozt/nginx/blog-tls.conf',
-      enabled => false;
+      enabled => false; # XXX
     "blog":
       source => 'puppet:///modules/tozt/nginx/blog.conf';
     "doy-tls":
       source => 'puppet:///modules/tozt/nginx/doy-tls.conf',
-      enabled => false;
+      enabled => false; # XXX
     "doy":
       source => 'puppet:///modules/tozt/nginx/doy.conf';
     "paste-tls":
       source => 'puppet:///modules/tozt/nginx/paste-tls.conf',
-      enabled => false;
+      enabled => false; # XXX
     "paste":
       source => 'puppet:///modules/tozt/nginx/paste.conf';
   }
@@ -32,4 +32,7 @@ class tozt::site {
       File['/home/doy'],
     ];
   }
+
+  # XXX build blog and site
+  # XXX eventually move blog/site/paste onto a separate volume?
 }

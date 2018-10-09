@@ -3,5 +3,5 @@ class weechat {
     ensure => installed;
   }
 
-  # configure weechat relay here...
+  # XXX configure weechat relay here...
 }

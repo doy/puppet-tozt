@@ -21,4 +21,6 @@ class duplicati {
     enable => true,
     require => Package::Makepkg['duplicati-latest'];
   }
+
+  # XXX configure backups
 }

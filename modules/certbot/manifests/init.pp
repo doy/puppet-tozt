@@ -21,4 +21,6 @@ class certbot {
       source => 'puppet:///modules/certbot/reload-cert',
       require => File['/etc/letsencrypt/renewal-hooks/deploy'];
   }
+
+  # XXX initial certbot run
 }

@@ -9,6 +9,7 @@ class tarsnap {
   }
 
   file {
+    # XXX /etc/tarsnap.conf
     '/etc/acts.conf':
       source => 'puppet:///modules/tarsnap/acts.conf';
     '/etc/cron.daily/acts':
