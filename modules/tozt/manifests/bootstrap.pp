@@ -1,5 +1,9 @@
 class tozt::bootstrap {
-  package { "puppet":
+  package {
+    [
+      "puppet",
+      "rsync",
+    ]:
     ensure => installed,
   }
 
