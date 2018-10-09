@@ -1,4 +1,6 @@
 class tarsnap {
+  include cron
+
   package { 'tarsnap':
     ensure => installed;
   }
@@ -18,7 +20,7 @@ class tarsnap {
       require => [
         File['/etc/acts.conf'],
         Package::Makepkg['acts'],
-        Package['cronie'],
+        Class['cron'],
       ];
   }
 }

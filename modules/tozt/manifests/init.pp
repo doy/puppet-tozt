@@ -9,6 +9,7 @@ class tozt {
   include tozt::irc
   include tozt::backups
   include tozt::site
-  include tozt::other_packages
+  include tozt::services
+  include tozt::tools
   include tozt::vpn
 }

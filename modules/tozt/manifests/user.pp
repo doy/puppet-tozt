@@ -42,6 +42,8 @@ define tozt::user(
 
   rust::user { $user:
   }
+  pass::user { $user:
+  }
 
   conf { $user:
   }
@@ -52,8 +54,7 @@ define tozt::user(
   }
 
   if $shell == '/usr/bin/zsh' {
-    Package['zsh'] -> User[$user]
+    include zsh
+    Class['zsh'] -> User[$user]
   }
-
-  # XXX set up password-store
 }

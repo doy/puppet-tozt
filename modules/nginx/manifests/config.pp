@@ -1,4 +1,6 @@
 class nginx::config {
+  include haveged
+
   file {
     "/etc/nginx/sites-available":
       ensure => directory;
@@ -16,6 +18,6 @@ class nginx::config {
     path => '/usr/bin',
     creates => '/etc/nginx/dhparam.pem',
     timeout => 3600,
-    require => Service["haveged"];
+    require => Class["haveged"];
   }
 }

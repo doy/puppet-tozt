@@ -6,6 +6,8 @@ define package::makepkg($ensure, $build_user, $asdeps=false) {
     $extra_cmdline = ""
   }
 
+  include git
+
   case $ensure {
     'installed': {
       exec { "makepkg install $name":
@@ -22,8 +24,8 @@ define package::makepkg($ensure, $build_user, $asdeps=false) {
         path => "/usr/bin",
         require => [
           Tozt::User[$build_user],
-          Package["git"],
-          Package["pkgconf"],
+          Class["git"],
+          Class["c_toolchain"],
         ];
       }
     }

@@ -7,6 +7,19 @@ define conf($user=$name, $home=undef) {
     default => $home,
   }
 
+  include cron
+  include git
+
+  package {
+    [
+      "cmake",
+      "fortune-mod",
+      "less",
+      "vim",
+    ]:
+    ensure => installed,
+  }
+
   package::cargo { "fancy-prompt for $user":
     package => 'fancy-prompt',
     user => $user,
@@ -22,7 +35,7 @@ define conf($user=$name, $home=undef) {
     require => [
       User[$user],
       File[$_home],
-      Package["git"],
+      Class['git'],
     ];
   }
 
@@ -36,15 +49,13 @@ define conf($user=$name, $home=undef) {
     ],
     creates => "$_home/.vimrc",
     require => [
+      Class['cron'],
+      Class['c_toolchain'],
       User[$user],
       Exec["git clone doy/conf for $user"],
       Package["vim"],
-      Package["make"],
-      Package["git"],
-      Package["cronie"],
       Package["fortune-mod"],
       Package["less"],
-      Package["gcc"],
       Package::Cargo["fancy-prompt for $user"],
     ];
   }

@@ -1,4 +1,6 @@
 class certbot {
+  include cron
+
   package { 'certbot':
     ensure => installed;
   }
@@ -9,7 +11,7 @@ class certbot {
       mode => '0755',
       require => [
         Package['certbot'],
-        Package['cronie'],
+        Class['cron'],
       ];
     '/etc/letsencrypt/renewal-hooks':
       ensure => directory,
