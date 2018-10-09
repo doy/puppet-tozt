@@ -6,6 +6,7 @@ define package::makepkg($ensure, $build_user, $asdeps=false) {
     $extra_cmdline = ""
   }
 
+  include c_toolchain
   include git
 
   case $ensure {

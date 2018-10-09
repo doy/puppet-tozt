@@ -1,4 +1,5 @@
 class conf::deps {
+  include c_toolchain
   include cron
   include git
 
