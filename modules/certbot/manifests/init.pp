@@ -2,7 +2,11 @@ class certbot {
   include cron
   include nginx
 
-  package { 'certbot':
+  package {
+    [
+      'certbot',
+      'certbot-nginx',
+    ]:
     ensure => installed;
   }
 
@@ -32,6 +36,7 @@ class certbot {
     require => [
       Package["certbot"],
       Package["nginx"],
+      Package["certbot-nginx"],
     ],
   }
 }
