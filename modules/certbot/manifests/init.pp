@@ -35,6 +35,7 @@ class certbot {
     creates => "/etc/letsencrypt/live",
     require => [
       Package["certbot"],
+      # not Class["nginx"], because of circular dependencies with nginx::site
       Package["nginx"],
       Package["certbot-nginx"],
     ],
