@@ -1,5 +1,6 @@
 class certbot {
   include cron
+  include nginx
 
   package { 'certbot':
     ensure => installed;
@@ -26,8 +27,11 @@ class certbot {
 
   exec { "initial certbot run":
     # XXX update to real domain name
-    command => "/usr/bin/certbot certonly --webroot -w /home/doy/public_html -d new.tozt.net",
+    command => "/usr/bin/certbot --nginx -d new.tozt.net",
     creates => "/etc/letsencrypt/live",
-    require => Package["certbot"],
+    require => [
+      Package["certbot"],
+      Class["nginx"],
+    ],
   }
 }

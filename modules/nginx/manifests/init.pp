@@ -1,9 +1,7 @@
 class nginx {
-  include certbot
-
-  include nginx::install
-  include nginx::config
-  include nginx::service
+  contain nginx::install
+  contain nginx::config
+  contain nginx::service
 
   Class['nginx::install'] -> Class['nginx::config']
 
