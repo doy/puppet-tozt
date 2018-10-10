@@ -11,7 +11,8 @@ class tarsnap {
   }
 
   file {
-    # XXX /etc/tarsnap.conf
+    '/etc/tarsnap/tarsnap.conf':
+      source => 'puppet:///modules/tarsnap/tarsnap.conf';
     '/etc/acts.conf':
       source => 'puppet:///modules/tarsnap/acts.conf';
     '/etc/cron.daily/acts':
@@ -22,5 +23,9 @@ class tarsnap {
         Package::Makepkg['acts'],
         Class['cron'],
       ];
+  }
+
+  secret { "/etc/tarsnap/machine-key":
+    source => 'tarsnap',
   }
 }
