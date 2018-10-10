@@ -1,18 +1,23 @@
 class tozt::site {
+  include certbot
+
   nginx::site {
     "blog-tls":
       source => 'puppet:///modules/tozt/nginx/blog-tls.conf',
-      enabled => false; # XXX
+      enabled => false, # XXX
+      require => Class['certbot'];
     "blog":
       source => 'puppet:///modules/tozt/nginx/blog.conf';
     "doy-tls":
       source => 'puppet:///modules/tozt/nginx/doy-tls.conf',
-      enabled => false; # XXX
+      enabled => false, # XXX
+      require => Class['certbot'];
     "doy":
       source => 'puppet:///modules/tozt/nginx/doy.conf';
     "paste-tls":
       source => 'puppet:///modules/tozt/nginx/paste-tls.conf',
-      enabled => false; # XXX
+      enabled => false, # XXX
+      require => Class['certbot'];
     "paste":
       source => 'puppet:///modules/tozt/nginx/paste.conf';
   }
