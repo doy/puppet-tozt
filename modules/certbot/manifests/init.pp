@@ -31,7 +31,7 @@ class certbot {
     creates => "/etc/letsencrypt/live",
     require => [
       Package["certbot"],
-      Class["nginx"],
+      Package["nginx"],
     ],
   }
 }
