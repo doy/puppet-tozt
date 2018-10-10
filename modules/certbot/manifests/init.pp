@@ -31,7 +31,7 @@ class certbot {
 
   exec { "initial certbot run":
     # XXX update to real domain name
-    command => "/usr/bin/certbot --nginx -d new.tozt.net",
+    command => "/usr/bin/certbot -n --nginx -d new.tozt.net",
     creates => "/etc/letsencrypt/live",
     require => [
       Package["certbot"],
