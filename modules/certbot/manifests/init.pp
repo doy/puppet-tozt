@@ -24,5 +24,10 @@ class certbot {
       require => File['/etc/letsencrypt/renewal-hooks/deploy'];
   }
 
-  # XXX initial certbot run
+  exec { "initial certbot run":
+    # XXX update to real domain name
+    command => "certbot certonly --webroot -w /home/doy/public_html -d new.tozt.net",
+    creates => "/etc/letsencrypt/live",
+    require => Package["certbot"],
+  }
 }
