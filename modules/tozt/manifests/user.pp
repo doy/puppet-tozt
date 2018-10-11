@@ -42,8 +42,6 @@ define tozt::user(
 
   rust::user { $user:
   }
-  pass::user { $user:
-  }
   conf::user { $user:
   }
   ssh::user { $user:
