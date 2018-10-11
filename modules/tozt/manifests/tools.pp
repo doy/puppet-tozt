@@ -9,6 +9,7 @@ class tozt::tools {
       "fzf",
       "htop",
       "lsof",
+      "mutt",
       "ncdu",
       "strace",
       "the_silver_searcher",
