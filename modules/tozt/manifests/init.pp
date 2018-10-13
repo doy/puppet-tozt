@@ -6,7 +6,6 @@ class tozt {
   }
 
   include tozt::bootstrap
-  include tozt::irc
   include tozt::backups
   include tozt::site
   include tozt::services
