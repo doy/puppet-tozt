@@ -1,13 +1,31 @@
 class tozt::site {
   include certbot
+  include git
+
+  package { "hugo":
+    ensure => installed,
+  }
+
+  exec { "generate tozt.net":
+    provider => shell,
+    command => "
+      cd /tmp
+      git clone git://github.com/doy/tozt-hugo
+      cd tozt-hugo
+      hugo
+      mv public /home/doy/site
+    ",
+    user => "doy",
+    creates => "/home/doy/site",
+    require => [
+      User['doy'],
+      File['/home/doy'],
+      Package["hugo"],
+      Class["git"],
+    ],
+  }
 
   nginx::site {
-    "blog-tls":
-      source => 'puppet:///modules/tozt/nginx/blog-tls.conf',
-      enabled => false, # XXX
-      require => Class['certbot'];
-    "blog":
-      source => 'puppet:///modules/tozt/nginx/blog.conf';
     "doy-tls":
       source => 'puppet:///modules/tozt/nginx/doy-tls.conf',
       require => Class['certbot'];
@@ -23,7 +41,6 @@ class tozt::site {
 
   file {
     [
-      '/home/doy/blog',
       '/home/doy/public_html',
       '/home/doy/paste',
     ]:
