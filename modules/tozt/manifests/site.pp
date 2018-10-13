@@ -7,7 +7,7 @@ class tozt::site {
   }
 
   exec { "clone tozt.net":
-    command => "git clone git://github.com/doy/tozt-hugo",
+    command => "/usr/bin/git clone git://github.com/doy/tozt-hugo",
     user => "doy",
     cwd => "/home/doy/coding",
     creates => "/home/doy/coding/tozt-hugo",
