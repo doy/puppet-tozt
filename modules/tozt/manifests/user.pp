@@ -29,15 +29,26 @@ define tozt::user(
     require => Group[$group];
   }
 
-  file { $_home:
-    ensure => 'directory',
-    owner => $user,
-    group => $group,
-    mode => $homedir_mode,
-    require => [
-      User[$user],
-      Group[$group],
-    ];
+  file {
+    $_home:
+      ensure => 'directory',
+      owner => $user,
+      group => $group,
+      mode => $homedir_mode,
+      require => [
+        User[$user],
+        Group[$group],
+      ];
+    "${_home}/coding":
+      ensure => 'directory',
+      owner => $user,
+      group => $group,
+      mode => $homedir_mode,
+      require => [
+        User[$user],
+        Group[$group],
+        File[$_home],
+      ];
   }
 
   rust::user { $user:

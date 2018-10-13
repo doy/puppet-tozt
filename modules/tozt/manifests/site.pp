@@ -6,18 +6,29 @@ class tozt::site {
     ensure => installed,
   }
 
+  exec { "clone tozt.net":
+    command => "git clone git://github.com/doy/tozt-hugo",
+    user => "doy",
+    cwd => "/home/doy/coding",
+    creates => "/home/doy/coding/tozt-hugo",
+    require => [
+      Class["git"],
+      File["/home/doy/coding"],
+    ],
+  }
+
   exec { "generate tozt.net":
     provider => shell,
     command => "
-      cd /tmp
-      git clone git://github.com/doy/tozt-hugo
-      cd tozt-hugo
+      rm -rf public
       hugo
       mv public /home/doy/site
     ",
     user => "doy",
+    cwd => "/home/doy/coding/tozt-hugo",
     creates => "/home/doy/site",
     require => [
+      Exec["clone tozt.net"],
       User['doy'],
       File['/home/doy'],
       Package["hugo"],
@@ -50,14 +61,17 @@ class tozt::site {
       '/home/doy/public_html',
       '/home/doy/paste',
     ]:
-    ensure => directory,
-    owner => 'doy',
-    group => 'doy',
-    require => [
-      User['doy'],
-      Group['doy'],
-      File['/home/doy'],
-    ];
+      ensure => directory,
+      owner => 'doy',
+      group => 'doy',
+      require => [
+        User['doy'],
+        Group['doy'],
+        File['/home/doy'],
+      ];
+    '/usr/local/bin/hugo-tozt':
+      source => 'puppet:///modules/tozt/hugo-tozt',
+      mode => '0755';
   }
 
   # XXX eventually move blog/site/paste onto a separate volume?

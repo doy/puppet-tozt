@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -eu
+set -o pipefail
+
+cd ~/coding/tozt-hugo
+git pull
+git clean -dffx
+hugo
+rsync -a public/. ~/site
