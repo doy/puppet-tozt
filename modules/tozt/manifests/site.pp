@@ -54,6 +54,5 @@ class tozt::site {
     ];
   }
 
-  # XXX build blog and site
   # XXX eventually move blog/site/paste onto a separate volume?
 }
