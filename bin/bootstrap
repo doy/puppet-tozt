@@ -21,6 +21,10 @@ ensure_conf_exists() {
     remote "cd '$conf_location' && git submodule update --init --recursive"
 }
 
+while ! remote true; do
+    sleep 5
+done
+
 if remote test ! -e /usr/bin/pacman; then
     remote apt-get -y update
     remote apt-get -y install git

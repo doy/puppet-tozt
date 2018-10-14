@@ -22,8 +22,6 @@ echo "Assigning floating ip to tozt..."
 doctl compute floating-ip-action assign 138.197.58.11 "$id" || true
 echo "Done assigning floating ip"
 
-sleep 5
-
 echo "Provisioning droplet..."
 "$(dirname "$0")/bootstrap"
 
