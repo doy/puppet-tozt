@@ -1,6 +1,10 @@
 class tozt::site {
-  include certbot
   include git
+
+  class { "certbot":
+    config_dir => "/media/persistent/certbot",
+    require => Class["tozt::persistent"],
+  }
 
   package { "hugo":
     ensure => installed,
