@@ -12,12 +12,7 @@ class nginx::config {
       source => 'puppet:///modules/nginx/mime.types.paste';
     "/etc/nginx/nginx.conf":
       source => 'puppet:///modules/nginx/nginx.conf';
-  }
-
-  exec { 'openssl dhparam -out /etc/nginx/dhparam.pem 4096':
-    path => '/usr/bin',
-    creates => '/etc/nginx/dhparam.pem',
-    timeout => 3600,
-    require => Class["haveged"];
+    "/etc/nginx/dhparam.pem":
+      source => 'puppet:///modules/nginx/dhparam.pem';
   }
 }
