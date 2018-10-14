@@ -64,8 +64,5 @@ class tozt::persistent {
         Group['doy'],
         File["/home/doy"],
       ];
-    "/etc/letsencrypt":
-      ensure => link,
-      target => "/media/persistent/certbot";
   }
 }

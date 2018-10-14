@@ -1,4 +1,11 @@
-class certbot {
+class certbot($config_dir=undef) {
+  if $config_dir {
+    $config_dir_opts = " --config-dir ${config_dir}"
+  }
+  else {
+    $config_dir_opts = ""
+  }
+
   include cron
   include nginx
 
@@ -12,7 +19,7 @@ class certbot {
 
   file {
     '/etc/cron.daily/certbot':
-      source => 'puppet:///modules/certbot/certbot',
+      content => template('certbot/certbot'),
       mode => '0755',
       require => [
         Package['certbot'],
@@ -31,7 +38,7 @@ class certbot {
 
   exec { "initial certbot run":
     # XXX update to real domain name
-    command => "/usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d new.tozt.net",
+    command => "/usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d new.tozt.net${config_dir_opts}",
     creates => "/etc/letsencrypt/live",
     require => [
       Package["certbot"],

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+certbot renew -q<%= @config_dir_opts %>
