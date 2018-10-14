@@ -18,7 +18,7 @@ class tozt::persistent {
   exec { "mount /media/persistent":
     provider => shell,
     command => "/usr/bin/mount /media/persistent",
-    unless => "grep '^/media/persistent ' /proc/mounts",
+    unless => "grep ' /media/persistent ' /proc/mounts",
     require => [
       File["/media/persistent"],
       Exec["populate fstab"],
