@@ -57,18 +57,6 @@ class tozt::site {
   }
 
   file {
-    [
-      '/home/doy/public_html',
-      '/home/doy/paste',
-    ]:
-      ensure => directory,
-      owner => 'doy',
-      group => 'doy',
-      require => [
-        User['doy'],
-        Group['doy'],
-        File['/home/doy'],
-      ];
     '/usr/local/bin/hugo-tozt':
       source => 'puppet:///modules/tozt/hugo-tozt',
       mode => '0755';
