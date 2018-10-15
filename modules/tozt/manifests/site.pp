@@ -63,6 +63,4 @@ class tozt::site {
       source => 'puppet:///modules/tozt/hugo-tozt',
       mode => '0755';
   }
-
-  # XXX eventually move blog/site/paste onto a separate volume?
 }
