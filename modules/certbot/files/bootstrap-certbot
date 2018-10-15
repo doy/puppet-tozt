@@ -29,7 +29,7 @@ events {
 http {
     server {
         listen 80 default;
-        server_name new.tozt.net;
+        server_name tozt.net;
         location / {
             root /tmp;
         }
