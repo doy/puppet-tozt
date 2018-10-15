@@ -43,7 +43,6 @@ class tozt::site {
   nginx::site {
     "doy-tls":
       source => 'puppet:///modules/tozt/nginx/doy-tls.conf',
-      enabled => false, # XXX
       require => Class['certbot'];
     "doy":
       source => 'puppet:///modules/tozt/nginx/doy.conf';
