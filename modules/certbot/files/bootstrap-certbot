@@ -34,6 +34,20 @@ http {
             root /tmp;
         }
     }
+    server {
+        listen 80;
+        server_name blog.tozt.net;
+        location / {
+            root /tmp;
+        }
+    }
+    server {
+        listen 80;
+        server_name paste.tozt.net;
+        location / {
+            root /tmp;
+        }
+    }
 }
 EOF
 
@@ -42,7 +56,7 @@ if [ -z "$is_running" ]; then
 fi
 
 if [ -z "$config_dir" ]; then
-    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d tozt.net
+    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d tozt.net -d blog.tozt.net -d paste.tozt.net
 else
-    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d tozt.net --config-dir "$config_dir"
+    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d tozt.net -d blog.tozt.net -d paste.tozt.net --config-dir "$config_dir"
 fi
