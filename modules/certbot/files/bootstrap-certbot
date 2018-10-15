@@ -2,8 +2,6 @@
 set -eu
 set -o pipefail
 
-# XXX update to real domain name
-
 config_dir="$1"
 if systemctl is-active -q nginx; then
     is_running=1
@@ -44,7 +42,7 @@ if [ -z "$is_running" ]; then
 fi
 
 if [ -z "$config_dir" ]; then
-    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d new.tozt.net
+    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d tozt.net
 else
-    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d new.tozt.net --config-dir "$config_dir"
+    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d tozt.net --config-dir "$config_dir"
 fi

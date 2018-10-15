@@ -48,13 +48,11 @@ class tozt::site {
       source => 'puppet:///modules/tozt/nginx/doy.conf';
     "paste-tls":
       source => 'puppet:///modules/tozt/nginx/paste-tls.conf',
-      enabled => false, # XXX
       require => Class['certbot'];
     "paste":
       source => 'puppet:///modules/tozt/nginx/paste.conf';
     "blog-tls":
       source => 'puppet:///modules/tozt/nginx/blog-tls.conf',
-      enabled => false, # XXX
       require => Class['certbot'];
     "blog":
       source => 'puppet:///modules/tozt/nginx/blog.conf';
