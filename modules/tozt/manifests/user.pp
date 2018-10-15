@@ -49,6 +49,34 @@ define tozt::user(
         Group[$group],
         File[$_home],
       ];
+    "/media/persistent/cargo/${user}":
+      ensure => 'directory',
+      owner => $user,
+      group => $group,
+      mode => $homedir_mode,
+      require => [
+        User[$user],
+        Group[$group],
+        File["/media/persistent/cargo"],
+      ];
+    "/media/persistent/rustup/${user}":
+      ensure => 'directory',
+      owner => $user,
+      group => $group,
+      mode => $homedir_mode,
+      require => [
+        User[$user],
+        Group[$group],
+        File["/media/persistent/rustup"],
+      ];
+    "${_home}/.cargo":
+      ensure => link,
+      target => "/media/persistent/cargo/${user}",
+      require => File["${_home}"];
+    "${_home}/.rustup":
+      ensure => link,
+      target => "/media/persistent/rustup/${user}",
+      require => File["${_home}"];
   }
 
   rust::user { $user:

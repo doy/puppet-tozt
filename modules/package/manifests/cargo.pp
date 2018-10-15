@@ -1,4 +1,12 @@
-define package::cargo($package, $user, $ensure) {
+define package::cargo($package, $user, $ensure, $home=undef) {
+  $_home = $home ? {
+    undef => $user ? {
+      'root' => '/root',
+      default => "/home/$user",
+    },
+    default => $home,
+  }
+
   case $ensure {
     'installed': {
       exec { "cargo install $package for $user":
@@ -10,6 +18,7 @@ define package::cargo($package, $user, $ensure) {
         require => [
           User[$user],
           Rust::User[$user],
+          File["${_home}/.cargo"],
         ];
       }
     }
@@ -22,6 +31,7 @@ define package::cargo($package, $user, $ensure) {
         require => [
           User[$user],
           Rust::User[$user],
+          File["${_home}/.cargo"],
         ];
       }
     }
