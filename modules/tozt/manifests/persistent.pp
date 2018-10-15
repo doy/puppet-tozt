@@ -38,6 +38,7 @@ class tozt::persistent {
     [
       "/media/persistent/public_html/doy",
       "/media/persistent/paste/doy",
+      "/media/persistent/pass",
     ]:
       ensure => directory,
       owner => 'doy',
