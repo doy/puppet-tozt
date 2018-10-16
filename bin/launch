@@ -2,27 +2,12 @@
 set -eu
 set -o pipefail
 
-echo "Creating droplet for tozt..."
-id=$(doctl compute droplet create \
-    tozt \
-    --image debian-9-x64 \
-    --region nyc3 \
-    --size s-1vcpu-1gb \
-    --ssh-keys 23160354 \
-    --volumes 4206344e-cf4f-11e8-a5a7-0a58ac1465db \
-    --format ID \
-    --no-header \
-    --wait)
-echo "Created droplet with id $id"
-
-echo "Assigning floating ip to tozt..."
-# XXX this returns an error for some reason, but actually succeeds:
-# Error: could not assign IP to droplet: json: cannot unmarshal number
-# 2328181259 into Go struct field Action.resource_id of type int
-doctl compute floating-ip-action assign 138.197.58.11 "$id" || true
-echo "Done assigning floating ip"
-
-echo "Provisioning droplet..."
-"$(dirname "$0")/bootstrap"
-
-echo "Done"
+case "$1" in
+    tozt)
+        "$(dirname "$0")"/helpers/launch-tozt
+        ;;
+    *)
+        echo "unknown host $1" >&2
+        exit 1
+        ;;
+esac
