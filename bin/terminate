@@ -2,4 +2,12 @@
 set -eu
 set -o pipefail
 
-doctl compute droplet delete tozt
+case "$1" in
+    tozt)
+        doctl compute droplet delete "$1"
+        ;;
+    *)
+        echo "unknown host $1" >&2
+        exit 1
+        ;;
+esac
