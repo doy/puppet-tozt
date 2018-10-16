@@ -3,7 +3,7 @@ set -eu
 set -o pipefail
 
 case "$1" in
-    tozt)
+    tozt|algo)
         doctl compute droplet delete "$1"
         ;;
     *)

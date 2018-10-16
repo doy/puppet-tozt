@@ -1,0 +1,45 @@
+diff --git i/config.cfg w/config.cfg
+index d61e404..003308a 100644
+--- i/config.cfg
++++ w/config.cfg
+@@ -3,8 +3,11 @@
+ # Add as many users as you want for your VPN server here.
+ # Credentials will be generated for each one.
+ users:
+-  - dan
+-  - jack
++  - hush
++  - bishamon
++  - phone
++  - tozt
++  - mail
+ 
+ # NOTE: If your usernames have leading 0's, like "000dan", you have to escape them
+ 
+@@ -26,7 +29,7 @@ wireguard_port: 51820
+ # - https://github.com/trailofbits/algo/issues/216
+ # - https://github.com/trailofbits/algo/issues?utf8=%E2%9C%93&q=is%3Aissue%20mtu
+ # - https://serverfault.com/questions/601143/ssh-not-working-over-ipsec-tunnel-strongswan
+-#max_mss: 1316
++max_mss: 1316
+ 
+ # StrongSwan log level
+ # https://wiki.strongswan.org/projects/strongswan/wiki/LoggerConfiguration
+@@ -82,7 +85,7 @@ VPN_PayloadIdentifier: "{{ 800000 | random | to_uuid | upper }}"
+ CA_PayloadIdentifier: "{{ 700000 | random | to_uuid | upper }}"
+ 
+ # Block traffic between connected clients
+-BetweenClients_DROP: true
++BetweenClients_DROP: false
+ 
+ congrats:
+   common: |
+@@ -113,7 +116,7 @@ cloud_providers:
+   digitalocean:
+     size: s-1vcpu-1gb
+     image: "ubuntu-18-04-x64"
+-    floating_ip: false
++    floating_ip: "165.227.249.213"
+   # Change the encrypted flag to "true" to enable AWS volume encryption, for encryption of data at rest.
+   # Warning: the Algo script will take approximately 6 minutes longer to complete.
+   # Also note that the documented AWS minimum permissions aren't sufficient.

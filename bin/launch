@@ -3,8 +3,8 @@ set -eu
 set -o pipefail
 
 case "$1" in
-    tozt)
-        "$(dirname "$0")"/helpers/launch-tozt
+    tozt|algo)
+        "$(dirname "$0")/helpers/launch-$1"
         ;;
     *)
         echo "unknown host $1" >&2
