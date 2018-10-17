@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -eu
+set -o pipefail
+
+script_path="$(realpath "$(dirname "$0")")"
+secrets_bin="${script_path}/secrets"
+config_path=/mnt/algo/algo/configs/165.227.249.213/wireguard
+
+"$secrets_bin" open
+trap '"$secrets_bin" close' EXIT
+
+if [ -z "${VIRTUAL_ENV:-}" ]; then
+    # shellcheck disable=SC1090
+    . "${script_path}/helpers/algo-virtualenv"
+    :
+fi
+
+# hush
+sudo cp "$config_path"/hush.conf /etc/wireguard/algo-captive.conf
+sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/hush.conf" > "$config_path/hush-not-captive.conf"
+sudo cp "$config_path/hush-not-captive.conf" /etc/wireguard/algo.conf
+
+# tozt
+sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/tozt.conf" > "$config_path/tozt-not-captive.conf"
+scp "$config_path/tozt-not-captive.conf" root@tozt.net:/etc/wireguard/algo.conf
+
+# phone
+echo "algo-captive"
+sxiv "$config_path/phone.png"
+echo "algo"
+segno --scale=5 --output="$config_path/phone-not-captive.png" "$(sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/phone.conf")"
+sxiv "$config_path/phone-not-captive.png"
+
+# bishamon
+# XXX todo
+
+# mail
+# XXX todo

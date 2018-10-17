@@ -3,6 +3,12 @@ set -eu
 set -o pipefail
 
 script_path="$(realpath "$(dirname "$0")")"
+logfile="/mnt/algo/algo-log-$(date +%s).log"
+latest_logfile=/mnt/algo/algo-log-latest.log
+
+touch "$logfile"
+ln -sf "$(basename "$logfile")" "$latest_logfile"
+echo "Logging to $latest_logfile"
 
 cd /mnt/algo/algo
 git reset --hard
@@ -10,31 +16,9 @@ git clean -dfx
 git pull
 git apply "${script_path}/algo-config.diff"
 
-# using tmpdir as a virtualenv because the tozt-secrets filesystem is too small
-# to hold the whole python installation
-envdir="$(mktemp --tmpdir -d launch-algo.XXXXXXXXXX)"
-cleanup() {
-    if perl -e'exit 1 unless $ARGV[0] =~ m{^/tmp/launch-algo.*$}' "$envdir"; then
-        rm -rf "$envdir"
-    fi
-}
-trap cleanup EXIT
-
-python2 -m virtualenv --python="$(command -v python2)" "$envdir"
-set +eu
-# shellcheck disable=SC1090
-. "$envdir"/bin/activate
-set -eu
-
-logfile="/mnt/algo/algo-log-$(date +%s).log"
-latest_logfile=/mnt/algo/algo-log-latest.log
-touch "$logfile"
-ln -sf "$(basename "$logfile")" "$latest_logfile"
-echo "Logging to $latest_logfile"
-
 echo "Installing dependencies..."
-python -m pip install -U pip >> "$logfile"
-python -m pip install -r requirements.txt >> "$logfile"
+# shellcheck disable=SC1090
+. "${script_path}/algo-virtualenv" >> "$logfile"
 echo "done."
 
 echo "Running Ansible..."
