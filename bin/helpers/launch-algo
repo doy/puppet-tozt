@@ -3,9 +3,6 @@ set -eu
 set -o pipefail
 
 script_path="$(realpath "$(dirname "$0")")"
-secrets_bin="${script_path}/../secrets"
-
-"$secrets_bin" open
 
 cd /mnt/algo/algo
 git reset --hard
@@ -20,9 +17,6 @@ cleanup() {
     if perl -e'exit 1 unless $ARGV[0] =~ m{^/tmp/launch-algo.*$}' "$envdir"; then
         rm -rf "$envdir"
     fi
-
-    cd
-    "$secrets_bin" close
 }
 trap cleanup EXIT
 
@@ -44,7 +38,7 @@ python -m pip install -r requirements.txt >> "$logfile"
 echo "done."
 
 echo "Running Ansible..."
-do_token=$(cat /mnt/algo/algo-digitalocean)
+do_token=$(cat /mnt/digitalocean)
 ansible-playbook main.yml -e "
     provider=digitalocean
     server_name=algo

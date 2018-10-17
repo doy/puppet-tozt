@@ -2,8 +2,13 @@
 set -eu
 set -o pipefail
 
+script_path="$(realpath "$(dirname "$0")")"
+secrets_bin="${script_path}/secrets"
+
 case "$1" in
     tozt|algo)
+        "$secrets_bin" open
+        trap '"$secrets_bin" close' EXIT
         "$(dirname "$0")/helpers/launch-$1"
         ;;
     *)

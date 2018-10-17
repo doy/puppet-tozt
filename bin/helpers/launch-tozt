@@ -3,7 +3,9 @@ set -eu
 set -o pipefail
 
 echo "Creating droplet for tozt..."
-id=$(doctl compute droplet create \
+id=$(doctl \
+    -t "$(cat /mnt/digitalocean)" \
+    compute droplet create \
     tozt \
     --image debian-9-x64 \
     --region nyc3 \
@@ -19,10 +21,51 @@ echo "Assigning floating ip to tozt..."
 # XXX this returns an error for some reason, but actually succeeds:
 # Error: could not assign IP to droplet: json: cannot unmarshal number
 # 2328181259 into Go struct field Action.resource_id of type int
-doctl compute floating-ip-action assign 138.197.58.11 "$id" || true
+doctl \
+    -t "$(cat /mnt/digitalocean)" \
+    compute floating-ip-action assign
+    138.197.58.11
+    "$id" || true
 echo "Done assigning floating ip"
 
 echo "Provisioning droplet..."
-"$(dirname "$0")/bootstrap-tozt"
+
+host="${1:-tozt.net}"
+conf_location="/usr/local/share/puppet-tozt"
+conf_repo="git://github.com/doy/puppet-tozt"
+
+remote() {
+    # shellcheck disable=SC2029
+    ssh root@"$host" "$@"
+}
+
+ensure_conf_exists() {
+    if remote test -d "$conf_location"; then
+        remote "cd '$conf_location' && git pull"
+    else
+        remote "mkdir -p '$conf_location'"
+        remote "cd '$conf_location' && git clone '$conf_repo' ."
+    fi
+    remote "cd '$conf_location' && git submodule update --init --recursive"
+}
+
+while ! remote true; do
+    sleep 5
+done
+
+if remote test ! -e /usr/bin/pacman; then
+    remote apt-get -y update
+    remote apt-get -y install git
+    ensure_conf_exists
+    remote "cd '$conf_location/digitalocean-debian-to-arch' && bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped --extra_packages 'puppet git ruby-shadow'"
+    sleep 30
+    while ! remote true; do
+        sleep 30
+    done
+fi
+
+ensure_conf_exists
+scp -r /mnt/puppet/ root@"$host":/usr/local/share/puppet-tozt/modules/secret/files
+remote "cd '$conf_location' && puppet apply --modulepath=./modules -e 'include tozt'"
 
 echo "Done"
