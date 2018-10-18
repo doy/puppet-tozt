@@ -3,6 +3,8 @@ class git::server {
     [
       "cgit",
       "fcgiwrap",
+      "python-markdown",
+      "python-pygments",
     ]:
     ensure => installed,
   }
