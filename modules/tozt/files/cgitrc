@@ -1,14 +1,15 @@
-css=/cgit.css
-logo=/cgit.png
 root-title=git.tozt.net
+root-desc=
 
-enable-index-owner=1
+enable-index-owner=0
 enable-index-links=1
 enable-blame=1
 enable-commit-graph=1
 enable-log-filecount=1
 enable-log-linecount=1
 branch-sort=age
+repository-sort=age
+max-stats=year
 
 clone-url=doy@tozt.net:git/$CGIT_REPO_URL git://git.tozt.net/$CGIT_REPO_URL git@github.com:doy/$CGIT_REPO_URL git://github.com/doy/$CGIT_REPO_URL
 snapshots=tar.gz zip
@@ -19,7 +20,11 @@ readme=:README
 
 about-filter=/usr/lib/cgit/filters/about-formatting.sh
 source-filter=/usr/lib/cgit/filters/syntax-highlighting.py
+module-link=
+
+mimetype-file=/etc/mime.types
 
 virtual-root=/
 
+remove-suffix=1
 scan-path=/media/persistent/git/doy/
