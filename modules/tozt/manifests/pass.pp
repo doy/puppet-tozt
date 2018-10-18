@@ -27,7 +27,7 @@ class tozt::pass {
     command => "/usr/bin/git init --bare",
     user => "doy",
     cwd => "/media/persistent/pass",
-    creates => "/media/persistent/pass/.git",
+    creates => "/media/persistent/pass/HEAD",
     require => [
       Class["git"],
       File["/media/persistent/pass"],
