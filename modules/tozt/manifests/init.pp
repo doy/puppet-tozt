@@ -9,6 +9,7 @@ class tozt {
 
   include tozt::bootstrap
   include tozt::backups
+  include tozt::git
   include tozt::pass
   include tozt::site
   include tozt::services
