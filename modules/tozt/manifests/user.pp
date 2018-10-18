@@ -74,11 +74,23 @@ define tozt::user(
     "${_home}/.cargo":
       ensure => link,
       target => "/media/persistent/cargo/${user}",
-      require => File["${_home}"];
+      owner => $user,
+      group => $group,
+      require => [
+        User[$user],
+        Group[$group],
+        File["${_home}"],
+      ];
     "${_home}/.rustup":
       ensure => link,
       target => "/media/persistent/rustup/${user}",
-      require => File["${_home}"];
+      owner => $user,
+      group => $group,
+      require => [
+        User[$user],
+        Group[$group],
+        File["${_home}"],
+      ];
   }
 
   rust::user { $user:
