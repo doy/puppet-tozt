@@ -24,7 +24,6 @@ define package::makepkg($ensure, $build_user, $asdeps=false) {
         unless => "pacman -Q $name > /dev/null 2>&1",
         path => "/usr/bin",
         require => [
-          Tozt::User[$build_user],
           Class["git"],
           Class["c_toolchain"],
         ];

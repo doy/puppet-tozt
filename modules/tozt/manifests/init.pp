@@ -5,6 +5,8 @@ class tozt {
     build_user => 'doy',
   }
 
+  Tozt::User['doy'] -> Package::Makepkg<| build_user == 'doy' |>
+
   include tozt::bootstrap
   include tozt::backups
   include tozt::pass
