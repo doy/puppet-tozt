@@ -1,6 +1,5 @@
 class tozt {
   include tozt::users
-  include tozt::persistent
 
   Package::Makepkg {
     build_user => 'doy',

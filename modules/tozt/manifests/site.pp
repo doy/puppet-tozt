@@ -1,10 +1,7 @@
 class tozt::site {
   include git
-
-  class { "certbot":
-    config_dir => "/media/persistent/certbot",
-    require => Class["tozt::persistent"],
-  }
+  include tozt::certbot
+  include tozt::persistent
 
   package { "hugo":
     ensure => installed,
@@ -40,17 +37,34 @@ class tozt::site {
     ],
   }
 
+  file {
+    "/media/persistent/public_html/doy":
+      ensure => directory,
+      owner => 'doy',
+      group => 'doy',
+      require => [
+        Class['tozt::persistent'],
+        User['doy'],
+        Group['doy'],
+      ];
+    "/home/doy/public_html":
+      ensure => link,
+      target => "/media/persistent/public_html/doy",
+      owner => 'doy',
+      group => 'doy',
+      require => [
+        User['doy'],
+        Group['doy'],
+        File["/home/doy"],
+      ];
+  }
+
   nginx::site {
     "doy-tls":
       source => 'puppet:///modules/tozt/nginx/doy-tls.conf',
       require => Class['certbot'];
     "doy":
       source => 'puppet:///modules/tozt/nginx/doy.conf';
-    "paste-tls":
-      source => 'puppet:///modules/tozt/nginx/paste-tls.conf',
-      require => Class['certbot'];
-    "paste":
-      source => 'puppet:///modules/tozt/nginx/paste.conf';
     "blog-tls":
       source => 'puppet:///modules/tozt/nginx/blog-tls.conf',
       require => Class['certbot'];

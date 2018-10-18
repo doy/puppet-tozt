@@ -35,37 +35,5 @@ class tozt::persistent {
     ]:
       ensure => directory,
       require => Exec["mount /media/persistent"];
-    [
-      "/media/persistent/public_html/doy",
-      "/media/persistent/paste/doy",
-      "/media/persistent/pass",
-    ]:
-      ensure => directory,
-      owner => 'doy',
-      group => 'doy',
-      require => [
-        User['doy'],
-        Group['doy'],
-      ];
-    "/home/doy/public_html":
-      ensure => link,
-      target => "/media/persistent/public_html/doy",
-      owner => 'doy',
-      group => 'doy',
-      require => [
-        User['doy'],
-        Group['doy'],
-        File["/home/doy"],
-      ];
-    "/home/doy/paste":
-      ensure => link,
-      target => "/media/persistent/paste/doy",
-      owner => 'doy',
-      group => 'doy',
-      require => [
-        User['doy'],
-        Group['doy'],
-        File["/home/doy"],
-      ];
   }
 }

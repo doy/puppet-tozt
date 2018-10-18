@@ -1,8 +1,20 @@
 class tozt::pass {
-  file { "/home/doy/pass":
-    ensure => link,
-    target => "/media/persistent/pass",
-    require => File["/home/doy"];
+  include tozt::persistent
+
+  file {
+    "/media/persistent/pass":
+      ensure => directory,
+      owner => 'doy',
+      group => 'doy',
+      require => [
+        Class['tozt::persistent'],
+        User['doy'],
+        Group['doy'],
+      ];
+    "/home/doy/pass":
+      ensure => link,
+      target => "/media/persistent/pass",
+      require => File['/home/doy'];
   }
 
   exec { "pass git init":
