@@ -1,0 +1,4 @@
+css=/cgit.css
+logo=/cgit.png
+
+scan-path=/media/persistent/git/
