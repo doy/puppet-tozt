@@ -1,0 +1,221 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+no warnings "experimental::signatures";
+use 5.020;
+use feature 'signatures';
+
+use Getopt::Long;
+
+package NewGitRepo {
+    use Cwd;
+    use HTTP::Tiny;
+    use JSON::PP;
+
+    sub new($class, %opts) {
+        bless {
+            user => $opts{user},
+            root => $opts{root},
+        }, $class;
+    }
+
+    sub init($self, %opts) {
+        my $new_dir = "${\$self->{root}}/$opts{name}";
+        my $user = $self->{user};
+        my $token = $self->github_token;
+
+        local $ENV{GIT_DIR} = $new_dir;
+
+        if ($opts{from_github}) {
+            git(
+                'clone',
+                '--bare',
+                "git://github.com/$user/$opts{name}",
+                $new_dir
+            );
+            git(qw(remote rm origin));
+
+            if (defined($opts{description})) {
+                $self->set_github_description($opts{name}, $opts{description});
+            }
+        }
+        else {
+            mkdir($new_dir);
+            git(qw(init --bare));
+            $self->create_github_repository($opts{name}, $opts{description});
+        }
+
+        git(
+            'remote',
+            'add', 'github',
+            "https://$user:$token\@github.com/$user/$opts{name}",
+        );
+
+        my $cgitrc = $self->generate_cgitrc(%opts);
+        spew("$new_dir/cgitrc", $cgitrc);
+
+        my $hook_file = "$new_dir/hooks/post-receive";
+        spew($hook_file, slurp("/usr/local/share/git/post-receive"));
+        chmod 0755, $hook_file or die "couldn't chmod $hook_file: $!";
+
+        if ($opts{from_github}) {
+            my $old_dir = getcwd;
+            chdir $new_dir || die "couldn't chdir to $new_dir: $!";
+            eval {
+                system('./hooks/post-receive');
+            };
+            my $err = $@;
+            chdir $old_dir;
+            if ($err) {
+                $@ = $err;
+                die;
+            }
+        }
+    }
+
+    sub generate_cgitrc($self, %opts) {
+        my $desc = defined($opts{description})
+            ? $opts{description}
+            : $self->repo_metadata($opts{name})->{description};
+        my %cgit_opts = (
+            (defined($desc)
+                ? (desc => $desc)
+                : ()),
+            section => $opts{unmaintained} ? "unmaintained" : "maintained",
+        );
+        join("\n", map { "$_=$cgit_opts{$_}" } sort keys %cgit_opts) . "\n";
+    }
+
+    sub repo_metadata($self, $name) {
+        my $query = <<EOF;
+            query {
+                repository(owner: "${\$self->{user}}", name: "$name") {
+                    description
+                }
+            }
+EOF
+        $self->github_v4($query)->{data}{repository};
+    }
+
+    sub set_github_description($self, $name, $description) {
+        $self->github_v3(
+            'PATCH',
+            "/repos/${\$self->{user}}/$name",
+            {
+                description => $description,
+            }
+        );
+    }
+
+    sub create_github_repository($self, $name, $description) {
+        $self->github_v3(
+            'POST',
+            '/user/repos',
+            {
+                name => $name,
+                (defined($description)
+                    ? (description => $description)
+                    : ()),
+            }
+        );
+    }
+
+    sub github_v3($self, $method, $path, $data=undef) {
+        my $res = $self->ua->request(
+            $method,
+            "https://api.github.com$path",
+            {
+                (defined($data)
+                    ? (content => encode_json($data))
+                    : ()),
+            }
+        );
+        if (!$res->{success}) {
+            die "query failed ($res->{status}): $res->{content}";
+        }
+        decode_json($res->{content})
+    }
+
+    sub github_v4($self, $query) {
+        my $res = $self->ua->post(
+            "https://api.github.com/graphql",
+            {
+                content => encode_json({query => $query}),
+            }
+        );
+        if (!$res->{success}) {
+            die "query failed ($res->{status}): $res->{content}";
+        }
+        decode_json($res->{content})
+    }
+
+    sub ua($self) {
+        $self->{ua} ||= HTTP::Tiny->new(
+            default_headers => {
+                'Authorization' => "bearer ${\$self->github_token}",
+                'Content-Type' => "application/json",
+                'Accept' => "application/json",
+            },
+            verify_SSL => 1,
+        );
+    }
+
+    sub github_token($self) {
+        $self->{github_token} ||= do {
+            chomp(my $token = slurp("$ENV{HOME}/.github"));
+            $token
+        }
+    }
+
+    sub git(@args) {
+        system('git', @args) and die "couldn't run git: $!";
+    }
+
+    sub slurp($filename) {
+        open my $fh, '<', $filename or die "couldn't open $filename: $!";
+        do { local $/; <$fh> };
+    }
+
+    sub spew($filename, $contents) {
+        open my $fh, '>', $filename or die "couldn't open $filename: $!";
+        print $fh $contents or die "couldn't write to $filename: $!";
+        close $fh or die "couldn't close $filename: $!";
+    }
+}
+
+
+sub main(@argv) {
+    my %opts = parse_args(\@argv);
+    my $user = delete $opts{user};
+    my $root = delete $opts{root};
+    NewGitRepo->new(
+        user => $user,
+        root => $root,
+    )->init(%opts);
+}
+
+sub parse_args($argv) {
+    my %opts = (
+        from_github => undef,
+        user => $ENV{USER},
+        root => "$ENV{HOME}/git",
+        unmaintained => undef,
+        description => undef,
+    );
+
+    Getopt::Long::GetOptionsFromArray(
+        $argv,
+        'from-github' => \$opts{from_github},
+        'user=s' => \$opts{user},
+        'root=s' => \$opts{root},
+        'unmaintained' => \$opts{unmaintained},
+        'description=s' => \$opts{description},
+    );
+    $opts{name} = shift @$argv;
+
+    die "extra args found: " . join(' ', @$argv) if @$argv;
+
+    %opts
+}
+
+main(@ARGV);

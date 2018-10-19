@@ -3,6 +3,10 @@ class tozt::git {
   include tozt::certbot
   include tozt::persistent
 
+  package { "perl-io-socket-ssl":
+    ensure => installed,
+  }
+
   file {
     "/media/persistent/git/doy":
       ensure => directory,
@@ -25,6 +29,18 @@ class tozt::git {
       ];
     "/etc/cgitrc":
       source => "puppet:///modules/tozt/cgitrc";
+    "/usr/local/share/git":
+      ensure => directory;
+    "/usr/local/share/git/post-receive":
+      source => "puppet:///modules/tozt/post-receive",
+      require => File['/usr/local/share/git'];
+    "/usr/local/bin/new-git-repo":
+      source => "puppet:///modules/tozt/new-git-repo",
+      mode => '0755',
+      require => [
+        Package['perl-io-socket-ssl'],
+        File['/usr/local/share/git/post-receive'],
+      ];
   }
 
   secret { "/home/doy/.github":
