@@ -20,7 +20,7 @@ readme=:README
 
 about-filter=/usr/lib/cgit/filters/about-formatting.sh
 source-filter=/usr/lib/cgit/filters/syntax-highlighting.py
-module-link=
+module-link=/%s/tree/?id=%s
 
 mimetype-file=/etc/mime.types
 
