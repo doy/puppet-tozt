@@ -27,6 +27,17 @@ class tozt::git {
       source => "puppet:///modules/tozt/cgitrc";
   }
 
+  secret { "/home/doy/.github":
+    source => 'github',
+    owner => 'doy',
+    group => 'doy',
+    require => [
+      User['doy'],
+      Group['doy'],
+      File["/home/doy"],
+    ];
+  }
+
   nginx::site {
     "git-tls":
       source => 'puppet:///modules/tozt/nginx/git-tls.conf',
