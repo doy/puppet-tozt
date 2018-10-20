@@ -5,10 +5,10 @@ class mail::mailu {
     "/mailu":
       ensure => directory;
     "/mailu/docker-compose.yml":
-      content => "puppet:///modules/mail/docker-compose.yml",
+      source => "puppet:///modules/mail/docker-compose.yml",
       require => File["/mailu"];
     "/mailu/.env.tmpl":
-      content => "puppet:///modules/mail/env",
+      source => "puppet:///modules/mail/env",
       require => File["/mailu"];
   }
 
@@ -22,6 +22,7 @@ class mail::mailu {
     command => "cat /mailu/.env.tmpl /mailu/secret-key > /mailu/.env",
     creates => "/mailu/.env",
     require => [
+      Secret["/mailu/secret-key"],
       File["/mailu/secret-key"],
       File["/mailu/.env.tmpl"],
     ];
