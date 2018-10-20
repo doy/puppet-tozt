@@ -11,6 +11,7 @@ id=$(doctl \
     --region nyc3 \
     --size s-1vcpu-1gb \
     --ssh-keys 23160354 \
+    --volumes ef47eab9-d497-11e8-a1fd-0a58ac146edf \
     --format ID \
     --no-header \
     --wait)

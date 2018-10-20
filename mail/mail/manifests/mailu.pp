@@ -1,20 +1,19 @@
 class mail::mailu {
+  include mail::persistent
   include docker
 
   file {
-    "/mailu":
-      ensure => directory;
     "/mailu/docker-compose.yml":
       source => "puppet:///modules/mail/docker-compose.yml",
-      require => File["/mailu"];
+      require => Class["mail::persistent"];
     "/mailu/.env.tmpl":
       source => "puppet:///modules/mail/env",
-      require => File["/mailu"];
+      require => Class["mail::persistent"];
   }
 
   secret { "/mailu/secret-key":
     source => "mailu-secret-key",
-    require => File["/mailu"];
+    require => Class["mail::persistent"];
   }
 
   exec { "create env file":
