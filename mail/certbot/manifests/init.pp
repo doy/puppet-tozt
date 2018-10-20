@@ -19,6 +19,9 @@ class certbot {
     "/var/www/certbot":
       ensure => directory,
       require => Package["nginx"];
+    "/etc/nginx/sites-enabled/default":
+      ensure => absent,
+      require => Package["nginx"];
   }
 
   exec { "initial certbot run":
