@@ -1,4 +1,4 @@
-class host::tozt::persistent {
+class tozt::persistent {
   file {
     "/media":
       ensure => directory;

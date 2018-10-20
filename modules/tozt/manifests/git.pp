@@ -1,7 +1,7 @@
-class host::tozt::git {
+class tozt::git {
   include git::server
-  include host::tozt::certbot
-  include host::tozt::persistent
+  include tozt::certbot
+  include tozt::persistent
 
   package { "perl-io-socket-ssl":
     ensure => installed,
@@ -13,7 +13,7 @@ class host::tozt::git {
       owner => 'doy',
       group => 'doy',
       require => [
-        Class['host::tozt::persistent'],
+        Class['tozt::persistent'],
         User['doy'],
         Group['doy'],
       ];

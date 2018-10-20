@@ -1,4 +1,4 @@
-class host::tozt::backups {
+class tozt::backups {
   include duplicati
   include tarsnap
 }

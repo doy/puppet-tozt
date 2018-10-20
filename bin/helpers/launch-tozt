@@ -66,6 +66,6 @@ fi
 
 ensure_conf_exists
 scp -r /mnt/puppet/ root@"$host":/usr/local/share/puppet-tozt/modules/secret/files
-remote "cd '$conf_location' && puppet apply --modulepath=./modules -e 'include host::tozt'"
+remote "cd '$conf_location' && puppet apply --modulepath=./modules -e 'include tozt'"
 
 echo "Done"

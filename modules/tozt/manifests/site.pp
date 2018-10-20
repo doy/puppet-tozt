@@ -1,7 +1,7 @@
-class host::tozt::site {
+class tozt::site {
   include git
-  include host::tozt::certbot
-  include host::tozt::persistent
+  include tozt::certbot
+  include tozt::persistent
 
   package { "hugo":
     ensure => installed,
@@ -43,7 +43,7 @@ class host::tozt::site {
       owner => 'doy',
       group => 'doy',
       require => [
-        Class['host::tozt::persistent'],
+        Class['tozt::persistent'],
         User['doy'],
         Group['doy'],
       ];
