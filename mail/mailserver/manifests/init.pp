@@ -4,6 +4,7 @@ class mailserver {
 
   exec { "install mailserver docker image":
     command => "/usr/bin/docker pull tvial/docker-mailserver:latest",
+    unless => "/usr/bin/docker images | grep -q '^tvial/docker-mailserver'",
     require => Class["docker"];
   }
 
