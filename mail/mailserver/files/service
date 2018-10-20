@@ -3,6 +3,6 @@ Description = runs docker-mailserver
 After=network.target
 
 [Service]
-ExecStart=docker-compose up mail
+ExecStart=/usr/local/bin/docker-compose up mail
 Restart=on-failure
 WorkingDirectory=/usr/local/share/mailserver
