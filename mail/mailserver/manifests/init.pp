@@ -3,7 +3,7 @@ class mailserver {
   include systemd
 
   exec { "install mailserver docker image":
-    command => "docker pull tvial/docker-mailserver:latest",
+    command => "/usr/bin/docker pull tvial/docker-mailserver:latest",
     require => Class["docker"];
   }
 
@@ -12,7 +12,7 @@ class mailserver {
   }
 
   exec { "install mailserver repository":
-    command => "git clone git://github.com/tomav/docker-mailserver /usr/local/share/mailserver/git",
+    command => "/usr/bin/git clone git://github.com/tomav/docker-mailserver /usr/local/share/mailserver/git",
     require => File["/usr/local/share/mailserver"];
   }
 
