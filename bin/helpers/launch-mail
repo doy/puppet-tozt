@@ -29,6 +29,35 @@ echo "Done assigning floating ip"
 
 echo "Provisioning droplet..."
 
-# ...
+host="${1:-newmail.tozt.net}"
+conf_location="/usr/local/share/puppet-tozt"
+conf_repo="git://github.com/doy/puppet-tozt"
+
+remote() {
+    # shellcheck disable=SC2029
+    ssh root@"$host" "$@"
+}
+
+ensure_conf_exists() {
+    if remote test -d "$conf_location"; then
+        remote "cd '$conf_location' && git pull"
+    else
+        remote "mkdir -p '$conf_location'"
+        remote "cd '$conf_location' && git clone '$conf_repo' ."
+    fi
+    remote "cd '$conf_location' && git submodule update --init --recursive"
+}
+
+while ! remote true; do
+    sleep 5
+done
+
+remote apt-get update
+remote apt-get upgrade
+remote apt-get install git puppet
+
+ensure_conf_exists
+scp -r /mnt/puppet/mail/ root@"$host":/usr/local/share/puppet-tozt/mail/secret/files
+remote "cd '$conf_location' && puppet apply --modulepath=./mail -e 'include mail'"
 
 echo "Done"
