@@ -8,13 +8,13 @@ class mail::persistent {
   exec { "populate fstab":
     provider => shell,
     command => "echo '${fstab_line}' >> /etc/fstab",
-    unless => "/usr/bin/grep -qF '${fstab_line}' /etc/fstab",
+    unless => "grep -qF '${fstab_line}' /etc/fstab",
     require => File["/mailu"];
   }
 
   exec { "mount /mailu":
     provider => shell,
-    command => "/usr/bin/mount /mailu",
+    command => "mount /mailu",
     unless => "grep ' /mailu ' /proc/mounts",
     require => [
       File["/mailu"],
