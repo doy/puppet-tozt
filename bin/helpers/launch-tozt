@@ -65,7 +65,7 @@ if remote test ! -e /usr/bin/pacman; then
 fi
 
 ensure_conf_exists
-scp -r /mnt/puppet/tozt/ root@"$host":/usr/local/share/puppet-tozt/modules/secret/files
+scp -r /mnt/puppet/tozt/ root@"$host":/usr/local/share/puppet-tozt/tozt/secret/files
 remote "cd '$conf_location' && puppet apply --modulepath=./tozt -e 'include tozt'"
 
 echo "Done"
