@@ -1,4 +1,5 @@
 class mail::mailserver {
+  include certbot
   include mailserver
 
   file {
@@ -21,6 +22,7 @@ class mail::mailserver {
   service { "mailserver":
     ensure => running,
     require => [
+      Class["certbot"],
       Class["mailserver"],
       Exec["systemctl daemon-reload"],
       File["/usr/local/share/mailserver/config/postfix-accounts.cf"],

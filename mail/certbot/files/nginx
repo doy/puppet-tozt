@@ -1,0 +1,7 @@
+server {
+    listen 80 default;
+    server_name newmail.tozt.net;
+    location / {
+        root /var/www/certbot;
+    }
+}
