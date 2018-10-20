@@ -1,5 +1,5 @@
 HOSTNAME=newmail
-DOMAINNAME=newmail.tozt.net
+DOMAINNAME=tozt.net
 CONTAINER_NAME=mailserver
 
 ONE_DIR=1
