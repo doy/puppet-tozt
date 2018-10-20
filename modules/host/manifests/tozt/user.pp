@@ -1,4 +1,4 @@
-define tozt::user(
+define host::tozt::user(
   $pwhash,
   $user=$name,
   $group=$user,
@@ -15,7 +15,7 @@ define tozt::user(
     default => $home,
   }
 
-  include tozt::persistent
+  include host::tozt::persistent
 
   group { $group:
     ensure => present;
@@ -59,7 +59,7 @@ define tozt::user(
       require => [
         User[$user],
         Group[$group],
-        Class["tozt::persistent"],
+        Class["host::tozt::persistent"],
       ];
     "/media/persistent/rustup/${user}":
       ensure => 'directory',
@@ -69,7 +69,7 @@ define tozt::user(
       require => [
         User[$user],
         Group[$group],
-        Class["tozt::persistent"],
+        Class["host::tozt::persistent"],
       ];
     "${_home}/.cargo":
       ensure => link,

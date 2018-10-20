@@ -1,6 +1,6 @@
-class tozt::paste {
-  include tozt::certbot
-  include tozt::persistent
+class host::tozt::paste {
+  include host::tozt::certbot
+  include host::tozt::persistent
 
   file {
     "/media/persistent/paste/doy":
@@ -8,7 +8,7 @@ class tozt::paste {
       owner => 'doy',
       group => 'doy',
       require => [
-        Class['tozt::persistent'],
+        Class['host::tozt::persistent'],
         User['doy'],
         Group['doy'],
       ];

@@ -1,5 +1,5 @@
-class tozt::pass {
-  include tozt::persistent
+class host::tozt::pass {
+  include host::tozt::persistent
 
   file {
     "/media/persistent/pass":
@@ -7,7 +7,7 @@ class tozt::pass {
       owner => 'doy',
       group => 'doy',
       require => [
-        Class['tozt::persistent'],
+        Class['host::tozt::persistent'],
         User['doy'],
         Group['doy'],
       ];

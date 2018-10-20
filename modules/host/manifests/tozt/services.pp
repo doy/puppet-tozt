@@ -1,4 +1,4 @@
-class tozt::services {
+class host::tozt::services {
   include locate
   include ntp
 }

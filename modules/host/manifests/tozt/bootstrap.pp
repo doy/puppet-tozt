@@ -1,4 +1,4 @@
-class tozt::bootstrap {
+class host::tozt::bootstrap {
   package {
     [
       "puppet",
