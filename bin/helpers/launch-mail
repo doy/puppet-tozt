@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -eu
+set -o pipefail
+
+echo "Creating droplet for mail..."
+id=$(doctl \
+    -t "$(cat /mnt/digitalocean)" \
+    compute droplet create \
+    mail \
+    --image debian-9-x64 \
+    --region nyc3 \
+    --size s-1vcpu-1gb \
+    --ssh-keys 23160354 \
+    --format ID \
+    --no-header \
+    --wait)
+echo "Created droplet with id $id"
+
+echo "Assigning floating ip to mail..."
+# XXX this returns an error for some reason, but actually succeeds:
+# Error: could not assign IP to droplet: json: cannot unmarshal number
+# 2328181259 into Go struct field Action.resource_id of type int
+doctl \
+    -t "$(cat /mnt/digitalocean)" \
+    compute floating-ip-action assign \
+    159.89.254.14 \
+    "$id" || true
+echo "Done assigning floating ip"
+
+echo "Provisioning droplet..."
+
+# ...
+
+echo "Done"
