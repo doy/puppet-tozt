@@ -27,12 +27,17 @@ class docker {
     ];
   }
 
-  package {
-    [
-      "docker-ce",
-      "docker-compose",
-    ]:
+  package { "docker-ce":
     ensure => installed,
     require => Exec["install docker apt repository"];
+  }
+
+  exec { "install docker-compose":
+    provider => shell,
+    command => "
+      curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+      chmod +x /usr/local/bin/docker-compose
+    ",
+    require => Package["curl"];
   }
 }
