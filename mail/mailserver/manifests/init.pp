@@ -13,6 +13,7 @@ class mailserver {
 
   exec { "install mailserver repository":
     command => "/usr/bin/git clone git://github.com/tomav/docker-mailserver /usr/local/share/mailserver/git",
+    creates => "/usr/local/share/mailserver/git",
     require => File["/usr/local/share/mailserver"];
   }
 
