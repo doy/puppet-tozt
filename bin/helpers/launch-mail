@@ -38,6 +38,10 @@ remote() {
     ssh root@"$host" "$@"
 }
 
+apt() {
+    remote env DEBIAN_FRONTEND=noninteractive apt-get -yq "$@"
+}
+
 ensure_conf_exists() {
     if remote test -d "$conf_location"; then
         remote "cd '$conf_location' && git pull"
@@ -52,9 +56,9 @@ while ! remote true; do
     sleep 5
 done
 
-remote apt-get update
-remote apt-get upgrade
-remote apt-get install git puppet
+apt update
+apt upgrade
+apt install git puppet
 
 ensure_conf_exists
 scp -r /mnt/puppet/mail/ root@"$host":/usr/local/share/puppet-tozt/mail/secret/files
