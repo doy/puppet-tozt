@@ -23,8 +23,8 @@ echo "Assigning floating ip to tozt..."
 # 2328181259 into Go struct field Action.resource_id of type int
 doctl \
     -t "$(cat /mnt/digitalocean)" \
-    compute floating-ip-action assign
-    138.197.58.11
+    compute floating-ip-action assign \
+    138.197.58.11 \
     "$id" || true
 echo "Done assigning floating ip"
 
