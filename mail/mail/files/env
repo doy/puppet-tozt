@@ -1,6 +1,6 @@
 ROOT=/mailu
 VERSION=1.5
-BIND_ADDRESS4=159.89.254.14
+BIND_ADDRESS4=
 BIND_ADDRESS6=::1
 DOMAIN=newmail.tozt.net
 HOSTNAMES=newmail.tozt.net
