@@ -18,11 +18,6 @@ class mail::mailserver {
       require => Class["mailserver"];
   }
 
-  exec { "create initial mailserver user":
-    command => "/usr/local/bin/mailserver-setup email add doy@newmail.tozt.net",
-    require => Class["mailserver"];
-  }
-
   service { "mailserver":
     ensure => running,
     require => [
