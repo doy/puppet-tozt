@@ -1,6 +1,5 @@
 ROOT=/mailu
 VERSION=1.5
-BIND_ADDRESS6=::1
 DOMAIN=newmail.tozt.net
 HOSTNAMES=newmail.tozt.net
 POSTMASTER=admin
