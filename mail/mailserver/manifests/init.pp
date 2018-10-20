@@ -23,11 +23,6 @@ class mailserver {
       require => Exec["install mailserver repository"];
     "/etc/systemd/system/mailserver.service":
       source => "puppet:///modules/mailserver/service",
-      notify => Exec["systemctl daemon-reload"],
-      require => [
-        Class["docker"],
-        File["/usr/local/share/mailserver/docker-compose.yml"],
-        File["/usr/local/share/mailserver/.env"],
-      ];
+      notify => Exec["systemctl daemon-reload"];
   }
 }
