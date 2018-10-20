@@ -28,4 +28,17 @@ class mail::mailu {
       File["/mailu/.env.tmpl"],
     ];
   }
+
+  file { "/etc/systemd/system/mailu.service":
+    source => "puppet:///modules/mail/service";
+  }
+
+  service { "mailu":
+    ensure => running,
+    require => [
+      File["/mailu/docker-compose.yml"],
+      Exec["create env file"],
+      File["/etc/systemd/system/mailu.service"],
+    ]
+  }
 }

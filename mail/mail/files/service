@@ -1,0 +1,8 @@
+[Unit]
+Description = runs mailu
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/docker-compose up
+Restart=on-failure
+WorkingDirectory=/mailu
