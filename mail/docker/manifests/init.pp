@@ -27,7 +27,11 @@ class docker {
     ];
   }
 
-  package { "docker-ce":
+  package {
+    [
+      "docker-ce",
+      "docker-compose",
+    ]:
     ensure => installed,
     require => Exec["install docker apt repository"];
   }
