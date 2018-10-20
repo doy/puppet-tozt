@@ -1,0 +1,3 @@
+class mailu {
+  include docker
+}
