@@ -26,7 +26,7 @@ record_id=$(doctl \
     tozt.net \
     --format Name,Type,ID \
     --no-header \
-    | grep '^newsmtp \+A ' \
+    | grep '^newsmtp2 \+A ' \
     | awk '{print $3}'
 )
 doctl \
