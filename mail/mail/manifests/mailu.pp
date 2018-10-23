@@ -9,6 +9,12 @@ class mail::mailu {
     "/mailu/.env.tmpl":
       source => "puppet:///modules/mail/env",
       require => Class["mail::persistent"];
+    "/mailu/certs":
+      ensure => directory,
+      require => Class["mail::persistent"];
+    "/mailu/certs/dhparam.pem":
+      source => "puppet:///modules/mail/dhparam.pem",
+      require => File["/mailu/certs"];
   }
 
   secret { "/mailu/secret-key":
