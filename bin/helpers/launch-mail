@@ -35,9 +35,9 @@ doctl \
     tozt.net \
     --record-id "$record_id" \
     --record-type A \
-    --record-name newsmtp \
+    --record-name newsmtp2 \
     --record-data "$ip" \
-    --record-ttl 3600
+    --record-ttl 60
 echo "Done creating DNS entry"
 
 echo "Provisioning droplet..."
