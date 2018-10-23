@@ -2,7 +2,10 @@ class mail::mailu {
   include mail::persistent
   include docker
 
-  package { "haveged":
+  package { [
+    "haveged",
+    "opendkim-tools",
+  ]:
     ensure => installed;
   }
 
@@ -14,6 +17,9 @@ class mail::mailu {
       source => "puppet:///modules/mail/env",
       require => Class["mail::persistent"];
     "/mailu/certs":
+      ensure => directory,
+      require => Class["mail::persistent"];
+    "/mailu/dkim":
       ensure => directory,
       require => Class["mail::persistent"];
     "/mailu/certs/dhparam.pem":
@@ -31,6 +37,23 @@ class mail::mailu {
       Package["haveged"],
       Class["mail::persistent"],
     ]
+  }
+
+  exec { "generate dkim keys":
+    provider => shell,
+    command => "
+      opendkim-genkey -s dkim -d tozt.net
+      mv dkim.private /mailu/dkim/tozt.net.dkim.key
+      mv dkim.txt /mailu/dkim/tozt.net.dkim.pub
+    ",
+    cwd => "/mailu",
+    creates => "/mailu/dkim/tozt.net.dkim.key",
+    require => [
+      Package["haveged"],
+      Package["opendkim-tools"],
+      Class["mail::persistent"],
+      File["/mailu/dkim"],
+    ];
   }
 
   exec { "create env file":
