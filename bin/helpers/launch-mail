@@ -30,7 +30,7 @@ echo "Done assigning floating ip"
 
 echo "Provisioning droplet..."
 
-host="${1:-newmail.tozt.net}"
+host="${1:-newmail2.tozt.net}"
 conf_location="/usr/local/share/puppet-tozt"
 conf_repo="git://github.com/doy/puppet-tozt"
 
