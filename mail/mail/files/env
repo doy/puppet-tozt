@@ -1,6 +1,6 @@
 ROOT=/mailu
 VERSION=1.5
-DOMAIN=newmail.tozt.net
+DOMAIN=new.tozt.net
 HOSTNAMES=newmail.tozt.net
 POSTMASTER=admin
 TLS_FLAVOR=letsencrypt
