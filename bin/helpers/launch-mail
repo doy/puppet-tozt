@@ -3,7 +3,7 @@ set -eu
 set -o pipefail
 
 echo "Creating droplet for mail..."
-id=$(doctl \
+data=$(doctl \
     -t "$(cat /mnt/digitalocean)" \
     compute droplet create \
     mail \
@@ -12,31 +12,42 @@ id=$(doctl \
     --size s-1vcpu-1gb \
     --ssh-keys 23160354 \
     --volumes ef47eab9-d497-11e8-a1fd-0a58ac146edf \
-    --format ID \
+    --format ID,PublicIPv4 \
     --no-header \
     --wait)
-echo "Created droplet with id $id"
+id=$(echo "$data" | awk '{print $1}')
+ip=$(echo "$data" | awk '{print $2}')
+echo "Created droplet with id $id and ip $ip"
 
-echo "Assigning floating ip to mail..."
-# XXX this returns an error for some reason, but actually succeeds:
-# Error: could not assign IP to droplet: json: cannot unmarshal number
-# 2328181259 into Go struct field Action.resource_id of type int
+echo "Creating DNS entry for $ip..."
+record_id=$(doctl \
+    -t "$(cat /mnt/digitalocean)" \
+    compute domain records list \
+    tozt.net \
+    --format Name,Type,ID \
+    --no-header \
+    | grep '^newsmtp \+A ' \
+    | awk '{print $3}'
+)
 doctl \
     -t "$(cat /mnt/digitalocean)" \
-    compute floating-ip-action assign \
-    159.89.254.14 \
-    "$id" || true
-echo "Done assigning floating ip"
+    compute domain records update \
+    tozt.net \
+    --record-id "$record_id" \
+    --record-type A \
+    --record-name newsmtp \
+    --record-data "$ip" \
+    --record-ttl 3600
+echo "Done creating DNS entry"
 
 echo "Provisioning droplet..."
 
-host="${1:-newmail2.tozt.net}"
 conf_location="/usr/local/share/puppet-tozt"
 conf_repo="git://github.com/doy/puppet-tozt"
 
 remote() {
     # shellcheck disable=SC2029
-    ssh root@"$host" "$@"
+    ssh root@"$ip" "$@"
 }
 
 apt() {
@@ -62,7 +73,7 @@ apt upgrade
 apt install git puppet
 
 ensure_conf_exists
-scp -r /mnt/puppet/mail/ root@"$host":/usr/local/share/puppet-tozt/mail/secret/files
+scp -r /mnt/puppet/mail/ root@"$ip":/usr/local/share/puppet-tozt/mail/secret/files
 remote "cd '$conf_location' && puppet apply --modulepath=./mail -e 'include mail'"
 
 echo "Done"

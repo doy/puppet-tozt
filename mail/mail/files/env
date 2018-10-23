@@ -1,5 +1,6 @@
 ROOT=/mailu
 VERSION=1.5
+BIND_ADDRESS4=127.0.0.1
 DOMAIN=new.tozt.net
 HOSTNAMES=newsmtp.tozt.net,newmail2.tozt.net
 POSTMASTER=admin
