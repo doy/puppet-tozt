@@ -2,6 +2,10 @@ class mail::mailu {
   include mail::persistent
   include docker
 
+  package { "haveged":
+    ensure => installed;
+  }
+
   file {
     "/mailu/docker-compose.yml":
       source => "puppet:///modules/mail/docker-compose.yml",
@@ -17,9 +21,16 @@ class mail::mailu {
       require => File["/mailu/certs"];
   }
 
-  secret { "/mailu/secret-key":
-    source => "mailu-secret-key",
-    require => Class["mail::persistent"];
+  exec { "generate mailu secret key":
+    provider => shell,
+    command => "
+      echo SECRET_KEY=$(dd if=/dev/urandom bs=64 count=1 status=none | base64 -w 0 | cut -b -16) > /mailu/secret-key
+    ",
+    creates => "/mailu/secret-key",
+    require => [
+      Package["haveged"],
+      Class["mail::persistent"],
+    ]
   }
 
   exec { "create env file":
@@ -30,7 +41,7 @@ class mail::mailu {
     ",
     refreshonly => true,
     subscribe => [
-      Secret["/mailu/secret-key"],
+      Exec["generate mailu secret key"],
       File["/mailu/.env.tmpl"],
     ];
   }

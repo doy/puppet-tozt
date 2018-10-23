@@ -73,7 +73,6 @@ apt upgrade
 apt install git puppet
 
 ensure_conf_exists
-scp -r /mnt/puppet/mail/ root@"$ip":/usr/local/share/puppet-tozt/mail/secret/files
 remote "cd '$conf_location' && puppet apply --modulepath=./mail -e 'include mail'"
 
 echo "Done"
