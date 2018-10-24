@@ -75,4 +75,28 @@ apt install git puppet
 ensure_conf_exists
 remote "cd '$conf_location' && puppet apply --modulepath=./mail -e 'include mail'"
 
+echo "Done provisioning"
+
+echo "Creating DKIM entry"
+dkim=$(remote "perl -pe'chomp; s/.*\"(.*)\".*/\$1/' /mailu/dkim/tozt.net.dkim.pub")
+dkim_record_id=$(doctl \
+    -t "$(cat /mnt/digitalocean)" \
+    compute domain records list \
+    tozt.net \
+    --format Name,Type,ID \
+    --no-header \
+    | grep '^dkim._domainkey \+TXT ' \
+    | awk '{print $3}'
+)
+doctl \
+    -t "$(cat /mnt/digitalocean)" \
+    compute domain records update \
+    tozt.net \
+    --record-id "$dkim_record_id" \
+    --record-type TXT \
+    --record-name dkim._domainkey \
+    --record-data "$dkim" \
+    --record-ttl 60
+echo "Done creating DKIM entry"
+
 echo "Done"
