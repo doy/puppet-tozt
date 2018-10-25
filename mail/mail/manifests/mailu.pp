@@ -71,7 +71,6 @@ class mail::mailu {
       cat /mailu/.env.tmpl /mailu/secret-key > /mailu/.env
       echo BIND_ADDRESS4=`curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address` >> /mailu/.env
     ",
-    refreshonly => true,
     subscribe => [
       Exec["generate mailu secret key"],
       File["/mailu/.env.tmpl"],
