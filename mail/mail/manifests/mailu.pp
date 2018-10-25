@@ -25,6 +25,15 @@ class mail::mailu {
     "/mailu/certs/dhparam.pem":
       source => "puppet:///modules/mail/dhparam.pem",
       require => File["/mailu/certs"];
+    "/mailu/overrides":
+      ensure => directory,
+      require => Class["mail::persistent"];
+    "/mailu/overrides/rspamd":
+      ensure => directory,
+      require => File["/mailu/overrides"];
+    "/mailu/overrides/rspamd/dkim_signing.conf":
+      source => "puppet:///modules/mail/dkim_signing.conf",
+      require => File["/mailu/overrides/rspamd"];
   }
 
   exec { "generate mailu secret key":
@@ -42,12 +51,12 @@ class mail::mailu {
   exec { "generate dkim keys":
     provider => shell,
     command => "
-      opendkim-genkey -s dkim -d tozt.net
-      mv dkim.private /mailu/dkim/tozt.net.dkim.key
-      mv dkim.txt /mailu/dkim/tozt.net.dkim.pub
+      opendkim-genkey -s dkim -d new2.tozt.net
+      mv dkim.private /mailu/dkim/new2.tozt.net.dkim.key
+      mv dkim.txt /mailu/dkim/new2.tozt.net.dkim.pub
     ",
     cwd => "/mailu",
-    creates => "/mailu/dkim/tozt.net.dkim.key",
+    creates => "/mailu/dkim/new2.tozt.net.dkim.key",
     require => [
       Package["haveged"],
       Package["opendkim-tools"],

@@ -78,14 +78,14 @@ remote "cd '$conf_location' && puppet apply --modulepath=./mail -e 'include mail
 echo "Done provisioning"
 
 echo "Creating DKIM entry"
-dkim=$(remote "perl -pe'chomp; s/.*\"(.*)\".*/\$1/' /mailu/dkim/tozt.net.dkim.pub")
+dkim=$(remote "perl -pe'chomp; s/.*\"(.*)\".*/\$1/' /mailu/dkim/new2.tozt.net.dkim.pub")
 dkim_record_id=$(doctl \
     -t "$(cat /mnt/digitalocean)" \
     compute domain records list \
     tozt.net \
     --format Name,Type,ID \
     --no-header \
-    | grep '^dkim._domainkey \+TXT ' \
+    | grep '^dkim._domainkey.new2 \+TXT ' \
     | awk '{print $3}'
 )
 doctl \
@@ -94,7 +94,7 @@ doctl \
     tozt.net \
     --record-id "$dkim_record_id" \
     --record-type TXT \
-    --record-name dkim._domainkey \
+    --record-name dkim._domainkey.new2 \
     --record-data "$dkim" \
     --record-ttl 60
 echo "Done creating DKIM entry"
