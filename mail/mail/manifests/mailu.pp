@@ -36,18 +36,6 @@ class mail::mailu {
       require => File["/mailu/overrides/rspamd"];
   }
 
-  exec { "generate mailu secret key":
-    provider => shell,
-    command => "
-      echo SECRET_KEY=$(dd if=/dev/urandom bs=64 count=1 status=none | base64 -w 0 | cut -b -16) > /mailu/secret-key
-    ",
-    creates => "/mailu/secret-key",
-    require => [
-      Package["haveged"],
-      Class["mail::persistent"],
-    ]
-  }
-
   exec { "generate dkim keys":
     provider => shell,
     command => "
@@ -65,14 +53,31 @@ class mail::mailu {
     ];
   }
 
-  exec { "create env file":
+  exec { "generate mailu secret key":
     provider => shell,
     command => "
-      cat /mailu/.env.tmpl /mailu/secret-key > /mailu/.env
-      echo BIND_ADDRESS4=`curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address` >> /mailu/.env
+      echo SECRET_KEY=$(dd if=/dev/urandom bs=64 count=1 status=none | base64 -w 0 | cut -b -16) > /mailu/secret-key
     ",
+    creates => "/mailu/secret-key",
+    require => [
+      Package["haveged"],
+      Class["mail::persistent"],
+    ]
+  }
+
+  exec { "find local ip address":
+    provider => shell,
+    command => "echo BIND_ADDRESS4=`curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address` > /run/mailu_bind_address",
+    creates => "/run/mailu_bind_address";
+  }
+
+  exec { "create env file":
+    provider => shell,
+    command => "cat /mailu/.env.tmpl /mailu/secret-key /run/mailu_bind_address > /mailu/.env",
+    creates => "/mailu/.env",
     subscribe => [
       Exec["generate mailu secret key"],
+      Exec["find local ip address"],
       File["/mailu/.env.tmpl"],
     ];
   }
