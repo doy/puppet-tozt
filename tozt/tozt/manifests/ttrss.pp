@@ -2,7 +2,7 @@ class tozt::ttrss {
   include tozt::certbot
   include tozt::persistent
 
-  class ttrss {
+  class { "ttrss":
     dbpath => "/media/persistent/ttrss",
     require => Class["tozt::persistent"];
   }
