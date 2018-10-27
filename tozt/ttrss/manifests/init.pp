@@ -6,6 +6,7 @@ class ttrss($dbpath) {
       "tt-rss",
       "postgresql",
       "php-pgsql",
+      "php-fpm",
     ]:
       ensure => installed;
   }
@@ -113,5 +114,10 @@ class ttrss($dbpath) {
       File["/etc/webapps/tt-rss/config.php"],
       Exec["create db"],
     ]
+  }
+
+  service { "php-fpm":
+    ensure => running,
+    require => Package["php-fpm"];
   }
 }
