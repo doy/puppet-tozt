@@ -26,7 +26,7 @@ class ttrss($dbpath) {
       ensure => directory;
     "/etc/systemd/system/postgresql.service.d/override.conf":
       content => template('ttrss/postgres-service'),
-      notify => Exec["systemctl daemon-reload"],
+      notify => Exec["/usr/bin/systemctl daemon-reload"],
       require => File["/etc/systemd/system/postgresql.service.d"];
     "/etc/webapps/tt-rss/config.php":
       source => "puppet:///modules/ttrss/config.php",

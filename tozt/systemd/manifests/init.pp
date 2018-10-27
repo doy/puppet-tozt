@@ -1,5 +1,5 @@
 class systemd {
-  exec { "systemctl daemon-reload":
+  exec { "/usr/bin/systemctl daemon-reload":
     refreshonly => true;
   }
 }
