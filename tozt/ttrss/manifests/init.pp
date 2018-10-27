@@ -45,7 +45,10 @@ class ttrss($dbpath) {
     command => "/usr/bin/initdb -D $dbpath/data",
     user => 'postgres',
     creates => "$dbpath/data/PG_VERSION",
-    require => Package["postgresql"];
+    require => [
+      File[$dbpath],
+      Package["postgresql"],
+    ];
   }
 
   service { "postgresql":
