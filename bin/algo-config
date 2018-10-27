@@ -23,6 +23,7 @@ sudo cp "$config_path/hush-not-captive.conf" /etc/wireguard/algo.conf
 # tozt
 sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/tozt.conf" > "$config_path/tozt-not-captive.conf"
 scp "$config_path/tozt-not-captive.conf" root@tozt.net:/etc/wireguard/algo.conf
+cp "$config_path/tozt-not-captive.conf" /mnt/puppet/tozt/wireguard
 
 # phone
 echo "algo-captive"
