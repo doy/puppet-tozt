@@ -6,6 +6,7 @@ class fail2ban {
   file {
     "/etc/fail2ban/jail.local":
       source => "puppet:///modules/fail2ban/jail.local",
+      notify => Service["fail2ban"],
       require => Package["fail2ban"];
   }
 
