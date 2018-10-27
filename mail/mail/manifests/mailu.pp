@@ -88,6 +88,7 @@ class mail::mailu {
 
   service { "mailu":
     ensure => running,
+    enable => true,
     require => [
       File["/mailu/docker-compose.yml"],
       Exec["create env file"],

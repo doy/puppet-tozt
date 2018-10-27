@@ -56,6 +56,7 @@ class ttrss($dbpath) {
 
   service { "postgresql":
     ensure => running,
+    enable => true,
     require => [
       Package["postgresql"],
       Exec["initialize db path"],
@@ -108,6 +109,7 @@ class ttrss($dbpath) {
 
   service { "tt-rss":
     ensure => running,
+    enable => true,
     require => [
       Package["tt-rss"],
       Exec["fixup php.ini"],
@@ -118,6 +120,7 @@ class ttrss($dbpath) {
 
   service { "php-fpm":
     ensure => running,
+    enable => true,
     require => Package["php-fpm"];
   }
 }

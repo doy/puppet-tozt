@@ -11,5 +11,6 @@ class git::server {
 
   service { "fcgiwrap.socket":
     ensure => running,
+    enable => true;
   }
 }
