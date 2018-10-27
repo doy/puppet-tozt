@@ -6,6 +6,7 @@ define('DB_USER', "ttrss");
 define('DB_NAME', "ttrss");
 define('DB_PASS', "");
 define('DB_PORT', '5432');
+define('MYSQL_CHARSET', 'UTF8');
 
 define('SELF_URL_PATH', 'https://rss.tozt.net/');
 define('SINGLE_USER_MODE', false);
@@ -21,6 +22,9 @@ define('AUTH_AUTO_CREATE', true);
 define('AUTH_AUTO_LOGIN', true);
 
 define('FORCE_ARTICLE_PURGE', 0);
+
+define('SPHINX_SERVER', 'localhost:9312');
+define('SPHINX_INDEX', 'ttrss, delta');
 
 define('ENABLE_REGISTRATION', false);
 define('REG_NOTIFY_ADDRESS', 'ttrss@tozt.net');
