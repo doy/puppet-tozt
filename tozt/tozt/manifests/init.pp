@@ -14,5 +14,6 @@ class tozt {
   include tozt::site
   include tozt::services
   include tozt::tools
+  include tozt::ttrss
   include tozt::vpn
 }
