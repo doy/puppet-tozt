@@ -78,7 +78,7 @@ class ttrss($dbpath) {
 
   exec { "fixup php.ini":
     provider => shell,
-    command => "sed -i 's/^;\(extension=.*pgsql\)$/\\1/' /etc/php/php.ini",
+    command => "sed -i 's/^;\\(extension=.*pgsql\\)$/\\1/' /etc/php/php.ini",
     unless => "grep -q '^extension=pgsql$' /etc/php/php.ini && grep -q '^extension=pdo_pgsql$' /etc/php/php.ini",
     require => Package["php-pgsql"];
   }
@@ -87,7 +87,7 @@ class ttrss($dbpath) {
     provider => shell,
     command => "psql ttrss -U ttrss -f /usr/share/webapps/tt-rss/schema/ttrss_schema_pgsql.sql",
     user => 'postgres',
-    unless "psql -d ttrss -Atc 'select relname from pg_catalog.pg_class;' | grep -q '^ttrss'",
+    unless => "psql -d ttrss -Atc 'select relname from pg_catalog.pg_class;' | grep -q '^ttrss'",
     require => [
       Package["postgres"],
       Service["postgres"],
