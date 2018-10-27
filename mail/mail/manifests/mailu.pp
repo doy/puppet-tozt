@@ -74,7 +74,7 @@ class mail::mailu {
   exec { "create env file":
     provider => shell,
     command => "cat /mailu/.env.tmpl /mailu/secret-key /run/mailu_bind_address > /mailu/.env",
-    creates => "/mailu/.env",
+    unless => "test -f /mailu/.env && test -f /run/mailu_bind_address && grep -F `cat /run/mailu_bind_address` /mailu/.env"
     subscribe => [
       Exec["generate mailu secret key"],
       Exec["find local ip address"],
