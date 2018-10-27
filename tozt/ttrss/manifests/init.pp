@@ -12,10 +12,12 @@ class ttrss($dbpath) {
 
   file {
     $dbpath:
+      ensure => directory,
       owner => 'postgres',
       group => 'postgres',
       require => Package["postgresql"];
     "$dbpath/data":
+      ensure => directory,
       owner => 'postgres',
       group => 'postgres',
       require => [
@@ -46,7 +48,7 @@ class ttrss($dbpath) {
     user => 'postgres',
     creates => "$dbpath/data/PG_VERSION",
     require => [
-      File[$dbpath],
+      File["$dbpath/data"],
       Package["postgresql"],
     ];
   }
