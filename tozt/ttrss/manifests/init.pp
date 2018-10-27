@@ -4,7 +4,7 @@ class ttrss($dbpath) {
   package {
     [
       "tt-rss",
-      "postgres",
+      "postgresql",
       "php-pgsql",
     ]:
       ensure => installed;
@@ -14,12 +14,12 @@ class ttrss($dbpath) {
     $dbpath:
       owner => 'postgres',
       group => 'postgres',
-      require => Package["postgres"];
+      require => Package["postgresql"];
     "$dbpath/data":
       owner => 'postgres',
       group => 'postgres',
       require => [
-        Package["postgres"],
+        Package["postgresql"],
         File[$dbpath],
       ];
     "/etc/systemd/system/postgresql.service.d":
@@ -45,12 +45,15 @@ class ttrss($dbpath) {
     command => "/usr/bin/initdb -D $dbpath/data",
     user => 'postgres',
     creates => "$dbpath/data/PG_VERSION",
-    require => Package["postgres"];
+    require => Package["postgresql"];
   }
 
-  service { "postgres":
+  service { "postgresql":
     ensure => running,
-    require => Exec["initialize db path"];
+    require => [
+      Package["postgresql"],
+      Exec["initialize db path"],
+    ];
   }
 
   exec { "create db user":
@@ -59,8 +62,8 @@ class ttrss($dbpath) {
     user => 'postgres',
     unless => "psql -Atc 'select usename from pg_catalog.pg_user' | grep -F ttrss",
     require => [
-      Package["postgres"],
-      Service["postgres"],
+      Package["postgresql"],
+      Service["postgresql"],
     ];
   }
 
@@ -71,8 +74,8 @@ class ttrss($dbpath) {
     unless => "psql -Atc 'select datname from pg_catalog.pg_database' | grep -F ttrss",
     require => [
       Exec["create db user"],
-      Package["postgres"],
-      Service["postgres"],
+      Package["postgresql"],
+      Service["postgresql"],
     ];
   }
 
@@ -89,8 +92,8 @@ class ttrss($dbpath) {
     user => 'postgres',
     unless => "psql -d ttrss -Atc 'select relname from pg_catalog.pg_class;' | grep -q '^ttrss'",
     require => [
-      Package["postgres"],
-      Service["postgres"],
+      Package["postgresql"],
+      Service["postgresql"],
       Exec["create db"],
       Package["tt-rss"],
       File["/etc/webapps/tt-rss/config.php"],
