@@ -7,6 +7,11 @@ class tozt::ttrss {
     require => Class["tozt::persistent"];
   }
 
+  secret { "/media/persistent/ttrss.htpasswd":
+    source => "ttrss",
+    require => Class["tozt::persistent"];
+  }
+
   nginx::site {
     "ttrss-tls":
       source => 'puppet:///modules/tozt/nginx/ttrss-tls.conf',
