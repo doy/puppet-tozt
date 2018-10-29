@@ -28,11 +28,6 @@ define conf::user($user=$name, $home=undef) {
     ];
   }
 
-  file { "$_home/conf/.conf-type":
-    content => "server",
-    require => Exec["git clone doy/conf for $user"];
-  }
-
   exec { "conf make install for $user":
     command => "/usr/bin/make install",
     user => $user,
@@ -43,7 +38,6 @@ define conf::user($user=$name, $home=undef) {
     ],
     creates => "$_home/.vimrc",
     require => [
-      File["$_home/conf/.conf-type"],
       Class['cron'],
       Class['c_toolchain'],
       User[$user],
