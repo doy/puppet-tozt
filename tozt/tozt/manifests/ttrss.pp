@@ -9,7 +9,11 @@ class tozt::ttrss {
 
   secret { "/media/persistent/ttrss.htpasswd":
     source => "ttrss",
-    require => Class["tozt::persistent"];
+    owner => 'http',
+    require => [
+      Class["tozt::persistent"],
+      Package['nginx'],
+    ];
   }
 
   nginx::site {
