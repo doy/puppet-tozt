@@ -97,9 +97,6 @@ define tozt::user(
   }
   conf::user { $user:
   }
-  ssh::user { $user:
-    group => $group,
-  }
 
   if $user != 'root' {
     sudo::user { $user:
