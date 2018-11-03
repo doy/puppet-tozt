@@ -12,6 +12,7 @@ class tozt {
   include tozt::git
   include tozt::misc
   include tozt::pass
+  include tozt::paste
   include tozt::site
   include tozt::services
   include tozt::tools
