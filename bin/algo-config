@@ -4,7 +4,7 @@ set -o pipefail
 
 script_path="$(realpath "$(dirname "$0")")"
 secrets_bin="${script_path}/secrets"
-config_path=/mnt/algo/algo/configs/165.227.249.213/wireguard
+config_path="$(echo /mnt/algo/algo/configs/*/wireguard)"
 
 "$secrets_bin" open
 trap '"$secrets_bin" close' EXIT
