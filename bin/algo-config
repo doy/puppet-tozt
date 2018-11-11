@@ -25,6 +25,14 @@ sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1
 scp "$config_path/tozt-not-captive.conf" root@tozt.net:/etc/wireguard/algo.conf
 cp "$config_path/tozt-not-captive.conf" /mnt/puppet/tozt/wireguard
 
+# bishamon
+sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/bishamon.conf" > "$config_path/bishamon-not-captive.conf"
+scp "$config_path/bishamon-not-captive.conf" root@bishamon:/etc/wireguard/algo.conf
+
+# mail
+sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/mail.conf" > "$config_path/mail-not-captive.conf"
+scp "$config_path/mail-not-captive.conf" root@mail.tozt.net:/etc/wireguard/algo.conf
+
 # phone
 echo "algo-captive"
 sxiv "$config_path/phone.png"
