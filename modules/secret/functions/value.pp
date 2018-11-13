@@ -1,3 +1,3 @@
 function secret::value(String $name) >> String {
-  chomp(file("secret/$name"))
+  regsubst(file("secret/$name"), /\n\z/, '')
 }
