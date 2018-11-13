@@ -8,7 +8,4 @@ class base($default_user, $persistent_data) {
     default_user => $default_user,
     persistent_data => $persistent_data;
   }
-  class { 'base::makepkg':
-    default_user => $default_user;
-  }
 }
