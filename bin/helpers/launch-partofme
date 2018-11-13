@@ -6,20 +6,23 @@ host="${1:-partofme}"
 conf_location="/usr/local/share/puppet-tozt"
 conf_repo="git://github.com/doy/puppet-tozt"
 
-remote() {
-    # shellcheck disable=SC2029
-    ssh root@"$host" "$@"
+ssh_opts="-o ControlMaster=auto -o ControlPath=~/.ssh/puppet-tozt-%r-%h-%p -o ControlPersist=5"
+
+run() {
+    # shellcheck disable=SC2086,SC2029
+    ssh $ssh_opts root@"$host" "$@"
+}
+copy() {
+    # shellcheck disable=SC2086,SC2029
+    scp -r $ssh_opts "$1" root@"$host":"$2"
 }
 
-if remote test -d "$conf_location"; then
-    remote "cd '$conf_location' && git pull"
-else
-    remote "mkdir -p '$conf_location'"
-    remote "cd '$conf_location' && git clone '$conf_repo' ."
-fi
-remote "cd '$conf_location' && git submodule update --init --recursive"
+run "pacman -S --noconfirm git puppet"
+run "mkdir -p '$conf_location'"
+run "cd '$conf_location' && git clone '$conf_repo' ."
+run "cd '$conf_location' && git submodule update --init --recursive"
 
-scp -r /mnt/puppet/tozt/ root@"$host":/usr/local/share/puppet-tozt/modules/secret/files
-remote "cd '$conf_location' && puppet apply --modulepath=./modules manifests"
+copy /mnt/puppet/partofme/ /usr/local/share/puppet-tozt/modules/secret/files
+run "cd '$conf_location' && puppet apply --modulepath=./modules manifests"
 
 echo "Done"
