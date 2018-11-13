@@ -1,4 +1,4 @@
-class bootstrap {
+class base::bootstrap {
   package {
     [
       "puppet",
