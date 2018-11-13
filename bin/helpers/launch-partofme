@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -eu
+set -o pipefail
+
+host="${1:-partofme}"
+conf_location="/usr/local/share/puppet-tozt"
+conf_repo="git://github.com/doy/puppet-tozt"
+
+remote() {
+    # shellcheck disable=SC2029
+    ssh root@"$host" "$@"
+}
+
+if remote test -d "$conf_location"; then
+    remote "cd '$conf_location' && git pull"
+else
+    remote "mkdir -p '$conf_location'"
+    remote "cd '$conf_location' && git clone '$conf_repo' ."
+fi
+remote "cd '$conf_location' && git submodule update --init --recursive"
+
+scp -r /mnt/puppet/tozt/ root@"$host":/usr/local/share/puppet-tozt/modules/secret/files
+remote "cd '$conf_location' && puppet apply --modulepath=./modules manifests"
+
+echo "Done"
