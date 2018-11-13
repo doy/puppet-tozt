@@ -1,4 +1,4 @@
-class tozt::tools {
+class base::tools {
   include mail::sender
   include yaourt
 

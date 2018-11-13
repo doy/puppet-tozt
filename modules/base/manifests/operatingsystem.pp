@@ -1,4 +1,4 @@
-class tozt::misc {
+class operatingsystem {
   file {
     "/etc/locale.gen":
       content => "en_US.UTF-8 UTF-8\n",
@@ -10,7 +10,7 @@ class tozt::misc {
         Exec["regen locale data"],
       ];
     "/etc/hosts":
-      source => "puppet:///modules/tozt/hosts";
+      source => "puppet:///modules/base/hosts";
   }
 
   exec { "regen locale data":

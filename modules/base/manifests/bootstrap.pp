@@ -1,4 +1,4 @@
-class tozt::bootstrap {
+class bootstrap {
   package {
     [
       "puppet",
@@ -8,7 +8,7 @@ class tozt::bootstrap {
   }
 
   file { '/usr/local/bin/puppet-tozt':
-    source => 'puppet:///modules/tozt/puppet-tozt',
+    source => 'puppet:///modules/base/puppet-tozt',
     mode => '0755';
   }
 }
