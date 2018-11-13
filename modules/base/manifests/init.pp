@@ -1,4 +1,4 @@
-class base($default_user, $persistent_data) {
+class base($default_user, $persistent_data=undef) {
   contain base::bootstrap
   contain base::operatingsystem
   contain base::services
