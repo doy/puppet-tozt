@@ -1,4 +1,4 @@
-class tozt {
+node 'tozt.localdomain' {
   include tozt::users
 
   Package::Makepkg {
