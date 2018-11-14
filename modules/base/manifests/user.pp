@@ -16,8 +16,6 @@ define base::user(
     default => $home,
   }
 
-  include tozt::persistent
-
   group { $group:
     ensure => present;
   }
