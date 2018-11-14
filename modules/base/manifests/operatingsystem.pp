@@ -10,7 +10,7 @@ class base::operatingsystem {
         Exec["regen locale data"],
       ];
     "/etc/hosts":
-      source => "puppet:///modules/base/hosts";
+      content => template('base/hosts');
   }
 
   exec { "regen locale data":
