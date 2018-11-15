@@ -3,6 +3,7 @@ define syncthing::user {
 
   service { "syncthing@$name":
     enable => true,
-    ensure => running;
+    ensure => running,
+    require => Class['syncthing'];
   }
 }
