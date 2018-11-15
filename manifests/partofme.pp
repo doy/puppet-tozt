@@ -14,5 +14,4 @@ node 'partofme.localdomain' {
   class { 'partofme::backups':
     default_user => $default_user;
   }
-  include partofme::vpn
 }

@@ -22,5 +22,4 @@ node 'tozt.localdomain' {
   include tozt::services
   include tozt::site
   include tozt::ttrss
-  include tozt::vpn
 }
