@@ -6,7 +6,8 @@ class base::users {
   base::user { $default_user:
     pwhash => secret::value("passwd/$default_user"),
     extra_groups => ['wheel'],
-    homedir_mode => '0701',
-    before => Package::Makepkg<| build_user == $default_user |>;
+    homedir_mode => '0701';
   }
+
+  Base::User[$default_user] -> Package::Makepkg<| build_user == $default_user |>
 }
