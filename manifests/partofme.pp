@@ -1,17 +1,7 @@
 node 'partofme.localdomain' {
-  $default_user = 'doy'
+  $persistent_data = undef
 
-  Package::Makepkg {
-    build_user => $default_user,
-  }
+  include base
 
-  Base::User[$default_user] -> Package::Makepkg<| build_user == $default_user |>
-
-  class { 'base':
-    default_user => $default_user;
-  }
-
-  class { 'partofme::backups':
-    default_user => $default_user;
-  }
+  include partofme::backups
 }

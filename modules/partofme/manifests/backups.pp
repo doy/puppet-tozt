@@ -1,4 +1,4 @@
-class partofme::backups($default_user) {
+class partofme::backups {
   include duplicati
 
   syncthing::user { $default_user:

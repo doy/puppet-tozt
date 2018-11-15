@@ -6,7 +6,6 @@ define base::user(
   $extra_groups=[],
   $homedir_mode='0700',
   $shell='/usr/bin/zsh',
-  $persistent_data=undef,
 ) {
   $_home = $home ? {
     undef => $user ? {
