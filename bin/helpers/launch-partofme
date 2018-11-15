@@ -27,7 +27,7 @@ while ! run true; do
     sleep 5
 done
 
-run "pacman -S --noconfirm git puppet"
+run "pacman -S --noconfirm git puppet ruby-shadow"
 run "mkdir -p '$conf_location'"
 run "cd '$conf_location' && git clone '$conf_repo' ."
 run "cd '$conf_location' && git submodule update --init --recursive"
