@@ -23,7 +23,7 @@ class duplicati {
       ensure => directory;
     '/etc/systemd/system/duplicati.service.d/override.conf':
       source => 'puppet:///modules/duplicati/override.conf',
-      notify => Exec['systemctl daemon-reload'],
+      notify => Exec['/usr/bin/systemctl daemon-reload'],
       require => File['/etc/systemd/system/duplicati.service.d'];
   }
 
@@ -33,7 +33,7 @@ class duplicati {
     require => [
       Package::Makepkg['duplicati-latest'],
       File['/etc/systemd/system/duplicati.service.d/override.conf'],
-      Exec['systemctl daemon-reload'],
+      Exec['/usr/bin/systemctl daemon-reload'],
     ];
   }
 
