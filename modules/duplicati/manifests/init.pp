@@ -1,4 +1,6 @@
 class duplicati {
+  include systemd
+
   package {
     [
       "gtk-sharp-2",
