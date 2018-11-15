@@ -1,4 +1,4 @@
-class partofme::samba {
+class partofme::filesharing {
   include samba
 
   file { '/etc/samba/smb.conf':

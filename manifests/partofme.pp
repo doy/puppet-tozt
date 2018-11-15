@@ -4,5 +4,5 @@ node 'partofme.localdomain' {
   include base
 
   include partofme::backups
-  include partofme::samba
+  include partofme::filesharing
 }
