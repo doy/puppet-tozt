@@ -19,6 +19,7 @@ node 'tozt.localdomain' {
   include tozt::git
   include tozt::pass
   include tozt::paste
+  include tozt::services
   include tozt::site
   include tozt::ttrss
   include tozt::vpn
