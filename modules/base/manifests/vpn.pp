@@ -1,3 +1,3 @@
-class tozt::vpn {
+class base::vpn {
   include wireguard
 }
