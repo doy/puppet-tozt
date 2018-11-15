@@ -17,10 +17,13 @@ copy() {
     scp -r $ssh_opts "$1" root@"$host":"$2"
 }
 
-# ensure we have the latest linux version, and that we're actually running that
-# kernel, otherwise wireguard will fail to build and install the correct kernel
-# modules
+# detect the persistent disks properly on boot
+run "sed -i 's/^HOOKS=(base udev /&mdadm encrypt lvm2 /' /etc/mkinitcpio.conf"
+# ensure we have the latest linux version, otherwise wireguard will fail to
+# build and install the correct kernel modules
 run "pacman -Syu --noconfirm"
+# reboot to get our disks detected and to make sure we're actually running the
+# latest kernel, or else loading the wireguard modules will fail
 run "reboot"
 
 while ! run true; do
