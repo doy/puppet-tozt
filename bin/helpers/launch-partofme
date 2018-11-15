@@ -17,6 +17,16 @@ copy() {
     scp -r $ssh_opts "$1" root@"$host":"$2"
 }
 
+# ensure we have the latest linux version, and that we're actually running that
+# kernel, otherwise wireguard will fail to build and install the correct kernel
+# modules
+run "pacman -Syu --noconfirm"
+run "reboot"
+
+while ! run true; do
+    sleep 5
+done
+
 run "pacman -S --noconfirm git puppet"
 run "mkdir -p '$conf_location'"
 run "cd '$conf_location' && git clone '$conf_repo' ."
