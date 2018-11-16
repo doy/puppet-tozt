@@ -9,11 +9,13 @@ define conf::user($user=$name, $home=undef) {
 
   include conf
 
-  package::cargo { "fancy-prompt for $user":
-    package => 'fancy-prompt',
-    user => $user,
-    ensure => installed,
-    require => Package["cmake"],
+  if $user != 'root' {
+    package::cargo { "fancy-prompt for $user":
+      package => 'fancy-prompt',
+      user => $user,
+      ensure => installed,
+      require => Package["cmake"],
+    }
   }
 
   exec { "git clone doy/conf for $user":
