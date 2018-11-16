@@ -97,10 +97,11 @@ define base::user(
           ];
       }
 
-      File["${_home}/.cargo"] -> Rust::User[$user]
       File["${_home}/.rustup"] -> Rust::User[$user]
       File["$persistent_data/rustup/${user}"] -> Rust::User[$user]
-      File["$persistent_data/cargo/${user}"] -> Rust::User[$user]
+
+      File["${_home}/.cargo"] -> Package::Cargo<| |>
+      File["$persistent_data/cargo/${user}"] -> Package::Cargo<| |>
     }
 
     rust::user { $user:

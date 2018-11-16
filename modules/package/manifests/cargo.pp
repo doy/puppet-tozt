@@ -18,7 +18,6 @@ define package::cargo($package, $user, $ensure, $home=undef) {
         require => [
           User[$user],
           Rust::User[$user],
-          File["${_home}/.cargo"],
         ];
       }
     }
@@ -31,7 +30,6 @@ define package::cargo($package, $user, $ensure, $home=undef) {
         require => [
           User[$user],
           Rust::User[$user],
-          File["${_home}/.cargo"],
         ];
       }
     }
