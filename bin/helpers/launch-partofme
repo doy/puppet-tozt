@@ -26,7 +26,9 @@ run "sed -i 's/^HOOKS=(base udev.*block /&mdadm encrypt lvm2 /' /etc/mkinitcpio.
 run "pacman -Syu --noconfirm"
 # reboot to get our disks detected and to make sure we're actually running the
 # latest kernel, or else loading the wireguard modules will fail
-run "reboot"
+# suppress errors here because typically sshd will drop your connection before
+# the reboot command gets a chance to return successfully
+run "reboot" || true
 
 while ! run true; do
     sleep 5
