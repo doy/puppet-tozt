@@ -8,6 +8,7 @@ class partofme::operatingsystem {
     '/etc/pacman.d/mirrorlist':
       source => 'puppet:///modules/partofme/mirrorlist';
   }
+  File['/etc/pacman.d/mirrorlist'] -> Package<| provider == "pacman" |>
 
   exec { '/usr/bin/mkinitcpio -p linux':
     refreshonly => true;
