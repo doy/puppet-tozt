@@ -3,6 +3,10 @@ class partofme::filesharing {
 
   file { '/etc/samba/smb.conf':
     source => 'puppet:///modules/partofme/smb.conf',
-    before => Class['samba'];
+    require => Package['samba'],
+    before => [
+      Service['smb'],
+      Service['nmb'],
+    ];
   }
 }
