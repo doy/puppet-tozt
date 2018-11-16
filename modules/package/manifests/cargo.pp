@@ -1,12 +1,4 @@
-define package::cargo($package, $user, $ensure, $home=undef) {
-  $_home = $home ? {
-    undef => $user ? {
-      'root' => '/root',
-      default => "/home/$user",
-    },
-    default => $home,
-  }
-
+define package::cargo($package, $user, $ensure) {
   case $ensure {
     'installed': {
       exec { "cargo install $package for $user":

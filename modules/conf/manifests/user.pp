@@ -1,11 +1,5 @@
-define conf::user($user=$name, $home=undef) {
-  $_home = $home ? {
-    undef => $user ? {
-      'root' => '/root',
-      default => "/home/$user",
-    },
-    default => $home,
-  }
+define conf::user($user=$name) {
+  $home = base::home($user)
 
   include conf
 
@@ -21,11 +15,11 @@ define conf::user($user=$name, $home=undef) {
   exec { "git clone doy/conf for $user":
     command => "/usr/bin/git clone git://github.com/doy/conf",
     user => $user,
-    cwd => $_home,
-    creates => "$_home/conf",
+    cwd => $home,
+    creates => "$home/conf",
     require => [
       User[$user],
-      File[$_home],
+      File[$home],
       Class['git'],
     ];
   }
@@ -33,12 +27,12 @@ define conf::user($user=$name, $home=undef) {
   exec { "conf make install for $user":
     command => "/usr/bin/make install",
     user => $user,
-    cwd => "$_home/conf",
+    cwd => "$home/conf",
     environment => [
-      "HOME=$_home",
-      "PWD=$_home/conf",
+      "HOME=$home",
+      "PWD=$home/conf",
     ],
-    creates => "$_home/.vimrc",
+    creates => "$home/.vimrc",
     require => [
       Class['cron'],
       Class['c_toolchain'],

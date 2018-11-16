@@ -2,18 +2,11 @@ define base::user(
   $pwhash,
   $user=$name,
   $group=$user,
-  $home=undef,
   $extra_groups=[],
   $homedir_mode='0700',
   $shell='/usr/bin/zsh',
 ) {
-  $_home = $home ? {
-    undef => $user ? {
-      'root' => '/root',
-      default => "/home/$user",
-    },
-    default => $home,
-  }
+  $home = base::home($user)
 
   group { $group:
     ensure => present;
@@ -23,14 +16,14 @@ define base::user(
     ensure => 'present',
     gid => $group,
     groups => $extra_groups,
-    home => $_home,
+    home => $home,
     shell => $shell,
     password => $pwhash,
     require => Group[$group];
   }
 
   file {
-    $_home:
+    $home:
       ensure => 'directory',
       owner => $user,
       group => $group,
@@ -39,7 +32,7 @@ define base::user(
         User[$user],
         Group[$group],
       ];
-    "${_home}/coding":
+    "${home}/coding":
       ensure => 'directory',
       owner => $user,
       group => $group,
@@ -47,7 +40,7 @@ define base::user(
       require => [
         User[$user],
         Group[$group],
-        File[$_home],
+        File[$home],
       ];
   }
 
@@ -75,7 +68,7 @@ define base::user(
             User[$user],
             Group[$group],
           ];
-        "${_home}/.cargo":
+        "${home}/.cargo":
           ensure => link,
           target => "$persistent_data/cargo/${user}",
           owner => $user,
@@ -83,9 +76,9 @@ define base::user(
           require => [
             User[$user],
             Group[$group],
-            File["${_home}"],
+            File["${home}"],
           ];
-        "${_home}/.rustup":
+        "${home}/.rustup":
           ensure => link,
           target => "$persistent_data/rustup/${user}",
           owner => $user,
@@ -93,14 +86,14 @@ define base::user(
           require => [
             User[$user],
             Group[$group],
-            File["${_home}"],
+            File["${home}"],
           ];
       }
 
-      File["${_home}/.rustup"] -> Rust::User[$user]
+      File["${home}/.rustup"] -> Rust::User[$user]
       File["$persistent_data/rustup/${user}"] -> Rust::User[$user]
 
-      File["${_home}/.cargo"] -> Package::Cargo<| |>
+      File["${home}/.cargo"] -> Package::Cargo<| |>
       File["$persistent_data/cargo/${user}"] -> Package::Cargo<| |>
     }
 
