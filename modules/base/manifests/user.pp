@@ -51,55 +51,55 @@ define base::user(
       ];
   }
 
-  if $persistent_data != undef {
-    file {
-      "$persistent_data/cargo/${user}":
-        ensure => 'directory',
-        owner => $user,
-        group => $group,
-        mode => $homedir_mode,
-        require => [
-          User[$user],
-          Group[$group],
-        ];
-      "$persistent_data/rustup/${user}":
-        ensure => 'directory',
-        owner => $user,
-        group => $group,
-        mode => $homedir_mode,
-        require => [
-          User[$user],
-          Group[$group],
-        ];
-      "${_home}/.cargo":
-        ensure => link,
-        target => "$persistent_data/cargo/${user}",
-        owner => $user,
-        group => $group,
-        require => [
-          User[$user],
-          Group[$group],
-          File["${_home}"],
-        ];
-      "${_home}/.rustup":
-        ensure => link,
-        target => "$persistent_data/rustup/${user}",
-        owner => $user,
-        group => $group,
-        require => [
-          User[$user],
-          Group[$group],
-          File["${_home}"],
-        ];
-    }
-  }
-
-  rust::user { $user:
-  }
   conf::user { $user:
   }
 
   if $user != 'root' {
+    if $persistent_data != undef {
+      file {
+        "$persistent_data/cargo/${user}":
+          ensure => 'directory',
+          owner => $user,
+          group => $group,
+          mode => $homedir_mode,
+          require => [
+            User[$user],
+            Group[$group],
+          ];
+        "$persistent_data/rustup/${user}":
+          ensure => 'directory',
+          owner => $user,
+          group => $group,
+          mode => $homedir_mode,
+          require => [
+            User[$user],
+            Group[$group],
+          ];
+        "${_home}/.cargo":
+          ensure => link,
+          target => "$persistent_data/cargo/${user}",
+          owner => $user,
+          group => $group,
+          require => [
+            User[$user],
+            Group[$group],
+            File["${_home}"],
+          ];
+        "${_home}/.rustup":
+          ensure => link,
+          target => "$persistent_data/rustup/${user}",
+          owner => $user,
+          group => $group,
+          require => [
+            User[$user],
+            Group[$group],
+            File["${_home}"],
+          ];
+      }
+    }
+
+    rust::user { $user:
+    }
     sudo::user { $user:
     }
   }
