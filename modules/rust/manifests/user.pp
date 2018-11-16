@@ -1,12 +1,4 @@
-define rust::user($user=$name, $home=undef) {
-  $_home = $home ? {
-    undef => $user ? {
-      'root' => '/root',
-      default => "/home/$user",
-    },
-    default => $home,
-  }
-
+define rust::user($user=$name) {
   include rust
 
   exec { "install and configure stable toolchain for $user":
@@ -17,7 +9,6 @@ define rust::user($user=$name, $home=undef) {
     require => [
       Package["rustup"],
       User[$user],
-      File["${_home}/.rustup"],
     ],
   }
 }
