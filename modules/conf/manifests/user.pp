@@ -47,7 +47,6 @@ define conf::user($user=$name, $home=undef) {
       Package["vim"],
       Package["fortune-mod"],
       Package["less"],
-      Package::Cargo["fancy-prompt for $user"],
     ];
   }
 }
