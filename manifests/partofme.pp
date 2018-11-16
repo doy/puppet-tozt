@@ -5,5 +5,7 @@ node 'partofme.localdomain' {
 
   include partofme::backups
   include partofme::filesharing
+  include partofme::mdadm
   include partofme::monitoring
+  include partofme::operatingsystem
 }

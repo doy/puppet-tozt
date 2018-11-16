@@ -17,10 +17,9 @@ copy() {
     scp -r $ssh_opts "$1" root@"$host":"$2"
 }
 
-# configure the mdadm arrays
-run "echo 'ARRAY /dev/md2 metadata=0.90 UUID=6bf2e365:10a7910f:52419904:51489ef3' >> /etc/mdadm.conf"
-# detect the persistent disks properly on boot
-run "sed -i 's/^HOOKS=(base udev.*block /&mdadm encrypt lvm2 /' /etc/mkinitcpio.conf"
+# configure the persistent disks properly at boot
+copy "$(dirname "$0")"/../../modules/partofme/files/mdadm.conf /etc/mdadm.conf
+copy "$(dirname "$0")"/../../modules/partofme/files/mkinitcpio.conf /etc/mkinitcpio.conf
 # ensure we have the latest linux version, otherwise wireguard will fail to
 # build and install the correct kernel modules
 run "pacman -Syu --noconfirm"
