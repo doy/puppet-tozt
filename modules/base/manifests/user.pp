@@ -51,29 +51,7 @@ define base::user(
       ];
   }
 
-  if $persistent_data == undef {
-    file {
-      "${_home}/.cargo":
-        ensure => 'directory',
-        owner => $user,
-        group => $group,
-        mode => $homedir_mode,
-        require => [
-          User[$user],
-          Group[$group],
-        ];
-      "${_home}/.rustup":
-        ensure => 'directory',
-        owner => $user,
-        group => $group,
-        mode => $homedir_mode,
-        require => [
-          User[$user],
-          Group[$group],
-        ];
-    }
-  }
-  else {
+  if $persistent_data != undef {
     file {
       "$persistent_data/cargo/${user}":
         ensure => 'directory',
