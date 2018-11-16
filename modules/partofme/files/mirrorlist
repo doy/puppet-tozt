@@ -1,0 +1,3 @@
+Server = https://arch.mirror.constant.com/$repo/os/$arch
+Server = https://mirror.epiphyte.network/archlinux/$repo/os/$arch
+Server = https://mirrors.sorengard.com/archlinux/$repo/os/$arch
