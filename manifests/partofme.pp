@@ -8,4 +8,5 @@ node 'partofme.localdomain' {
   include partofme::mdadm
   include partofme::monitoring
   include partofme::operatingsystem
+  include partofme::persistent
 }
