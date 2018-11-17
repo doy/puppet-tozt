@@ -6,6 +6,7 @@ define rust::user($user=$name) {
     command => "rustup default stable",
     user => $user,
     unless => "rustup show active-toolchain | grep -q stable",
+    timeout => 3600,
     require => [
       Package["rustup"],
       User[$user],
