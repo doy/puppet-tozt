@@ -24,11 +24,13 @@ sudo cp "$config_path/hush-not-captive.conf" /etc/wireguard/algo.conf
 sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/tozt.conf" > "$config_path/tozt-not-captive.conf"
 scp "$config_path/tozt-not-captive.conf" root@tozt.net:/etc/wireguard/algo.conf
 cp "$config_path/tozt-not-captive.conf" /mnt/puppet/tozt/wireguard
+$secrets_bin sync tozt
 
 # partofme
 sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/partofme.conf" > "$config_path/partofme-not-captive.conf"
 scp "$config_path/partofme-not-captive.conf" root@partofme:/etc/wireguard/algo.conf
 cp "$config_path/partofme-not-captive.conf" /mnt/puppet/partofme/wireguard
+$secrets_bin sync partofme
 
 # mail
 sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/mail.conf" > "$config_path/mail-not-captive.conf"
