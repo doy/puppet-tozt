@@ -33,6 +33,7 @@ while ! run true; do
     sleep 5
 done
 
+# ruby-shadow to allow puppet to manage system passwords
 run "pacman -S --noconfirm git puppet ruby-shadow"
 run "mkdir -p '$conf_location'"
 run "cd '$conf_location' && git clone '$conf_repo' ."
