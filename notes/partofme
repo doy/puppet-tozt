@@ -1,0 +1,7 @@
+- run through standard arch linux install process
+  - partition with gpt and efi
+  - mount efi partition to /efi
+  - install base and base-devel groups
+- install dhcpcd and enable dhcpcd@ens3p0
+- install grub and efibootmgr and follow efi installation instructions
+- install and enable openssh, and allow root logins
