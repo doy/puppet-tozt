@@ -1,4 +1,9 @@
 class tozt::backups {
-  include duplicati
   include tarsnap
+
+  $encrypt_passphrase = secret::value('duplicati-encrypt')
+  $url = secret::value('duplicati-url')
+  duplicati::backup { 'tozt':
+    content => template('tozt/duplicati-tozt.json');
+  }
 }
