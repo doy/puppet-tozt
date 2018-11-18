@@ -1,0 +1,7 @@
+Match User duplicati
+        ChrootDirectory %h
+        ForceCommand internal-sftp
+        AllowTcpForwarding no
+        X11Forwarding no
+
+# vim:ft=sshdconfig
