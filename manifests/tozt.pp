@@ -1,4 +1,4 @@
-node 'tozt.localdomain' {
+node 'tozt', 'tozt.localdomain' {
   $persistent_data = '/media/persistent'
   include tozt::persistent
   Class['tozt::persistent'] -> Class['base']

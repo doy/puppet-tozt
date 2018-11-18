@@ -1,4 +1,4 @@
-node 'partofme.localdomain' {
+node 'partofme', 'partofme.localdomain' {
   # we don't want to store anything system-related on the persistent disk,
   # since we want it to be encrypted, and we can't really access it at boot
   # time to type in a password
