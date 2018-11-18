@@ -1,0 +1,8 @@
+PermitRootLogin yes
+AuthorizedKeysFile .ssh/authorized_keys
+ChallengeResponseAuthentication no
+UsePAM yes
+PrintMotd no
+Subsystem sftp /usr/lib/ssh/sftp-server
+
+# vim:ft=sshdconfig
