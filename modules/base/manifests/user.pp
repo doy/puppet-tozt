@@ -48,7 +48,7 @@ define base::user(
   }
 
   if $user != 'root' {
-    if $::persistent_data != undef {
+    if $persistent_data != undef { # lint:ignore:variable_scope
       file {
         "$persistent_data/cargo/${user}":
           ensure => 'directory',
