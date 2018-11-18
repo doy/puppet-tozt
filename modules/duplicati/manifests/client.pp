@@ -26,4 +26,13 @@ class duplicati::client {
     cwd => '/opt/duplicati-client',
     require => Exec['clone duplicati-client'];
   }
+
+  exec { 'duplicati-client login':
+    command => '/usr/local/bin/duplicati-client login',
+    creates => '/root/.config/duplicati-client/config.yml',
+    require => [
+      File['/usr/local/bin/duplicati-client'],
+      Exec['checkout duplicati-client'],
+    ]
+  }
 }
