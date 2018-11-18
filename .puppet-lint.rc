@@ -1,0 +1,4 @@
+--no-arrow_alignment-check
+--no-documentation-check
+--no-double_quoted_strings-check
+--no-variables_not_enclosed-check

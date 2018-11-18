@@ -3,11 +3,11 @@ class base::users {
     pwhash => secret::value('passwd/root');
   }
 
-  base::user { $default_user:
+  base::user { $::default_user:
     pwhash => secret::value("passwd/$default_user"),
     extra_groups => ['wheel'],
     homedir_mode => '0701';
   }
 
-  Base::User[$default_user] -> Package::Makepkg<| build_user == $default_user |>
+  Base::User[$::default_user] -> Package::Makepkg<| build_user == $::default_user |>
 }

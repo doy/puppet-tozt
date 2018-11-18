@@ -37,5 +37,8 @@ define package::makepkg($ensure, $build_user, $asdeps=false) {
         path => "/usr/bin";
       }
     }
+    default: {
+      fail("unimplemented ensure $ensure")
+    }
   }
 }

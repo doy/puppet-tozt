@@ -1,7 +1,7 @@
 class partofme::backups {
   include duplicati
 
-  syncthing::user { $default_user:
+  syncthing::user { $::default_user:
   }
 
   file { '/usr/local/bin/sftp-only':

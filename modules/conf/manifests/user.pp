@@ -5,9 +5,9 @@ define conf::user($user=$name) {
 
   if $user != 'root' {
     package::cargo { "fancy-prompt for $user":
-      package => 'fancy-prompt',
-      user => $user,
       ensure => installed,
+      user => $user,
+      package => 'fancy-prompt',
       require => Package["cmake"],
     }
   }

@@ -8,8 +8,8 @@ class smartmontools {
   }
 
   service { 'smartd':
-    enable => true,
     ensure => running,
+    enable => true,
     require => [
       Package['smartmontools'],
       File['/etc/smartd.conf'],

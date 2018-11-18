@@ -4,8 +4,8 @@ class samba {
   }
 
   service { ['smb', 'nmb']:
-    enable => true,
     ensure => running,
+    enable => true,
     require => Package['samba'];
   }
 }

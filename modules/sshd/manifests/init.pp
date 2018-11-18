@@ -4,8 +4,8 @@ class sshd {
   }
 
   service { 'sshd':
-    enable => true,
-    ensure => running;
+    ensure => running,
+    enable => true;
   }
 
   file {

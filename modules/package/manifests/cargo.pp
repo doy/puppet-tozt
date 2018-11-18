@@ -25,5 +25,8 @@ define package::cargo($package, $user, $ensure) {
         ];
       }
     }
+    default: {
+      fail("unimplemented ensure $ensure")
+    }
   }
 }

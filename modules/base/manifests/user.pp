@@ -48,7 +48,7 @@ define base::user(
   }
 
   if $user != 'root' {
-    if $persistent_data != undef {
+    if $::persistent_data != undef {
       file {
         "$persistent_data/cargo/${user}":
           ensure => 'directory',
@@ -76,7 +76,7 @@ define base::user(
           require => [
             User[$user],
             Group[$group],
-            File["${home}"],
+            File[$home],
           ];
         "${home}/.rustup":
           ensure => link,
@@ -86,7 +86,7 @@ define base::user(
           require => [
             User[$user],
             Group[$group],
-            File["${home}"],
+            File[$home],
           ];
       }
 
