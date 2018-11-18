@@ -20,7 +20,7 @@ class sshd {
 
   exec { 'assemble sshd_config':
     provider => 'shell',
-    command => 'cat $(ls /etc/ssh/sshd_config.d/) > /etc/ssh/sshd_config',
+    command => 'cd /etc/ssh/sshd_config.d && cat $(ls) > /etc/ssh/sshd_config',
     refreshonly => true;
   }
 
