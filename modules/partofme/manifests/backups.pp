@@ -1,7 +1,10 @@
 class partofme::backups {
-  include duplicati
-
   syncthing::user { $::default_user:
+  }
+
+  $encrypt_passphrase = secret::value('duplicati')
+  duplicati::backup { "partofme":
+    content => template('partofme/duplicati-partofme.json');
   }
 
   file { '/usr/local/bin/sftp-only':
