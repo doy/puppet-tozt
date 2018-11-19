@@ -63,7 +63,13 @@
         "Argument": null
       }
     ],
-    "Filters": [],
+    "Filters": [
+      {
+        "Order": 0,
+        "Include": false,
+        "Expression": "/media/persistent/duplicati/"
+      }
+    ],
     "Metadata": {},
     "IsTemporary": false
   },
