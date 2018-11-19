@@ -7,6 +7,12 @@ class partofme::backups {
     content => template('partofme/duplicati-partofme.json');
   }
 
+  $cloud_encrypt_passphrase = secret::value('duplicati-cloud')
+  $cloud_url = secret::value('duplicati-cloud-url')
+  duplicati::backup { "partofme-cloud":
+    content => template('partofme/duplicati-partofme-cloud.json');
+  }
+
   file { '/usr/local/bin/sftp-only':
     content => 'exec false',
     mode => '0755';
