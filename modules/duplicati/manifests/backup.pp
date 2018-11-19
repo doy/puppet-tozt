@@ -3,6 +3,7 @@ define duplicati::backup($content) {
 
   file { "/etc/duplicati/$name.json":
     content => $content,
+    mode => '0600',
     require => File['/etc/duplicati'];
   }
 
