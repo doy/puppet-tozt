@@ -8,6 +8,8 @@ class base::tools {
       "exa",
       "fzf",
       "htop",
+      "iftop",
+      "iotop",
       "lsof",
       "mutt",
       "ncdu",
