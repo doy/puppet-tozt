@@ -1,5 +1,5 @@
 class cron {
-  package { "cronie":
+  package { ["cronie", "opensmtpd"]:
     ensure => installed,
   }
 
@@ -7,5 +7,15 @@ class cron {
     ensure => running,
     enable => true,
     require => Package['cronie'];
+  }
+
+  service { 'opensmtpd':
+    ensure => running,
+    enable => true,
+    require => Package['opensmtpd'];
+  }
+
+  file { '/etc/smtpd/smtpd.conf':
+    source => 'puppet:///modules/cron/smtpd.conf';
   }
 }
