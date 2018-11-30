@@ -9,7 +9,7 @@ class cron {
     require => Package['cronie'];
   }
 
-  service { 'opensmtpd':
+  service { 'smtpd':
     ensure => running,
     enable => true,
     require => Package['opensmtpd'];
