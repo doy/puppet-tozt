@@ -1,5 +1,4 @@
 class base::tools {
-  include mail::sender
   include yaourt
 
   package {
