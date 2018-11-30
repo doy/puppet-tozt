@@ -11,6 +11,10 @@ class partofme::persistent {
       source => 'puppet:///modules/partofme/raid-scrub',
       mode => '0755',
       require => Class['cron'];
+    "/etc/cron.hourly/raid-scrub-check":
+      source => 'puppet:///modules/partofme/raid-scrub-check',
+      mode => '0755',
+      require => Class['cron'];
   }
 
   $fstab_line = "/dev/partofme/data /media/persistent ext4 rw,relatime,noauto 0 2"
