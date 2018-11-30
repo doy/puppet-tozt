@@ -1,0 +1,3 @@
+#!/bin/sh
+
+echo check >> /sys/block/md127/md/sync_action

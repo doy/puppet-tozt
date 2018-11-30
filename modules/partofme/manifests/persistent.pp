@@ -1,10 +1,16 @@
 class partofme::persistent {
+  include cron
+
   file {
     "/media":
       ensure => directory;
     "/media/persistent":
       ensure => directory,
-      require => File["/media"],
+      require => File["/media"];
+    "/etc/cron.weekly/raid-scrub":
+      source => 'puppet:///modules/partofme/raid-scrub',
+      mode => '0755',
+      require => Class['cron'];
   }
 
   $fstab_line = "/dev/partofme/data /media/persistent ext4 rw,relatime,noauto 0 2"
