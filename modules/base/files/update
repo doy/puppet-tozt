@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+set -o pipefail
+
+puppet-tozt
+
+(cd ~/conf && git pull && make install)
+sudo sh -c "cd ~/conf && git pull && make install"
+
+yaourt -Syua
