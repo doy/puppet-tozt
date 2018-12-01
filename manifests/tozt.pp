@@ -7,6 +7,7 @@ node 'tozt', 'tozt.localdomain' {
 
   include tozt::backups
   include tozt::git
+  include tozt::operatingsystem
   include tozt::pass
   include tozt::paste
   include tozt::services
