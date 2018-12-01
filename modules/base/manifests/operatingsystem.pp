@@ -11,6 +11,8 @@ class base::operatingsystem {
       ];
     "/etc/hosts":
       content => template('base/hosts');
+    '/etc/yaourtrc':
+      source => 'puppet:///modules/base/yaourtrc';
   }
 
   exec { "regen locale data":
