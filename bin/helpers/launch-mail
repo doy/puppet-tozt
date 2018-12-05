@@ -26,7 +26,7 @@ record_id=$(doctl \
     tozt.net \
     --format Name,Type,ID \
     --no-header \
-    | grep '^newsmtp2 \+A ' \
+    | grep '^newsmtp \+A ' \
     | awk '{print $3}'
 )
 doctl \
@@ -42,13 +42,12 @@ echo "Done creating DNS entry"
 
 echo "Provisioning droplet..."
 
-host="${1:-tozt.net}"
 conf_location="/usr/local/share/puppet-tozt"
 conf_repo="git://github.com/doy/puppet-tozt"
 
 remote() {
     # shellcheck disable=SC2029
-    ssh root@"$host" "$@"
+    ssh root@"$ip" "$@"
 }
 
 ensure_conf_exists() {
@@ -77,13 +76,13 @@ if remote test ! -e /usr/bin/pacman; then
 fi
 
 ensure_conf_exists
-scp -r /mnt/puppet/tozt/ root@"$host":/usr/local/share/puppet-tozt/modules/secret/files
+scp -r /mnt/puppet/tozt/ root@"$ip":/usr/local/share/puppet-tozt/modules/secret/files
 remote "cd '$conf_location' && puppet apply --modulepath=./modules manifests"
 
 echo "Done provisioning"
 
 echo "Creating DKIM entry"
-dkim=$(remote "perl -pe'chomp; s/.*\"(.*)\".*/\$1/' /mailu/dkim/new.tozt.net.dkim.pub")
+dkim=$(remote "perl -pe'chomp; s/.*\"(.*)\".*/\$1/' /media/persistent/dkim/new.tozt.net.dkim.pub")
 dkim_record_id=$(doctl \
     -t "$(cat /mnt/digitalocean)" \
     compute domain records list \
