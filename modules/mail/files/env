@@ -1,7 +1,7 @@
-ROOT=/mailu
+ROOT=/media/persistent
 VERSION=1.5
-DOMAIN=new2.tozt.net
-HOSTNAMES=newsmtp2.tozt.net,newmail3.tozt.net
+DOMAIN=new.tozt.net
+HOSTNAMES=newsmtp.tozt.net
 POSTMASTER=admin
 TLS_FLAVOR=letsencrypt
 AUTH_RATELIMIT=10/minute;1000/hour

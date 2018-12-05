@@ -1,66 +1,64 @@
 class mail::mailu {
   include mail::persistent
   include docker
+  include haveged
 
-  package { [
-    "haveged",
-    "opendkim-tools",
-  ]:
+  package { "opendkim":
     ensure => installed;
   }
 
   file {
-    "/mailu/docker-compose.yml":
+    "/media/persistent/docker-compose.yml":
       source => "puppet:///modules/mail/docker-compose.yml",
       require => Class["mail::persistent"];
-    "/mailu/.env.tmpl":
+    "/media/persistent/.env.tmpl":
       source => "puppet:///modules/mail/env",
       require => Class["mail::persistent"];
-    "/mailu/certs":
+    "/media/persistent/certs":
       ensure => directory,
       require => Class["mail::persistent"];
-    "/mailu/dkim":
+    "/media/persistent/dkim":
       ensure => directory,
       require => Class["mail::persistent"];
-    "/mailu/certs/dhparam.pem":
+    "/media/persistent/certs/dhparam.pem":
       source => "puppet:///modules/mail/dhparam.pem",
-      require => File["/mailu/certs"];
-    "/mailu/overrides":
+      require => File["/media/persistent/certs"];
+    "/media/persistent/overrides":
       ensure => directory,
       require => Class["mail::persistent"];
-    "/mailu/overrides/rspamd":
+    "/media/persistent/overrides/rspamd":
       ensure => directory,
-      require => File["/mailu/overrides"];
-    "/mailu/overrides/rspamd/dkim_signing.conf":
+      require => File["/media/persistent/overrides"];
+    "/media/persistent/overrides/rspamd/dkim_signing.conf":
       source => "puppet:///modules/mail/dkim_signing.conf",
-      require => File["/mailu/overrides/rspamd"];
+      require => File["/media/persistent/overrides/rspamd"];
   }
 
   exec { "generate dkim keys":
     provider => shell,
     command => "
       opendkim-genkey -s dkim -d new2.tozt.net
-      mv dkim.private /mailu/dkim/new2.tozt.net.dkim.key
-      mv dkim.txt /mailu/dkim/new2.tozt.net.dkim.pub
+      mv dkim.private /media/persistent/dkim/new2.tozt.net.dkim.key
+      mv dkim.txt /media/persistent/dkim/new2.tozt.net.dkim.pub
     ",
-    cwd => "/mailu",
-    creates => "/mailu/dkim/new2.tozt.net.dkim.key",
+    cwd => "/media/persistent",
+    creates => "/media/persistent/dkim/new2.tozt.net.dkim.key",
     require => [
-      Package["haveged"],
-      Package["opendkim-tools"],
+      Class["haveged"],
+      Package["opendkim"],
       Class["mail::persistent"],
-      File["/mailu/dkim"],
+      File["/media/persistent/dkim"],
     ];
   }
 
   exec { "generate mailu secret key":
     provider => shell,
     command => "
-      echo SECRET_KEY=$(dd if=/dev/urandom bs=64 count=1 status=none | base64 -w 0 | cut -b -16) > /mailu/secret-key
+      echo SECRET_KEY=$(dd if=/dev/urandom bs=64 count=1 status=none | base64 -w 0 | cut -b -16) > /media/persistent/secret-key
     ",
-    creates => "/mailu/secret-key",
+    creates => "/media/persistent/secret-key",
     require => [
-      Package["haveged"],
+      Class["haveged"],
       Class["mail::persistent"],
     ]
   }
@@ -73,12 +71,16 @@ class mail::mailu {
 
   exec { "create env file":
     provider => shell,
-    command => "cat /mailu/.env.tmpl /mailu/secret-key /run/mailu_bind_address > /mailu/.env",
-    unless => "test -f /mailu/.env && test -f /run/mailu_bind_address && grep -F `cat /run/mailu_bind_address` /mailu/.env",
+    command => "cat /media/persistent/.env.tmpl /media/persistent/secret-key /run/mailu_bind_address > /media/persistent/.env",
+    unless => "
+      test -f /media/persistent/.env &&\
+      test -f /run/mailu_bind_address &&\
+      grep -F `cat /run/mailu_bind_address` /media/persistent/.env
+    ",
     subscribe => [
       Exec["generate mailu secret key"],
       Exec["find local ip address"],
-      File["/mailu/.env.tmpl"],
+      File["/media/persistent/.env.tmpl"],
     ];
   }
 
@@ -90,7 +92,7 @@ class mail::mailu {
     ensure => running,
     enable => true,
     require => [
-      File["/mailu/docker-compose.yml"],
+      File["/media/persistent/docker-compose.yml"],
       Exec["create env file"],
       File["/etc/systemd/system/mailu.service"],
     ]

@@ -11,7 +11,7 @@ data=$(doctl \
     --region nyc3 \
     --size s-1vcpu-1gb \
     --ssh-keys 23160354 \
-    --volumes ef47eab9-d497-11e8-a1fd-0a58ac146edf \
+    --volumes 5e4d8c7b-f840-11e8-b59e-0a58ac1467fb \
     --format ID,PublicIPv4 \
     --no-header \
     --wait)
@@ -35,23 +35,20 @@ doctl \
     tozt.net \
     --record-id "$record_id" \
     --record-type A \
-    --record-name newsmtp2 \
+    --record-name newsmtp \
     --record-data "$ip" \
-    --record-ttl 60
+    --record-ttl 600
 echo "Done creating DNS entry"
 
 echo "Provisioning droplet..."
 
+host="${1:-tozt.net}"
 conf_location="/usr/local/share/puppet-tozt"
 conf_repo="git://github.com/doy/puppet-tozt"
 
 remote() {
     # shellcheck disable=SC2029
-    ssh root@"$ip" "$@"
-}
-
-apt() {
-    remote env DEBIAN_FRONTEND=noninteractive apt-get -yq "$@"
+    ssh root@"$host" "$@"
 }
 
 ensure_conf_exists() {
@@ -68,24 +65,32 @@ while ! remote true; do
     sleep 5
 done
 
-apt update
-apt upgrade
-apt install git puppet
+if remote test ! -e /usr/bin/pacman; then
+    remote apt-get -y update
+    remote apt-get -y install git
+    ensure_conf_exists
+    remote "cd '$conf_location/digitalocean-debian-to-arch' && bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped --extra_packages 'puppet git ruby-shadow'"
+    sleep 30
+    while ! remote true; do
+        sleep 30
+    done
+fi
 
 ensure_conf_exists
-remote "cd '$conf_location' && puppet apply --modulepath=./mail -e 'include mail'"
+scp -r /mnt/puppet/tozt/ root@"$host":/usr/local/share/puppet-tozt/modules/secret/files
+remote "cd '$conf_location' && puppet apply --modulepath=./modules manifests"
 
 echo "Done provisioning"
 
 echo "Creating DKIM entry"
-dkim=$(remote "perl -pe'chomp; s/.*\"(.*)\".*/\$1/' /mailu/dkim/new2.tozt.net.dkim.pub")
+dkim=$(remote "perl -pe'chomp; s/.*\"(.*)\".*/\$1/' /mailu/dkim/new.tozt.net.dkim.pub")
 dkim_record_id=$(doctl \
     -t "$(cat /mnt/digitalocean)" \
     compute domain records list \
     tozt.net \
     --format Name,Type,ID \
     --no-header \
-    | grep '^dkim._domainkey.new2 \+TXT ' \
+    | grep '^dkim._domainkey.new \+TXT ' \
     | awk '{print $3}'
 )
 doctl \
@@ -94,9 +99,9 @@ doctl \
     tozt.net \
     --record-id "$dkim_record_id" \
     --record-type TXT \
-    --record-name dkim._domainkey.new2 \
+    --record-name dkim._domainkey.new \
     --record-data "$dkim" \
-    --record-ttl 60
+    --record-ttl 600
 echo "Done creating DKIM entry"
 
 echo "Done"
