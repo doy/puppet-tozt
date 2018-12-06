@@ -50,6 +50,10 @@ define base::user(
   if $user != 'root' {
     if $persistent_data != undef { # lint:ignore:variable_scope
       file {
+        "$persistent_data/cargo":
+          ensure => 'directory';
+        "$persistent_data/rustup":
+          ensure => 'directory';
         "$persistent_data/cargo/${user}":
           ensure => 'directory',
           owner => $user,
@@ -58,6 +62,7 @@ define base::user(
           require => [
             User[$user],
             Group[$group],
+            File["$persistent_data/cargo"],
           ];
         "$persistent_data/rustup/${user}":
           ensure => 'directory',
@@ -67,6 +72,7 @@ define base::user(
           require => [
             User[$user],
             Group[$group],
+            File["$persistent_data/rustup"],
           ];
         "${home}/.cargo":
           ensure => link,

@@ -31,8 +31,6 @@ class tozt::persistent {
       "/media/persistent/paste",
       "/media/persistent/git",
       "/media/persistent/certbot",
-      "/media/persistent/cargo",
-      "/media/persistent/rustup",
     ]:
       ensure => directory,
       require => Exec["mount /media/persistent"];
