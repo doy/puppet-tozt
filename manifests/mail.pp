@@ -5,6 +5,7 @@ node 'mail', 'mail.localdomain' {
 
   include base
 
+  # XXX
   # include mail::backups
   include mail::mailu
   include mail::operatingsystem

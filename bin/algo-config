@@ -34,6 +34,7 @@ $secrets_bin sync partofme
 
 # mail
 sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/mail.conf" > "$config_path/mail-not-captive.conf"
+# XXX
 # scp "$config_path/mail-not-captive.conf" root@newsmtp.tozt.net:/etc/wireguard/algo.conf
 cp "$config_path/mail-not-captive.conf" /mnt/puppet/mail/wireguard
 $secrets_bin sync mail
