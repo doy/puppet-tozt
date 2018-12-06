@@ -42,4 +42,4 @@ ansible-playbook main.yml -e "
 # XXX there should be a way to tell it to exit, but i don't know how to
 # calculate the correct controlpath
 sleep 60
-echo "done."
+echo "Done"
