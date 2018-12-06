@@ -37,12 +37,12 @@ class mail::mailu {
   exec { "generate dkim keys":
     provider => shell,
     command => "
-      opendkim-genkey -s dkim -d new2.tozt.net
-      mv dkim.private /media/persistent/dkim/new2.tozt.net.dkim.key
-      mv dkim.txt /media/persistent/dkim/new2.tozt.net.dkim.pub
+      opendkim-genkey -s dkim -d new.tozt.net
+      mv dkim.private /media/persistent/dkim/new.tozt.net.dkim.key
+      mv dkim.txt /media/persistent/dkim/new.tozt.net.dkim.pub
     ",
     cwd => "/media/persistent",
-    creates => "/media/persistent/dkim/new2.tozt.net.dkim.key",
+    creates => "/media/persistent/dkim/new.tozt.net.dkim.key",
     require => [
       Class["haveged"],
       Package["opendkim"],
