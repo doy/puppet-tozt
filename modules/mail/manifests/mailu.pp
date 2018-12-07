@@ -85,7 +85,8 @@ class mail::mailu {
   }
 
   file { "/etc/systemd/system/mailu.service":
-    source => "puppet:///modules/mail/service";
+    source => "puppet:///modules/mail/service",
+    notify => Exec["/usr/bin/systemctl daemon-reload"];
   }
 
   service { "mailu":
