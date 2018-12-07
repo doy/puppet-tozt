@@ -3,6 +3,6 @@ Description = runs mailu
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/docker-compose up
+ExecStart=/usr/bin/docker-compose up
 Restart=on-failure
 WorkingDirectory=/media/persistent
