@@ -5,9 +5,11 @@ node 'tozt', 'tozt.localdomain' {
 
   include base
 
+  include tozt::operatingsystem
+  Class['tozt::operatingsystem'] -> Package<| provider == "pacman" |>
+
   include tozt::backups
   include tozt::git
-  include tozt::operatingsystem
   include tozt::pass
   include tozt::paste
   include tozt::services
