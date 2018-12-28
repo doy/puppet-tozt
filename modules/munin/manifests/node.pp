@@ -1,8 +1,5 @@
 class munin::node {
-  include munin::conf
-
   package { 'munin-node':
-    before => Class['munin::conf'];
   }
 
   service { 'munin-node':
@@ -14,8 +11,8 @@ class munin::node {
     ];
   }
 
-  file { '/etc/munin/munin-conf.d/node':
-    content => template('munin/node.conf'),
+  file { '/etc/munin/munin-node.conf':
+    source => 'puppet:///modules/munin/munin-node.conf',
     require => Package['munin-node'];
   }
 }

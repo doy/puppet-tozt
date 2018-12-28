@@ -1,8 +1,5 @@
 class munin {
-  include munin::conf
-
   package { 'munin':
-    before => Class['munin::conf'];
   }
 
   file {
@@ -11,8 +8,8 @@ class munin {
       owner => 'munin',
       group => 'munin',
       require => Package['munin'];
-    '/etc/munin/munin-conf.d/master':
-      source => 'puppet:///modules/munin/master.conf',
+    '/etc/munin/munin.conf':
+      source => 'puppet:///modules/munin/munin.conf',
       require => Package['munin'];
   }
 
