@@ -1,0 +1,57 @@
+class tozt::munin {
+  include munin
+  include munin::node
+
+  munin::plugin {
+    [
+      'cpu',
+      'df',
+      'df_inode',
+      'entropy',
+      'forks',
+      'fw_packets',
+      'interrupts',
+      'irqstats',
+      'load',
+      'memory',
+      'munin_stats',
+      'ntp_kernel_err',
+      'ntp_kernel_pll_freq',
+      'ntp_kernel_pll_off',
+      'ntp_offset',
+      'open_files',
+      'open_inodes',
+      'proc_pri',
+      'processes',
+      'swap',
+      'threads',
+      'uptime',
+      'users',
+      'vmstat',
+    ]:
+  }
+
+  munin::plugin {
+    [
+      'if_algo',
+      'if_eth0',
+    ]:
+    source => 'if_',
+  }
+
+  munin::plugin {
+    [
+      'if_err_algo',
+      'if_err_eth0',
+    ]:
+    source => 'if_err_',
+  }
+
+  nginx::site {
+    "munin-tls":
+      source => 'puppet:///modules/tozt/nginx/munin-tls.conf',
+      require => Class['certbot'];
+    "munin":
+      source => 'puppet:///modules/tozt/nginx/munin.conf';
+  }
+}
