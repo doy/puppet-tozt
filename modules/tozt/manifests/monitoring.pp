@@ -1,5 +1,4 @@
-class partofme::monitoring {
-  include smartmontools
+class tozt::monitoring {
   include munin::node
 
   munin::plugin {
@@ -14,6 +13,7 @@ class partofme::monitoring {
       'irqstats',
       'load',
       'memory',
+      'munin_stats',
       'ntp_kernel_err',
       'ntp_kernel_pll_freq',
       'ntp_kernel_pll_off',
@@ -33,7 +33,7 @@ class partofme::monitoring {
   munin::plugin {
     [
       'if_algo',
-      'if_enp3s0',
+      'if_eth0',
     ]:
     source => 'if_',
   }
@@ -41,7 +41,7 @@ class partofme::monitoring {
   munin::plugin {
     [
       'if_err_algo',
-      'if_err_enp3s0',
+      'if_err_eth0',
     ]:
     source => 'if_err_',
   }
