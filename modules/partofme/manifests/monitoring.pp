@@ -35,7 +35,7 @@ class partofme::monitoring {
       'if_algo',
       'if_enp3s0',
     ]:
-    source => 'if_',
+      source => 'if_';
   }
 
   munin::plugin {
@@ -43,6 +43,21 @@ class partofme::monitoring {
       'if_err_algo',
       'if_err_enp3s0',
     ]:
-    source => 'if_err_',
+      source => 'if_err_';
+  }
+
+  munin::plugin {
+    [
+      'smart_sda',
+      'smart_sdb',
+      'smart_sdc',
+      'smart_sdd',
+    ]:
+      source => 'smart_';
+  }
+
+  file { '/etc/munin/plugin-conf.d/smart':
+    source => 'puppet:///modules/partofme/munin-plugin-smart',
+    require => Package['munin-node'];
   }
 }
