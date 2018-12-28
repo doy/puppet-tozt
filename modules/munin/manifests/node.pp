@@ -5,10 +5,8 @@ class munin::node {
   service { 'munin-node':
     ensure => running,
     enable => true,
-    require => [
-      Package['munin-node'],
-      File['/etc/munin/munin-conf.d/node'],
-    ];
+    require => Package['munin-node'],
+    subscribe => File['/etc/munin/munin-node.conf'];
   }
 
   file { '/etc/munin/munin-node.conf':
