@@ -15,4 +15,10 @@ class munin {
       source => 'puppet:///modules/munin/master.conf',
       require => Package['munin'];
   }
+
+  exec { 'install munin crontab':
+    command => '/usr/bin/crontab /etc/munin/munin-cron-entry -u munin',
+    creates => '/var/spool/cron/munin',
+    require => Package['munin'];
+  }
 }
