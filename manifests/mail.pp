@@ -11,5 +11,7 @@ node 'mail', 'mail.localdomain' {
   # XXX
   # include mail::backups
   include mail::mailu
+  # XXX
+  # include mail::monitoring
   include mail::services
 }
