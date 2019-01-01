@@ -16,32 +16,49 @@ if [ -z "${VIRTUAL_ENV:-}" ]; then
 fi
 
 # hush
+sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/hush.conf
+cp "$config_path"/hush.conf "$config_path"/hush-not-captive.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/hush.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, 172.16.0.1/32|' "$config_path"/hush-not-captive.conf
 sudo cp "$config_path"/hush.conf /etc/wireguard/algo-captive.conf
-sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/hush.conf" > "$config_path/hush-not-captive.conf"
-sudo cp "$config_path/hush-not-captive.conf" /etc/wireguard/algo.conf
+sudo cp "$config_path"/hush-not-captive.conf /etc/wireguard/algo.conf
 
 # tozt
-sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/tozt.conf" > "$config_path/tozt-not-captive.conf"
-scp "$config_path/tozt-not-captive.conf" root@tozt.net:/etc/wireguard/algo.conf
-cp "$config_path/tozt-not-captive.conf" /mnt/puppet/tozt/wireguard
+sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/tozt.conf
+cp "$config_path"/tozt.conf "$config_path"/tozt-not-captive.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/tozt.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, 172.16.0.1/32|' "$config_path"/tozt-not-captive.conf
+scp "$config_path"/tozt-not-captive.conf root@tozt.net:/etc/wireguard/algo.conf
+cp "$config_path"/tozt-not-captive.conf /mnt/puppet/tozt/wireguard
 $secrets_bin sync tozt
 
 # partofme
-sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/partofme.conf" > "$config_path/partofme-not-captive.conf"
-scp "$config_path/partofme-not-captive.conf" root@partofme:/etc/wireguard/algo.conf
-cp "$config_path/partofme-not-captive.conf" /mnt/puppet/partofme/wireguard
+sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/partofme.conf
+cp "$config_path"/partofme.conf "$config_path"/partofme-not-captive.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/partofme.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, 172.16.0.1/32|' "$config_path"/partofme-not-captive.conf
+scp "$config_path"/partofme-not-captive.conf root@partofme:/etc/wireguard/algo.conf
+cp "$config_path"/partofme-not-captive.conf /mnt/puppet/partofme/wireguard
 $secrets_bin sync partofme
 
 # mail
 # XXX
-# sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/mail.conf" > "$config_path/mail-not-captive.conf"
-# scp "$config_path/mail-not-captive.conf" root@newsmtp.tozt.net:/etc/wireguard/algo.conf
-# cp "$config_path/mail-not-captive.conf" /mnt/puppet/mail/wireguard
+# sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/mail.conf
+# cp "$config_path"/mail.conf "$config_path"/mail-not-captive.conf
+# sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/mail.conf
+# sed -i 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, 172.16.0.1/32|' "$config_path"/mail-not-captive.conf
+# scp "$config_path"/mail-not-captive.conf root@newsmtp.tozt.net:/etc/wireguard/algo.conf
+# cp "$config_path"/mail-not-captive.conf /mnt/puppet/mail/wireguard
 # $secrets_bin sync mail
 
 # phone
+sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/phone.conf
+cp "$config_path"/phone.conf "$config_path"/phone-not-captive.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/phone.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, 172.16.0.1/32|' "$config_path"/phone-not-captive.conf
 echo "algo-captive"
+segno --scale=5 --output="$config_path"/phone.png "$(cat "$config_path"/phone.conf)"
 sxiv "$config_path/phone.png"
 echo "algo"
-segno --scale=5 --output="$config_path/phone-not-captive.png" "$(sed 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, fd9d:bc11:4021::/48, 172.16.0.1/32|' "$config_path/phone.conf")"
+segno --scale=5 --output="$config_path"/phone-not-captive.png "$(cat "$config_path"/phone-not-captive.conf)"
 sxiv "$config_path/phone-not-captive.png"
