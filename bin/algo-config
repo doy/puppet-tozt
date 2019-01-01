@@ -4,7 +4,7 @@ set -o pipefail
 
 script_path="$(realpath "$(dirname "$0")")"
 secrets_bin="${script_path}/secrets"
-config_path="$(echo /mnt/algo/algo/configs/*/wireguard)"
+config_path="$(echo /mnt/algo/configs/*/wireguard)"
 
 "$secrets_bin" open
 trap '"$secrets_bin" close' EXIT
@@ -12,7 +12,7 @@ trap '"$secrets_bin" close' EXIT
 if [ -z "${VIRTUAL_ENV:-}" ]; then
     # shellcheck disable=SC1090
     . "${script_path}/helpers/algo-virtualenv"
-    :
+    python -m pip install segno
 fi
 
 # hush

@@ -2,21 +2,9 @@
 set -eu
 set -o pipefail
 
-# using tmpdir as a virtualenv because the tozt-secrets filesystem is too small
-# to hold the whole python installation
-envdir="$(mktemp --tmpdir -d launch-algo.XXXXXXXXXX)"
-cleanup() {
-    if perl -e'exit 1 unless $ARGV[0] =~ m{^/tmp/launch-algo.*$}' "$envdir"; then
-        rm -rf "$envdir"
-    fi
-}
-trap cleanup EXIT
-
-python2 -m virtualenv --python="$(command -v python2)" "$envdir"
+python -m virtualenv --python="$(command -v python2)" env
 set +eu
-# shellcheck disable=SC1090
-. "$envdir"/bin/activate
+# shellcheck disable=SC1091
+source env/bin/activate
 set -eu
-
-python -m pip install -U pip
-python -m pip install -r /mnt/algo/algo/requirements.txt
+python -m pip install -U pip virtualenv

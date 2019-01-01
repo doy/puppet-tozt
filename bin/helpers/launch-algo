@@ -5,21 +5,37 @@ set -o pipefail
 script_path="$(realpath "$(dirname "$0")")"
 logfile="/mnt/algo/algo-log-$(date +%s).log"
 latest_logfile=/mnt/algo/algo-log-latest.log
+algodir="$(mktemp --tmpdir -d launch-algo.XXXXXXXXXX)"
+
+cleanup() {
+    if perl -e'exit 1 unless $ARGV[0] =~ m{^/tmp/launch-algo.*$}' "$algodir"; then
+        rm -rf "$algodir"
+    fi
+}
+trap cleanup EXIT
 
 touch "$logfile"
 ln -sf "$(basename "$logfile")" "$latest_logfile"
 echo "Logging to $latest_logfile"
 
-cd /mnt/algo/algo
-git reset --hard
-git clean -dfx
-git pull
-git apply "${script_path}/algo-config.diff"
+git clone git@github.com:trailofbits/algo "$algodir"
+cd "$algodir"
 
 echo "Installing dependencies..."
 # shellcheck disable=SC1090
 . "${script_path}/algo-virtualenv" >> "$logfile"
+python -m pip install -r requirements.txt
 echo "done."
+
+rm -f configs/.gitinit
+rmdir configs
+mkdir -p .venvs
+rm -rf /mnt/algo/configs
+mkdir -p /mnt/algo/configs
+ln -sf /mnt/algo/configs configs
+ln -sf "$algodir"/.venvs /mnt/algo/configs/.venvs
+
+git apply "${script_path}/algo-config.diff"
 
 echo "Running Ansible..."
 do_token=$(cat /mnt/digitalocean)
