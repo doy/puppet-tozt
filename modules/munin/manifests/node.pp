@@ -10,7 +10,7 @@ class munin::node {
   }
 
   file { '/etc/munin/munin-node.conf':
-    source => 'puppet:///modules/munin/munin-node.conf',
+    content => template('munin/munin-node.conf'),
     require => Package['munin-node'];
   }
 }
