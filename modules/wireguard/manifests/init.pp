@@ -1,5 +1,5 @@
 class wireguard {
-  package { ["linux-headers", "wireguard-tools"]:
+  package { ["wireguard-tools", "wireguard-arch"]:
     ensure => installed,
   }
 
