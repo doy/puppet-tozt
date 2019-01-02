@@ -1,8 +1,6 @@
 127.0.0.1 localhost
 127.0.1.1 <%= @hostname %>.localdomain <%= @hostname %>
 
-10.19.49.3 hush.algo
-10.19.49.4 partofme.algo
-10.19.49.5 phone.algo
-10.19.49.6 tozt.algo
-10.19.49.7 mail.algo
+<% @vpn_ips.each do |hostname, ip| %>
+<%= ip %> <%= hostname %>.algo
+<% end %>
