@@ -1,6 +1,7 @@
 class partofme::monitoring {
   include smartmontools
   include munin::node
+  include munin::duplicati
 
   munin::plugin {
     [
@@ -59,5 +60,14 @@ class partofme::monitoring {
   file { '/etc/munin/plugin-conf.d/smart':
     source => 'puppet:///modules/partofme/munin-plugin-smart',
     require => Package['munin-node'];
+  }
+
+  munin::plugin {
+    [
+      'duplicati_duration',
+      'duplicati_file_count',
+      'duplicati_file_size',
+      'duplicati_last_run',
+    ]:
   }
 }

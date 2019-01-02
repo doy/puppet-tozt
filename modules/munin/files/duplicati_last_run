@@ -1,0 +1,14 @@
+#!/bin/sh
+
+home="$(mktemp --tmpdir -d munin-duplicati.XXXXXXXXXX)"
+
+cleanup() {
+    if perl -e'exit 1 unless $ARGV[0] =~ m{^/tmp/munin-duplicati.*$}' "$home"; then
+        rm -rf "$home"
+    fi
+}
+trap cleanup EXIT
+
+export HOME="$home"
+export PATH="/usr/local/bin:$PATH"
+ruby "$(readlink "$0")".rb "$@"

@@ -1,5 +1,6 @@
 class tozt::monitoring {
   include munin::node
+  include munin::duplicati
 
   munin::plugin {
     [
@@ -44,5 +45,14 @@ class tozt::monitoring {
       'if_err_eth0',
     ]:
     source => 'if_err_',
+  }
+
+  munin::plugin {
+    [
+      'duplicati_duration',
+      'duplicati_file_count',
+      'duplicati_file_size',
+      'duplicati_last_run',
+    ]:
   }
 }
