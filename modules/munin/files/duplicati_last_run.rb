@@ -9,7 +9,7 @@ def run
   all_backups.each do |id, name|
     metadata = backup_metadata(id)
 
-    last_run_date = DateTime.iso8601(metadata['LastBackupDate'])
+    last_run_date = DateTime.iso8601(metadata['LastBackupFinished'])
     ago = now - last_run_date.to_time
 
     puts "#{field_name(name)}.value #{ago / 60.0 / 60.0 / 24.0}"
