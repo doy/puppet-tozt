@@ -3,6 +3,12 @@ class tozt::monitoring {
   include munin::duplicati
   include munin::tarsnap
 
+  file { "/etc/munin/plugin-conf.d/tozt":
+    source => "puppet:///modules/tozt/munin-plugin-conf",
+    require => Package["munin-node"],
+    notify => Service["munin-node"];
+  }
+
   munin::plugin {
     [
       'cpu',
