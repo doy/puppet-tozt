@@ -3,3 +3,6 @@ user root
 
 [tarsnap]
 user root
+
+[tarsnap_last_run]
+user root

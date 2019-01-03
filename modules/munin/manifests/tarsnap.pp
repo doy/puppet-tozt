@@ -5,5 +5,10 @@ class munin::tarsnap {
       mode => "0755",
       require => Package["munin-node"],
       before => Service["munin-node"];
+    "/usr/lib/munin/plugins/tarsnap_last_run":
+      source => "puppet:///modules/munin/tarsnap_last_run",
+      mode => "0755",
+      require => Package["munin-node"],
+      before => Service["munin-node"];
   }
 }

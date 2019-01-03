@@ -62,6 +62,7 @@ class tozt::monitoring {
   munin::plugin {
     [
       'tarsnap',
+      'tarsnap_last_run',
     ]:
   }
 }
