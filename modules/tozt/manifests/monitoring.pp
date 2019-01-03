@@ -1,6 +1,7 @@
 class tozt::monitoring {
   include munin::node
   include munin::duplicati
+  include munin::tarsnap
 
   munin::plugin {
     [
@@ -59,6 +60,12 @@ class tozt::monitoring {
       'duplicati_file_count',
       'duplicati_file_size',
       'duplicati_last_run',
+    ]:
+  }
+
+  munin::plugin {
+    [
+      'tarsnap',
     ]:
   }
 }
