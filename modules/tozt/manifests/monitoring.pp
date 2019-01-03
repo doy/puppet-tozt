@@ -14,7 +14,6 @@ class tozt::monitoring {
       'irqstats',
       'load',
       'memory',
-      'munin_stats',
       'ntp_kernel_err',
       'ntp_kernel_pll_freq',
       'ntp_kernel_pll_off',
@@ -28,6 +27,13 @@ class tozt::monitoring {
       'uptime',
       'users',
       'vmstat',
+    ]:
+  }
+
+  munin::plugin {
+    [
+      'fail2ban',
+      'munin_stats',
     ]:
   }
 
