@@ -10,7 +10,7 @@ class base::tools {
       "iftop",
       "iotop",
       "lsof",
-      "mutt",
+      "neomutt",
       "ncdu",
       "strace",
       "the_silver_searcher",
