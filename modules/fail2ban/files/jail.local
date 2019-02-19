@@ -1,10 +1,2 @@
 [DEFAULT]
 bantime = 1d
-
-[sshd]
-enabled = true
-ignoreip = 10.19.49.0/24
-
-[nginx-botsearch]
-enabled = true
-logpath = /var/log/nginx/*.log

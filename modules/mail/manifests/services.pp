@@ -1,3 +1,4 @@
 class mail::services {
-  include fail2ban
+  fail2ban::jail { "sshd":
+  }
 }

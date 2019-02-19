@@ -1,3 +1,4 @@
 class tozt::services {
-  include fail2ban
+  fail2ban::jail { ["sshd", "nginx-botsearch"]:
+  }
 }
