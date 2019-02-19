@@ -42,14 +42,13 @@ cp "$config_path"/partofme-not-captive.conf /mnt/puppet/partofme/wireguard
 $secrets_bin sync partofme
 
 # mail
-# XXX
-# sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/mail.conf
-# cp "$config_path"/mail.conf "$config_path"/mail-not-captive.conf
-# sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/mail.conf
-# sed -i 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, 172.16.0.1/32|' "$config_path"/mail-not-captive.conf
-# scp "$config_path"/mail-not-captive.conf root@newsmtp.tozt.net:/etc/wireguard/algo.conf
-# cp "$config_path"/mail-not-captive.conf /mnt/puppet/mail/wireguard
-# $secrets_bin sync mail
+sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/mail.conf
+cp "$config_path"/mail.conf "$config_path"/mail-not-captive.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/mail.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, 172.16.0.1/32|' "$config_path"/mail-not-captive.conf
+scp "$config_path"/mail-not-captive.conf root@newsmtp.tozt.net:/etc/wireguard/algo.conf
+cp "$config_path"/mail-not-captive.conf /mnt/puppet/mail/wireguard
+$secrets_bin sync mail
 
 # phone
 sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/phone.conf
