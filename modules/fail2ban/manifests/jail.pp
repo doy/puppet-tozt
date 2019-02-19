@@ -8,6 +8,7 @@ define fail2ban::jail($source=undef) {
 
   file { "/etc/fail2ban/jail.d/${name}.conf":
     source => $_source,
-    require => Package["fail2ban"];
+    require => Package["fail2ban"],
+    notify => Service["fail2ban"];
   }
 }
