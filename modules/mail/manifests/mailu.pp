@@ -30,7 +30,7 @@ class mail::mailu {
     creates => "/media/persistent/mailu.env",
     subscribe => [
       Exec["generate mailu secret key"],
-      File["/media/persistent/.env.tmpl"],
+      File["/media/persistent/.env.common"],
     ];
   }
 
