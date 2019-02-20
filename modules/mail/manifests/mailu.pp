@@ -8,7 +8,7 @@ class mail::mailu {
       content => template("mail/docker-compose.yml.erb"),
       require => Class["mail::persistent"];
     "/media/persistent/.env.common":
-      content => "puppet:///modules/mail/mailu.env",
+      source => "puppet:///modules/mail/mailu.env",
       require => Class["mail::persistent"];
   }
 
