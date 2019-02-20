@@ -3,7 +3,14 @@ class mail::mailu {
   include docker
   include haveged
 
+  package { "opendkim":
+    ensure => installed;
+  }
+
   file {
+    "/media/persistent/dkim":
+      ensure => directory,
+      require => Class["mail::persistent"];
     "/media/persistent/docker-compose.yml":
       content => template("mail/docker-compose.yml.erb"),
       require => Class["mail::persistent"];
@@ -31,6 +38,23 @@ class mail::mailu {
     subscribe => [
       Exec["generate mailu secret key"],
       File["/media/persistent/.env.common"],
+    ];
+  }
+
+  exec { "generate dkim keys":
+    provider => shell,
+    command => "
+      opendkim-genkey -s dkim -d new.tozt.net
+      mv dkim.private /media/persistent/dkim/new.tozt.net.dkim.key
+      mv dkim.txt /media/persistent/dkim/new.tozt.net.dkim.pub
+    ",
+    cwd => "/media/persistent",
+    creates => "/media/persistent/dkim/new.tozt.net.dkim.key",
+    require => [
+      Class["haveged"],
+      Package["opendkim"],
+      Class["mail::persistent"],
+      File["/media/persistent/dkim"],
     ];
   }
 
