@@ -42,10 +42,10 @@ class mail::mailu {
   service { "mailu":
     ensure => running,
     enable => true,
-    require => [
+    subscribe => [
       File["/media/persistent/docker-compose.yml"],
       Exec["create env file"],
       File["/etc/systemd/system/mailu.service"],
-    ]
+    ];
   }
 }
