@@ -1,5 +1,7 @@
 class tozt::backups {
-  include tarsnap
+  class { "tarsnap":
+    source => "puppet:///modules/tozt/acts.conf";
+  }
 
   $encrypt_passphrase = secret::value('duplicati-encrypt')
   $url = secret::value('duplicati-url')
