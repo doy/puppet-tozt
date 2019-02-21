@@ -8,8 +8,7 @@ node 'mail', 'mail.localdomain' {
   include mail::operatingsystem
   Class['mail::operatingsystem'] -> Package<| provider == "pacman" |>
 
-  # XXX
-  # include mail::backups
+  include mail::backups
   include mail::mailu
   # XXX
   # include mail::monitoring
