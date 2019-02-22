@@ -5,9 +5,10 @@ conf_repo="git://github.com/doy/puppet-tozt"
 
 create_droplet() {
     _name="$1"
+    _size="$2"
 
-    if [ -n "${2:-}" ]; then
-        _volume_opt="--volumes $2"
+    if [ -n "${3:-}" ]; then
+        _volume_opt="--volumes $3"
     else
         _volume_opt=""
     fi
@@ -21,7 +22,7 @@ create_droplet() {
         "$_name" \
         --image debian-9-x64 \
         --region nyc3 \
-        --size s-1vcpu-1gb \
+        --size ${_size} \
         --ssh-keys 23160354 \
         $_volume_opt \
         --format ID,PublicIPv4 \

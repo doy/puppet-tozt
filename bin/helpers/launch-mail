@@ -5,7 +5,7 @@ set -o pipefail
 # shellcheck source=functions.sh
 . "$(dirname "$0")/functions.sh"
 
-create_droplet mail 5e4d8c7b-f840-11e8-b59e-0a58ac1467fb
+create_droplet mail s-1vcpu-2gb 5e4d8c7b-f840-11e8-b59e-0a58ac1467fb
 
 echo "Creating DNS entry for $ip..."
 record_id=$(doctl \

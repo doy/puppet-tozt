@@ -5,7 +5,7 @@ set -o pipefail
 # shellcheck source=functions.sh
 . "$(dirname "$0")/functions.sh"
 
-create_droplet base
+create_droplet base s-1vcpu-1gb
 
 provision_droplet base
 
