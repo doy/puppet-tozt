@@ -25,7 +25,7 @@
     "Description": "",
     "Tags": [],
     "TargetURL": "<%= @url %>",
-    "DBPath": "/media/persistent/Duplicati/69858066716783826969.sqlite",
+    "DBPath": "/media/persistent/duplicati/tozt.sqlite",
     "Sources": [
       "/media/persistent/",
       "/home/",
