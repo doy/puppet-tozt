@@ -10,7 +10,6 @@ node 'mail', 'mail.localdomain' {
 
   include mail::backups
   include mail::mailu
-  # XXX
-  # include mail::monitoring
+  include mail::monitoring
   include mail::services
 }
