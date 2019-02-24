@@ -25,7 +25,7 @@
     "Description": "",
     "Tags": [],
     "TargetURL": "<%= @url %>",
-    "DBPath": "/media/persistent/Duplicati/mail.sqlite",
+    "DBPath": "/media/persistent/duplicati/mail.sqlite",
     "Sources": [
       "/media/persistent/",
       "/home/",
@@ -67,7 +67,7 @@
       {
         "Order": 0,
         "Include": false,
-        "Expression": "/media/persistent/Duplicati/"
+        "Expression": "/media/persistent/duplicati/"
       }
     ],
     "Metadata": {},
