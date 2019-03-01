@@ -88,7 +88,7 @@ class mail::mailu {
   }
 
   exec { "compile sieve scripts":
-    command => "docker-compose exec -u mail imap sievec /overrides/sieve/filters.sieve",
+    command => "/usr/bin/docker-compose exec -u mail imap sievec /overrides/sieve/filters.sieve",
     creates => "/media/persistent/overrides/sieve/filters.svbin",
     require => [
       Secret["/media/persistent/overrides/sieve/filters.sieve"],
