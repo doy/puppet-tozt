@@ -66,6 +66,13 @@ class mail::mailu {
       source => "puppet:///modules/mail/dovecot.conf",
       require => File["/media/persistent/overrides"],
       notify => Service["mailu"];
+    "/media/persistent/overrides/rspamd":
+      ensure => directory,
+      require => File["/media/persistent/overrides"];
+    "/media/persistent/overrides/rspamd/milter_headers.conf":
+      source => "puppet:///modules/mail/milter_headers.conf",
+      require => File["/media/persistent/overrides/rspamd"],
+      notify => Service["mailu"];
   }
 
   file { "/etc/systemd/system/mailu.service":
