@@ -79,6 +79,8 @@ class mail::mailu {
   }
 
   secret { "/media/persistent/overrides/sieve/filters.sieve":
+    owner => 'mail',
+    group => 'mail',
     source => 'sieve',
     require => File["/media/persistent/overrides/sieve"];
   }
