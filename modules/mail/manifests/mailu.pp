@@ -73,6 +73,14 @@ class mail::mailu {
       source => "puppet:///modules/mail/milter_headers.conf",
       require => File["/media/persistent/overrides/rspamd"],
       notify => Service["mailu"];
+    "/media/persistent/overrides/sieve":
+      ensure => directory,
+      require => File["/media/persistent/overrides"];
+  }
+
+  secret { "/media/persistent/overrides/sieve/filters.sieve":
+    source => 'sieve',
+    require => File["/media/persistent/overrides/sieve"];
   }
 
   file { "/etc/systemd/system/mailu.service":
