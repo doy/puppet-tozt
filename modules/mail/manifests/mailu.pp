@@ -58,6 +58,15 @@ class mail::mailu {
     ];
   }
 
+  file {
+    "/media/persistent/overrides":
+      ensure => directory,
+      require => Class["mail::persistent"];
+    "/media/persistent/overrides/dovecot.conf":
+      source => "puppet:///modules/mail/dovecot.conf",
+      require => File["/media/persistent/overrides"];
+  }
+
   file { "/etc/systemd/system/mailu.service":
     source => "puppet:///modules/mail/mailu.service",
     notify => Exec["/usr/bin/systemctl daemon-reload"];
