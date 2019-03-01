@@ -6,7 +6,7 @@ use 5.020;
 if (@ARGV > 0 && $ARGV[0] eq 'config') {
     say "graph_title tarsnap backup size";
     say "graph_category backups";
-    say "graph_vlabel size (gb)";
+    say "graph_vlabel size (mb)";
     say "graph_args -l 0 --base 1024";
     say "graph_scale no";
 
@@ -22,4 +22,4 @@ if ($?) {
 (my $bytes) = $tarsnap_data =~ /([0-9]+)$/;
 die "failed to parse tarsnap stats" unless defined $bytes;
 
-say "tarsnap.value ${\($bytes / 1024 / 1024 / 1024)}";
+say "tarsnap.value ${\($bytes / 1024 / 1024)}";
