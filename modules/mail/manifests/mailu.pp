@@ -84,16 +84,14 @@ class mail::mailu {
     owner => 'mail',
     group => 'mail',
     source => 'sieve',
-    require => File["/media/persistent/overrides/sieve"];
+    require => File["/media/persistent/overrides/sieve"],
+    notify => Exec["compile sieve scripts"];
   }
 
   exec { "compile sieve scripts":
     command => "/usr/bin/docker-compose exec -T -u mail imap sievec /overrides/sieve/filters.sieve",
-    creates => "/media/persistent/overrides/sieve/filters.svbin",
-    require => [
-      Secret["/media/persistent/overrides/sieve/filters.sieve"],
-      Service["mailu"],
-    ]
+    refreshonly => true,
+    require => Service["mailu"];
   }
 
   file { "/etc/systemd/system/mailu.service":
