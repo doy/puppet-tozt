@@ -14,7 +14,7 @@ record_id=$(doctl \
     tozt.net \
     --format Name,Type,ID \
     --no-header \
-    | grep '^newsmtp \+A ' \
+    | grep '^smtp \+A ' \
     | awk '{print $3}'
 )
 doctl \
@@ -23,7 +23,7 @@ doctl \
     tozt.net \
     --record-id "$record_id" \
     --record-type A \
-    --record-name newsmtp \
+    --record-name smtp \
     --record-data "$ip" \
     --record-ttl 600
 echo "Done creating DNS entry"
@@ -31,14 +31,14 @@ echo "Done creating DNS entry"
 provision_droplet mail
 
 echo "Creating DKIM entry"
-dkim=$(remote "perl -pe'chomp; s/.*\"(.*)\".*/\$1/' /media/persistent/dkim/new.tozt.net.dkim.pub")
+dkim=$(remote "perl -pe'chomp; s/.*\"(.*)\".*/\$1/' /media/persistent/dkim/tozt.net.dkim.pub")
 dkim_record_id=$(doctl \
     -t "$(cat /mnt/digitalocean)" \
     compute domain records list \
     tozt.net \
     --format Name,Type,ID \
     --no-header \
-    | grep '^dkim._domainkey.new \+TXT ' \
+    | grep '^dkim._domainkey \+TXT ' \
     | awk '{print $3}'
 )
 doctl \
@@ -47,7 +47,7 @@ doctl \
     tozt.net \
     --record-id "$dkim_record_id" \
     --record-type TXT \
-    --record-name dkim._domainkey.new \
+    --record-name dkim._domainkey \
     --record-data "$dkim" \
     --record-ttl 600
 echo "Done creating DKIM entry"
