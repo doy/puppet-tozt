@@ -1,3 +1,8 @@
 #!/bin/sh
 
-certbot renew -q<%= @config_dir_opts %>
+if [ -z "<%= @_config_dir %>" ]; then
+    config_dir_opts=""
+else
+    config_dir_opts="--config-dir <%= @_config_dir %>"
+fi
+certbot renew -q $config_dir_opts
