@@ -1,0 +1,6 @@
+[smart_*]
+user root
+group disk
+
+[package_updates]
+user root

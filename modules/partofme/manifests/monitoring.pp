@@ -48,8 +48,8 @@ class partofme::monitoring {
       source => 'smart_';
   }
 
-  file { '/etc/munin/plugin-conf.d/smart':
-    source => 'puppet:///modules/partofme/munin-plugin-smart',
+  file { '/etc/munin/plugin-conf.d/partofme':
+    source => 'puppet:///modules/partofme/munin-plugin-conf',
     require => Package['munin-node'];
   }
 
