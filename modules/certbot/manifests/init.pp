@@ -33,6 +33,7 @@ class certbot($config_dir=undef) {
       require => File["${_config_dir}/renewal-hooks"];
     "${_config_dir}/renewal-hooks/deploy/reload-cert":
       source => 'puppet:///modules/certbot/reload-cert',
+      mode => '0755',
       require => File["${_config_dir}/renewal-hooks/deploy"];
     "/usr/local/bin/bootstrap-certbot":
       source => 'puppet:///modules/certbot/bootstrap-certbot',
