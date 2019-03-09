@@ -4,6 +4,12 @@ class partofme::monitoring {
   include munin::duplicati
   include munin::archlinux
 
+  file { '/etc/munin/plugin-conf.d/partofme':
+    source => 'puppet:///modules/partofme/munin-plugin-conf',
+    require => Package['munin-node'],
+    notify => Service["munin-node"];
+  }
+
   munin::plugin {
     [
       'cpu',
@@ -46,11 +52,6 @@ class partofme::monitoring {
       'smart_sdd',
     ]:
       source => 'smart_';
-  }
-
-  file { '/etc/munin/plugin-conf.d/partofme':
-    source => 'puppet:///modules/partofme/munin-plugin-conf',
-    require => Package['munin-node'];
   }
 
   munin::plugin {
