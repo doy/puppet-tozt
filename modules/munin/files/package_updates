@@ -1,0 +1,15 @@
+#!/bin/bash
+set -eu
+set -o pipefail
+
+yaourt -Sya > /dev/null
+update_count="$(yaourt -Qua | wc -l)"
+
+echo "graph_title package updates"
+echo "graph_category system"
+echo "graph_vlabel number of package updates"
+echo "graph_args -l 0"
+echo "graph_scale no"
+
+echo "updates.label updates"
+echo "updates.value $update_count"

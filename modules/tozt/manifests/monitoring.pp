@@ -2,6 +2,7 @@ class tozt::monitoring {
   include munin::node
   include munin::duplicati
   include munin::tarsnap
+  include munin::archlinux
 
   file { "/etc/munin/plugin-conf.d/tozt":
     source => "puppet:///modules/tozt/munin-plugin-conf",
@@ -63,6 +64,12 @@ class tozt::monitoring {
     [
       'tarsnap',
       'tarsnap_last_run',
+    ]:
+  }
+
+  munin::plugin {
+    [
+      'package_updates',
     ]:
   }
 }

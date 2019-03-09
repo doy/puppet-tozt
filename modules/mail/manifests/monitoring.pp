@@ -2,6 +2,7 @@ class mail::monitoring {
   include munin::node
   include munin::duplicati
   include munin::tarsnap
+  include munin::archlinux
 
   file { "/etc/munin/plugin-conf.d/mail":
     source => "puppet:///modules/mail/munin-plugin-conf",
@@ -62,6 +63,12 @@ class mail::monitoring {
     [
       'tarsnap',
       'tarsnap_last_run',
+    ]:
+  }
+
+  munin::plugin {
+    [
+      'package_updates',
     ]:
   }
 }

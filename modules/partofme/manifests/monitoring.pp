@@ -2,6 +2,7 @@ class partofme::monitoring {
   include smartmontools
   include munin::node
   include munin::duplicati
+  include munin::archlinux
 
   munin::plugin {
     [
@@ -58,6 +59,12 @@ class partofme::monitoring {
       'duplicati_file_count',
       'duplicati_file_size',
       'duplicati_last_run',
+    ]:
+  }
+
+  munin::plugin {
+    [
+      'package_updates',
     ]:
   }
 }
