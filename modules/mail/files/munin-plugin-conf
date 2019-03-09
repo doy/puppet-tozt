@@ -6,3 +6,6 @@ user root
 
 [tarsnap_last_run]
 user root
+
+[package_updates]
+user root
