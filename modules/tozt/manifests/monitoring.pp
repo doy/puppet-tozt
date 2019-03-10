@@ -3,6 +3,7 @@ class tozt::monitoring {
   include munin::duplicati
   include munin::tarsnap
   include munin::archlinux
+  include munin::certbot
 
   file { "/etc/munin/plugin-conf.d/tozt":
     source => "puppet:///modules/tozt/munin-plugin-conf",
@@ -70,6 +71,12 @@ class tozt::monitoring {
   munin::plugin {
     [
       'package_updates',
+    ]:
+  }
+
+  munin::plugin {
+    [
+      'certbot',
     ]:
   }
 }

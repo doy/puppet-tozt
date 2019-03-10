@@ -9,3 +9,7 @@ user root
 
 [package_updates]
 user root
+
+[certbot]
+user root
+env.CERTBOT_CONFIG_DIR /media/persistent/certbot
