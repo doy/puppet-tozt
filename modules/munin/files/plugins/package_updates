@@ -18,7 +18,7 @@ config() {
     echo "updates.label updates"
 }
 
-case "$1" in
+case "${1:-}" in
     config)
         config
         ;;
