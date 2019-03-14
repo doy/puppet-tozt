@@ -53,6 +53,8 @@ if ARGV.length > 0 && ARGV[0] == "config"
   names = archives.map{|h| h["name"]}.sort.uniq
   names.each do |name|
     puts "#{name}.label #{name}"
+    puts "#{name}.warning 1.05"
+    puts "#{name}.critical 2"
   end
 else
   now = Time.now

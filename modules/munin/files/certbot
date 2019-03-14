@@ -16,5 +16,7 @@ puts "graph_scale no"
   days = (x509.not_after - Time.now) / 60 / 60 / 24
   sanitized_site = site.gsub(/[^a-zA-Z0-9]/, '_')
   puts "#{sanitized_site}.label #{site}"
+  puts "#{sanitized_site}.warning 21"
+  puts "#{sanitized_site}.critical 7"
   puts "#{sanitized_site}.value #{days}"
 end

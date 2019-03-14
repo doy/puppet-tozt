@@ -24,6 +24,8 @@ def config
   puts "graph_scale no"
   all_backups.each do |id, name|
     puts "#{field_name(name)}.label #{name}"
+    puts "#{field_name(name)}.warning 1.05"
+    puts "#{field_name(name)}.critical 2"
   end
 end
 
