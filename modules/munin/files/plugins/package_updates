@@ -4,7 +4,7 @@ set -o pipefail
 
 run() {
     yaourt -Sya > /dev/null
-    update_count="$(yaourt -Qua | wc -l)"
+    update_count="$( (yaourt -Qua || true) | wc -l)"
     echo "updates.value $update_count"
 }
 
