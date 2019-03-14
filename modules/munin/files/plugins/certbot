@@ -6,7 +6,7 @@ def run
   require 'openssl'
 
   (Dir.entries("#{$config_dir}/live/") - [".", ".."]).each do |site|
-    cert = File.read("#{config_dir}/live/#{site}/cert.pem")
+    cert = File.read("#{$config_dir}/live/#{site}/cert.pem")
     x509 = OpenSSL::X509::Certificate.new(cert)
     days = (x509.not_after - Time.now) / 60 / 60 / 24
     sanitized_site = site.gsub(/[^a-zA-Z0-9]/, '_')
