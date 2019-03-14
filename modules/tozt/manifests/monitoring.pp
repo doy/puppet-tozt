@@ -33,6 +33,7 @@ class tozt::monitoring {
     [
       'fail2ban',
       'munin_stats',
+      'munin_update',
     ]:
   }
 
