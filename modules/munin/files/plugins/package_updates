@@ -2,14 +2,27 @@
 set -eu
 set -o pipefail
 
-yaourt -Sya > /dev/null
-update_count="$(yaourt -Qua | wc -l)"
+run() {
+    yaourt -Sya > /dev/null
+    update_count="$(yaourt -Qua | wc -l)"
+    echo "updates.value $update_count"
+}
 
-echo "graph_title package updates"
-echo "graph_category system"
-echo "graph_vlabel number of package updates"
-echo "graph_args -l 0"
-echo "graph_scale no"
+config() {
+    echo "graph_title package updates"
+    echo "graph_category system"
+    echo "graph_vlabel number of package updates"
+    echo "graph_args -l 0"
+    echo "graph_scale no"
 
-echo "updates.label updates"
-echo "updates.value $update_count"
+    echo "updates.label updates"
+}
+
+case "$1" in
+    config)
+        config
+        ;;
+    *)
+        run
+        ;;
+esac
