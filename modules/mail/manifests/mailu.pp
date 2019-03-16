@@ -89,7 +89,11 @@ class mail::mailu {
   }
 
   exec { "compile sieve scripts":
-    command => "/usr/bin/docker-compose exec -T -u mail imap sievec /overrides/sieve/filters.sieve",
+    provider => shell,
+    command => "
+      while ! docker-compose ps imap > /dev/null; do :; done
+      docker-compose exec -T -u mail imap sievec /overrides/sieve/filters.sieve
+    ",
     cwd => "/media/persistent",
     refreshonly => true,
     require => Service["mailu"];
