@@ -92,8 +92,8 @@ class mail::mailu {
     command => "/usr/bin/docker-compose exec -T -u mail imap sievec /overrides/sieve/filters.sieve",
     cwd => "/media/persistent",
     refreshonly => true,
-    tries => 3,
-    try_sleep => 10,
+    tries => 12,
+    try_sleep => 15,
     require => Service["mailu"];
   }
 
