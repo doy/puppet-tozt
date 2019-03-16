@@ -33,6 +33,7 @@ class duplicati::client {
     require => [
       File['/usr/local/bin/duplicati-client'],
       Exec['checkout duplicati-client'],
+      Service['duplicati'],
     ]
   }
 }
