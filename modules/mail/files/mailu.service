@@ -6,3 +6,6 @@ After=network.target
 ExecStart=/usr/bin/docker-compose up
 Restart=on-failure
 WorkingDirectory=/media/persistent
+
+[Install]
+WantedBy=default.target
