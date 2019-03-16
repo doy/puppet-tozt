@@ -1,0 +1,5 @@
+after launching:
+- create admin user
+  - sudo docker-compose exec admin flask mailu admin doy tozt.net changeme
+- change admin user password from the webface
+- set up aliases
