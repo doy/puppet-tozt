@@ -30,6 +30,8 @@ class duplicati::client {
   exec { 'duplicati-client login':
     command => '/usr/local/bin/duplicati-client login',
     creates => '/root/.config/duplicati-client/config.yml',
+    tries => 3,
+    try_sleep => 10,
     require => [
       File['/usr/local/bin/duplicati-client'],
       Exec['checkout duplicati-client'],
