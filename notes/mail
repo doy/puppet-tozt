@@ -3,3 +3,5 @@ after launching:
   - sudo docker-compose exec admin flask mailu admin doy tozt.net changeme
 - change admin user password from the webface
 - set up aliases
+- increase quota
+- set mail editing format to plaintext
