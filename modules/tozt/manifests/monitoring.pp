@@ -4,7 +4,6 @@ class tozt::monitoring {
   include munin::tarsnap
   include munin::archlinux
   include munin::certbot
-  include munin::mailu
 
   file { "/etc/munin/plugin-conf.d/tozt":
     source => "puppet:///modules/tozt/munin-plugin-conf",
@@ -79,12 +78,6 @@ class tozt::monitoring {
   munin::plugin {
     [
       'certbot',
-    ]:
-  }
-
-  munin::plugin {
-    [
-      'mail_count',
     ]:
   }
 }

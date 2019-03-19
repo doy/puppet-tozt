@@ -3,6 +3,7 @@ class mail::monitoring {
   include munin::duplicati
   include munin::tarsnap
   include munin::archlinux
+  include munin::mailu
 
   file { "/etc/munin/plugin-conf.d/mail":
     source => "puppet:///modules/mail/munin-plugin-conf",
@@ -69,6 +70,12 @@ class mail::monitoring {
   munin::plugin {
     [
       'package_updates',
+    ]:
+  }
+
+  munin::plugin {
+    [
+      'mail_count',
     ]:
   }
 }
