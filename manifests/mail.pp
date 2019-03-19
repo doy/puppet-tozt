@@ -3,7 +3,11 @@ node 'mail', 'mail.localdomain' {
   include mail::persistent
   Class['mail::persistent'] -> Class['base']
 
-  include base
+  class { 'base':
+    extra_script => "
+      (cd /media/persistent && sudo docker-compose pull -q)
+    ";
+  }
 
   include mail::operatingsystem
   Class['mail::operatingsystem'] -> Package<| provider == "pacman" |>

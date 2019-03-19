@@ -1,8 +1,6 @@
-class base {
+class base($extra_script="") {
   class { 'base::bootstrap':
-    extra_script => "
-      (cd /media/persistent && sudo docker-compose pull -q)
-    ",
+    extra_script => $extra_script;
   }
   contain base::operatingsystem
   contain base::services
