@@ -1,0 +1,24 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use 5.020;
+
+use JSON::PP;
+
+if (@ARGV > 0 && $ARGV[0] eq 'config') {
+    say "graph_title count of processed mails";
+    say "graph_category mail";
+    say "graph_vlabel count";
+    say "graph_args -l 0";
+    say "graph_scale no";
+
+    say "mailcount.label count of processed mails";
+    exit 0;
+}
+
+chdir "/media/persistent";
+
+my $json = `docker-compose exec imap rspamc -h antispam:11334 stat --json --compact`;
+my $data = decode_json($json);
+
+say "mailcount.value $data->{scanned}";
