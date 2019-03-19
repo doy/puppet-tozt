@@ -9,3 +9,6 @@ user root
 
 [package_updates]
 user root
+
+[mail_count]
+user root
