@@ -111,4 +111,6 @@ class mail::mailu {
       File["/etc/systemd/system/mailu.service"],
     ];
   }
+
+  include mail::mailu::testing
 }

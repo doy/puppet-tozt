@@ -33,6 +33,10 @@ services:
     volumes:
       - "/media/persistent/certs:/certs"
       - "/media/persistent/overrides/nginx:/overrides"
+      - "/media/persistent/overrides/patch/learn.sieve:/conf/learn.sieve"
+      - "/media/persistent/overrides/patch/dovecot.conf:/conf/dovecot.conf"
+      - "/media/persistent/overrides/patch/ham:/conf/bin/ham"
+      - "/media/persistent/overrides/patch/spam:/conf/bin/spam"
 
   resolver:
     image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}unbound:${MAILU_VERSION:-1.6}
