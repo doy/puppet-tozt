@@ -112,5 +112,5 @@ class mail::mailu {
     ];
   }
 
-  include mail::mailu::testing
+  # include mail::mailu::testing
 }
