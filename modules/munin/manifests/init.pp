@@ -13,12 +13,6 @@ class munin {
     '/etc/munin/munin.conf':
       source => 'puppet:///modules/munin/munin.conf',
       require => Package['munin'];
-    "/etc/systemd/system/munin-node.service.d":
-      ensure => directory;
-    '/etc/systemd/system/munin-node.service.d/override.conf':
-      source => 'puppet:///modules/munin/override.conf',
-      notify => Exec["/usr/bin/systemctl daemon-reload"],
-      require => File["/etc/systemd/system/munin-node.service.d"];
   }
 
   exec { 'install munin crontab':
