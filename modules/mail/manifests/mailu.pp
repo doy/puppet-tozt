@@ -112,5 +112,14 @@ class mail::mailu {
     ];
   }
 
+  file {
+    '/etc/cron.daily/hack-kick-mailu':
+      source => 'puppet:///modules/mail/hack-kick-mailu',
+      mode => '0755',
+      require => [
+        Class['cron'],
+      ];
+  }
+
   # include mail::mailu::testing
 }
