@@ -1,5 +1,5 @@
 diff --git i/config.cfg w/config.cfg
-index bf65e45..2b47a04 100644
+index bf65e45..1dedb60 100644
 --- i/config.cfg
 +++ w/config.cfg
 @@ -5,9 +5,11 @@
@@ -16,6 +16,24 @@ index bf65e45..2b47a04 100644
  
  ### Advanced users only below this line ###
  
+@@ -22,7 +24,7 @@ keys_clean_all: False
+ clean_environment: false
+ 
+ # Deploy StrongSwan to enable IPsec support
+-ipsec_enabled: true
++ipsec_enabled: false
+ 
+ # StrongSwan log level
+ # https://wiki.strongswan.org/projects/strongswan/wiki/LoggerConfiguration
+@@ -40,7 +42,7 @@ wireguard_port: 51820
+ # If you're behind NAT or a firewall and you want to receive incoming connections long after network traffic has gone silent.
+ # This option will keep the "connection" open in the eyes of NAT.
+ # See: https://www.wireguard.com/quickstart/#nat-and-firewall-traversal-persistence
+-wireguard_PersistentKeepalive: 0
++wireguard_PersistentKeepalive: 25
+ 
+ # WireGuard network configuration
+ wireguard_network_ipv4: 10.19.49.0/24
 @@ -53,7 +55,7 @@ wireguard_network_ipv6: fd9d:bc11:4021::/48
  # automatically based on your server, but if connections hang you might need to
  # adjust this yourself.
@@ -25,7 +43,12 @@ index bf65e45..2b47a04 100644
  
  # Algo will use the following lists to block ads. You can add new block lists
  # after deployment by modifying the line starting "BLOCKLIST_URLS=" at:
-@@ -106,7 +108,7 @@ unattended_reboot:
+@@ -102,11 +104,11 @@ local_service_ipv6: "{{ 'fd00::1' | ipmath(1048573 | random(seed=algo_server_nam
+ # which case a reboot will take place if necessary at the time specified (as
+ # HH:MM) in the time zone of your Algo server. The default time zone is UTC.
+ unattended_reboot:
+-  enabled: false
++  enabled: true
    time: 06:00
  
  # Block traffic between connected clients

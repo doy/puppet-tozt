@@ -42,12 +42,6 @@ do_token=$(cat /mnt/digitalocean)
 ansible-playbook main.yml -e "
     provider=digitalocean
     server_name=algo
-    ondemand_cellular=false
-    ondemand_wifi=false
-    local_dns=false
-    ssh_tunneling=true
-    windows=false
-    store_cakey=false
     region=nyc3
     do_token=$do_token
 " >> "$logfile"
