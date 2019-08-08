@@ -1,32 +1,32 @@
 diff --git i/config.cfg w/config.cfg
-index b0c7756..2c0cd98 100644
+index bf65e45..2b47a04 100644
 --- i/config.cfg
 +++ w/config.cfg
-@@ -6,8 +6,11 @@
- # IPsec configuration but WireGuard clients must each use a unique
- # WireGuard configuration.
+@@ -5,9 +5,11 @@
+ # You can generate up to 250 users at one time.
+ # Usernames with leading 0's or containing only numbers should be escaped in double quotes, e.g. "000dan" or "123".
  users:
--  - dan
--  - jack
 +  - hush
 +  - partofme
-+  - phone
+   - phone
+-  - laptop
+-  - desktop
 +  - tozt
 +  - mail
  
- # NOTE: If your usernames have leading 0's, like "000dan", you have to escape them
+ ### Advanced users only below this line ###
  
-@@ -31,7 +34,7 @@ wireguard_port: 51820
+@@ -53,7 +55,7 @@ wireguard_network_ipv6: fd9d:bc11:4021::/48
  # automatically based on your server, but if connections hang you might need to
  # adjust this yourself.
  # See: https://github.com/trailofbits/algo/blob/master/docs/troubleshooting.md#various-websites-appear-to-be-offline-through-the-vpn
 -reduce_mtu: 0
 +reduce_mtu: 184
  
- # StrongSwan log level
- # https://wiki.strongswan.org/projects/strongswan/wiki/LoggerConfiguration
-@@ -92,7 +95,7 @@ VPN_PayloadIdentifier: "{{ 800000 | random | to_uuid | upper }}"
- CA_PayloadIdentifier: "{{ 700000 | random | to_uuid | upper }}"
+ # Algo will use the following lists to block ads. You can add new block lists
+ # after deployment by modifying the line starting "BLOCKLIST_URLS=" at:
+@@ -106,7 +108,7 @@ unattended_reboot:
+   time: 06:00
  
  # Block traffic between connected clients
 -BetweenClients_DROP: true
