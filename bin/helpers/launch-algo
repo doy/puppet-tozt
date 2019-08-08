@@ -44,6 +44,8 @@ ansible-playbook main.yml -e "
     server_name=algo
     region=nyc3
     do_token=$do_token
+    dns_adblocking=false
+    ssh_tunneling=false
 " >> "$logfile"
 
 "${script_path}/../algo-config"
