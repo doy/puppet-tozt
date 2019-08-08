@@ -39,7 +39,7 @@ dns=$(perl -nle 'print $1 if /DNS\s*=\s*(.*),/' "$config_path"/partofme.conf)
 sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/partofme.conf
 cp "$config_path"/partofme.conf "$config_path"/partofme-not-captive.conf
 sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/partofme.conf
-sed -i "s|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, 172.16.0.1/32|" "$config_path"/partofme-not-captive.conf
+sed -i "s|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, $dns/32|" "$config_path"/partofme-not-captive.conf
 scp "$config_path"/partofme-not-captive.conf root@partofme:/etc/wireguard/algo.conf
 cp "$config_path"/partofme-not-captive.conf /mnt/puppet/partofme/wireguard
 $secrets_bin sync partofme
@@ -59,7 +59,7 @@ dns=$(perl -nle 'print $1 if /DNS\s*=\s*(.*),/' "$config_path"/phone.conf)
 sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/phone.conf
 cp "$config_path"/phone.conf "$config_path"/phone-not-captive.conf
 sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/phone.conf
-sed -i "s|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, 172.16.0.1/32|" "$config_path"/phone-not-captive.conf
+sed -i "s|^AllowedIPs.*|AllowedIPs = 10.19.49.0/24, $dns/32|" "$config_path"/phone-not-captive.conf
 echo "algo-captive"
 segno --scale=5 --output="$config_path"/phone.png "$(cat "$config_path"/phone.conf)"
 sxiv "$config_path/phone.png"
