@@ -10,6 +10,7 @@ node 'tozt', 'tozt.localdomain' {
 
   include tozt::backups
   include tozt::git
+  include tozt::metabase
   include tozt::monitoring
   include tozt::munin
   include tozt::pass
