@@ -23,7 +23,13 @@ class metabase {
     "/opt/metabase":
       ensure => directory;
     "/opt/metabase/run":
-      ensure => directory;
+      ensure => directory,
+      owner => 'metabase',
+      group => 'metabase',
+      require => [
+        User['metabase'],
+        Group['metabase'],
+      ];
     "/usr/lib/systemd/system/metabase.service":
       source => "puppet:///modules/metabase/metabase.service",
       notify => Exec["/usr/bin/systemctl daemon-reload"];
