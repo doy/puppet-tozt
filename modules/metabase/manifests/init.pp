@@ -32,13 +32,9 @@ class metabase {
   exec { "download metabase":
     provider => shell,
     command => "curl -LO http://downloads.metabase.com/${metabase_version}/metabase.jar",
-    user => 'metabase',
     cwd => "/opt/metabase",
     creates => "/opt/metabase/metabase.jar",
-    require => [
-      User["metabase"],
-      File["/opt/metabase"],
-    ];
+    require => File["/opt/metabase"];
   }
 
   exec { "create metabase db user":
