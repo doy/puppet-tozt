@@ -41,7 +41,7 @@ class metabase {
     ];
   }
 
-  exec { "create db user":
+  exec { "create metabase db user":
     provider => shell,
     command => "createuser -d metabase",
     user => 'postgres',
@@ -52,7 +52,7 @@ class metabase {
     ];
   }
 
-  exec { "create db":
+  exec { "create metabase db":
     provider => shell,
     command => "createdb -U metabase metabase",
     user => 'postgres',

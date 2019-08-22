@@ -24,7 +24,7 @@ class ttrss {
       ];
   }
 
-  exec { "create db user":
+  exec { "create ttrss db user":
     provider => shell,
     command => "createuser -d ttrss",
     user => 'postgres',
@@ -35,7 +35,7 @@ class ttrss {
     ];
   }
 
-  exec { "create db":
+  exec { "create ttrss db":
     provider => shell,
     command => "createdb -U ttrss ttrss",
     user => 'postgres',
