@@ -1,0 +1,10 @@
+[Unit]
+Description=metabase
+After=network.target postgresql.service
+
+[Service]
+WorkingDirectory=/opt/metabase/run
+ExecStart=java -jar /opt/metabase/metabase.jar
+
+[Install]
+WantedBy=multi-user.target
