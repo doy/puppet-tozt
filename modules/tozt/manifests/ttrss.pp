@@ -3,7 +3,6 @@ class tozt::ttrss {
   include tozt::persistent
 
   class { "ttrss":
-    dbpath => "/media/persistent/ttrss",
     require => Class["tozt::persistent"];
   }
 

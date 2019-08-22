@@ -1,10 +1,9 @@
-class ttrss($dbpath) {
-  include systemd
+class ttrss {
+  include postgres;
 
   package {
     [
       "tt-rss",
-      "postgresql",
       "php-pgsql",
       "php-fpm",
     ]:
@@ -12,25 +11,6 @@ class ttrss($dbpath) {
   }
 
   file {
-    $dbpath:
-      ensure => directory,
-      owner => 'postgres',
-      group => 'postgres',
-      require => Package["postgresql"];
-    "$dbpath/data":
-      ensure => directory,
-      owner => 'postgres',
-      group => 'postgres',
-      require => [
-        Package["postgresql"],
-        File[$dbpath],
-      ];
-    "/etc/systemd/system/postgresql.service.d":
-      ensure => directory;
-    "/etc/systemd/system/postgresql.service.d/override.conf":
-      content => template('ttrss/postgres-service'),
-      notify => Exec["/usr/bin/systemctl daemon-reload"],
-      require => File["/etc/systemd/system/postgresql.service.d"];
     "/etc/webapps/tt-rss/config.php":
       source => "puppet:///modules/ttrss/config.php",
       require => Package["tt-rss"];
@@ -41,26 +21,7 @@ class ttrss($dbpath) {
       require => [
         File["/etc/pacman.d/hooks"],
         Package["tt-rss"],
-      ]
-  }
-
-  exec { "initialize db path":
-    command => "/usr/bin/initdb -D $dbpath/data",
-    user => 'postgres',
-    creates => "$dbpath/data/PG_VERSION",
-    require => [
-      File["$dbpath/data"],
-      Package["postgresql"],
-    ];
-  }
-
-  service { "postgresql":
-    ensure => running,
-    enable => true,
-    require => [
-      Package["postgresql"],
-      Exec["initialize db path"],
-    ];
+      ];
   }
 
   exec { "create db user":
