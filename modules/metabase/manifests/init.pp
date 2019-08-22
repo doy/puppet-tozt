@@ -58,7 +58,7 @@ class metabase {
     user => 'postgres',
     unless => "psql -Atc 'select datname from pg_catalog.pg_database' | grep -F metabase",
     require => [
-      Exec["create db user"],
+      Exec["create metabase db user"],
       Package["postgresql"],
       Service["postgresql"],
     ];

@@ -41,7 +41,7 @@ class ttrss {
     user => 'postgres',
     unless => "psql -Atc 'select datname from pg_catalog.pg_database' | grep -F ttrss",
     require => [
-      Exec["create db user"],
+      Exec["create ttrss db user"],
       Package["postgresql"],
       Service["postgresql"],
     ];
@@ -62,7 +62,7 @@ class ttrss {
     require => [
       Package["postgresql"],
       Service["postgresql"],
-      Exec["create db"],
+      Exec["create ttrss db"],
       Package["tt-rss"],
       File["/etc/webapps/tt-rss/config.php"],
     ]
@@ -75,7 +75,7 @@ class ttrss {
       Package["tt-rss"],
       Exec["fixup php.ini"],
       File["/etc/webapps/tt-rss/config.php"],
-      Exec["create db"],
+      Exec["create ttrss db"],
     ]
   }
 
