@@ -31,7 +31,7 @@ class postgres {
   }
 
   exec { "fixup db path permissions":
-    command => "chown -R postgres:postgres ${dbpath}",
+    command => "/usr/bin/chown -R postgres:postgres ${dbpath}",
     refreshonly => true,
     require => [
       Package['postgresql'],
