@@ -4,7 +4,8 @@ class postgres {
   $dbpath = "${persistent_data}/postgres" # lint:ignore:variable_scope
 
   package { "postgresql":
-      ensure => installed;
+      ensure => installed,
+      notify => Exec["fixup db path permissions"];
   }
 
   file {
@@ -27,6 +28,16 @@ class postgres {
       content => template('postgres/postgres-service'),
       notify => Exec["/usr/bin/systemctl daemon-reload"],
       require => File["/etc/systemd/system/postgresql.service.d"];
+  }
+
+  exec { "fixup db path permissions":
+    command => "chown -R postgres:postgres ${dbpath}",
+    refreshonly => true,
+    require => [
+      Package['postgresql'],
+      File[$dbpath],
+    ],
+    before => Service['postgresql'];
   }
 
   exec { "initialize db path":
