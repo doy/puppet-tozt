@@ -8,4 +8,5 @@ puppet-tozt
 sudo sh -c "cd ~/conf && git pull && make install"
 
 yaourt -Syua
+rustup update
 <%= @extra_script %>
