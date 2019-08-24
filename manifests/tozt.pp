@@ -3,7 +3,11 @@ node 'tozt', 'tozt.localdomain' {
   include tozt::persistent
   Class['tozt::persistent'] -> Class['base']
 
-  include base
+  class { 'base':
+    extra_script => "
+      (cd /opt/ynab-export && sudo git pull)
+    ";
+  }
 
   include tozt::operatingsystem
   Class['tozt::operatingsystem'] -> Package<| provider == "pacman" |>
