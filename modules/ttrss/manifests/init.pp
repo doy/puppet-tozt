@@ -58,7 +58,7 @@ class ttrss {
     provider => shell,
     command => "sed -i 's/^;\\(extension=intl\\)$/\\1/' /etc/php/php.ini",
     unless => "grep -q '^extension=intl$' /etc/php/php.ini",
-    require => Package["ttrss"];
+    require => Package["tt-rss"];
   }
 
   exec { "initialize tt-rss db":
