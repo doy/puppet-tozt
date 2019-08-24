@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 
-/home/doy/coding/ynab-export/bin/load
+su doy /home/doy/coding/ynab-export/bin/load
