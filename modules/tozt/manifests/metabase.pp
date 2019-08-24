@@ -21,24 +21,28 @@ class tozt::metabase {
   }
 
   file {
-    "/root/.config/ynab":
+    "/home/doy/.config/ynab":
       ensure => directory,
-      require => Conf::User["root"];
+      require => Conf::User["doy"];
     "/etc/cron.hourly/ynab-export":
       mode => '0755',
       source => "puppet:///modules/tozt/ynab-export",
       require => Exec["clone ynab-export"];
   }
 
-  secret { "/root/.config/ynab/api-key":
+  secret { "/home/doy/.config/ynab/api-key":
     source => "ynab",
-    require => File["/root/.config/ynab"];
+    require => File["/home/doy/.config/ynab"];
   }
 
   exec { "clone ynab-export":
     command => "/usr/bin/git clone git://github.com/doy/ynab-export",
-    cwd => "/opt",
-    creates => "/opt/ynab-export",
-    require => Class['git'];
+    user => "doy",
+    cwd => "/home/doy/coding",
+    creates => "/home/doy/coding/ynab-export",
+    require => [
+      Class["git"],
+      File["/home/doy/coding"],
+    ],
   }
 }
