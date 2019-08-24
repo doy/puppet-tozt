@@ -47,11 +47,18 @@ class ttrss {
     ];
   }
 
-  exec { "fixup php.ini":
+  exec { "fixup php.ini for pgsql":
     provider => shell,
     command => "sed -i 's/^;\\(extension=.*pgsql\\)$/\\1/' /etc/php/php.ini",
     unless => "grep -q '^extension=pgsql$' /etc/php/php.ini && grep -q '^extension=pdo_pgsql$' /etc/php/php.ini",
     require => Package["php-pgsql"];
+  }
+
+  exec { "fixup php.ini for intl":
+    provider => shell,
+    command => "sed -i 's/^;\\(extension=intl\\)$/\\1/' /etc/php/php.ini",
+    unless => "grep -q '^extension=intl$' /etc/php/php.ini",
+    require => Package["ttrss"];
   }
 
   exec { "initialize tt-rss db":
@@ -73,7 +80,8 @@ class ttrss {
     enable => true,
     require => [
       Package["tt-rss"],
-      Exec["fixup php.ini"],
+      Exec["fixup php.ini for pgsql"],
+      Exec["fixup php.ini for intl"],
       File["/etc/webapps/tt-rss/config.php"],
       Exec["create ttrss db"],
     ]
