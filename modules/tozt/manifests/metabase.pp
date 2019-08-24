@@ -23,6 +23,8 @@ class tozt::metabase {
   file {
     "/home/doy/.config/ynab":
       ensure => directory,
+      owner => 'doy',
+      group => 'doy',
       require => Conf::User["doy"];
     "/etc/cron.hourly/ynab-export":
       mode => '0755',
@@ -32,6 +34,8 @@ class tozt::metabase {
 
   secret { "/home/doy/.config/ynab/api-key":
     source => "ynab",
+    owner => 'doy',
+    group => 'doy',
     require => File["/home/doy/.config/ynab"];
   }
 
