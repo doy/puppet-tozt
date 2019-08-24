@@ -5,7 +5,7 @@ node 'tozt', 'tozt.localdomain' {
 
   class { 'base':
     extra_script => "
-      (cd /opt/ynab-export && sudo git pull)
+      (cd /home/doy/ynab-export && git pull)
     ";
   }
 
