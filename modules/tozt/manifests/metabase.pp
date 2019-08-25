@@ -62,7 +62,7 @@ class tozt::metabase {
         Exec["clone ynab-export"],
         Exec["clone investments-sheet-export"],
         Secret["/home/doy/.config/ynab/api-key"],
-        Secret["/home/doy/.config/google/investment-sheets"],
+        Secret["/home/doy/.config/google/investments-sheet"],
         Exec["create ynab db"],
         Exec["create investments db"],
       ];
@@ -75,8 +75,8 @@ class tozt::metabase {
     require => File["/home/doy/.config/ynab"];
   }
 
-  secret { "/home/doy/.config/google/investment-sheets":
-    source => "investments-sheets",
+  secret { "/home/doy/.config/google/investments-sheet":
+    source => "investments-sheet",
     owner => 'doy',
     group => 'doy',
     require => File["/home/doy/.config/google"];
