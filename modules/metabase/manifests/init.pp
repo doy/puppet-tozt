@@ -54,18 +54,6 @@ class metabase {
     ];
   }
 
-  exec { "create metabase db":
-    provider => shell,
-    command => "createdb -U metabase metabase",
-    user => 'postgres',
-    unless => "psql -Atc 'select datname from pg_catalog.pg_database' | grep -F metabase",
-    require => [
-      Exec["create metabase db user"],
-      Package["postgresql"],
-      Service["postgresql"],
-    ];
-  }
-
   service { "metabase":
     ensure => running,
     require => [

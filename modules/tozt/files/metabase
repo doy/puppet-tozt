@@ -2,3 +2,4 @@
 set -eu
 
 su doy /home/doy/coding/ynab-export/bin/load > /dev/null
+su doy /home/doy/coding/investments-sheet-export/bin/load > /dev/null
