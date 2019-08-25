@@ -50,6 +50,11 @@ class tozt::metabase {
       owner => 'doy',
       group => 'doy',
       require => Conf::User["doy"];
+    "/home/doy/.config/google":
+      ensure => directory,
+      owner => 'doy',
+      group => 'doy',
+      require => Conf::User["doy"];
     "/etc/cron.hourly/metabase":
       mode => '0755',
       source => "puppet:///modules/tozt/metabase",
