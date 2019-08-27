@@ -67,7 +67,7 @@ class metabase {
   }
 
   service { "metabase":
-    ensure => stopped,
+    ensure => running,
     require => [
       Package["jre-openjdk-headless"],
       File["/usr/lib/systemd/system/metabase.service"],
