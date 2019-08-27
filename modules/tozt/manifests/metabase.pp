@@ -51,7 +51,7 @@ class tozt::metabase {
       source => "puppet:///modules/tozt/metabase",
       require => [
         Package::Cargo["ynab-export for doy"],
-        Exec["clone investments-sheet-export"],
+        Exec["clone metabase-utils"],
         Secret["/home/doy/.config/ynab/api-key"],
         Secret["/home/doy/.config/google/investments-sheet"],
         Exec["create ynab db"],
@@ -79,11 +79,11 @@ class tozt::metabase {
     package => 'ynab-export';
   }
 
-  exec { "clone investments-sheet-export":
-    command => "/usr/bin/git clone git://github.com/doy/investments-sheet-export",
+  exec { "clone metabase-utils":
+    command => "/usr/bin/git clone git://github.com/doy/metabase-utils",
     user => "doy",
     cwd => "/home/doy/coding",
-    creates => "/home/doy/coding/investments-sheet-export",
+    creates => "/home/doy/coding/metabase-utils",
     require => [
       Class["git"],
       File["/home/doy/coding"],
