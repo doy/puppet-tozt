@@ -54,12 +54,27 @@ class metabase {
     ];
   }
 
+  exec { "create metabase application db":
+    provider => shell,
+    command => "createdb -U metabase metabase",
+    user => 'postgres',
+    unless => "psql -Atc 'select datname from pg_catalog.pg_database' | grep -F metabase",
+    require => [
+      Exec["create metabase db user"],
+      Package["postgresql"],
+      Service["postgresql"],
+    ];
+  }
+
   service { "metabase":
-    ensure => running,
+    ensure => stopped,
     require => [
       Package["jre-openjdk-headless"],
       File["/usr/lib/systemd/system/metabase.service"],
       File["/media/persistent/metabase"],
+      Exec["download metabase"],
+      Exec["create metabase db user"],
+      Exec["create metabase application db"],
     ];
   }
 }
