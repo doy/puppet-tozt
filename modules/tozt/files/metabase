@@ -14,7 +14,8 @@ chown doy:doy "$tmp"
 cd "$tmp"
 su doy -c /home/doy/.cargo/bin/ynab-export
 
-psql -U metabase ynab < schema.sql
+ynab-export schema | psql -U metabase ynab
+
 psql -U metabase ynab -c 'COPY accounts FROM STDIN' < accounts.tsv
 psql -U metabase ynab -c 'COPY category_groups FROM STDIN' < category_groups.tsv
 psql -U metabase ynab -c 'COPY categories FROM STDIN' < categories.tsv
