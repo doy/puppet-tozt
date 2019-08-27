@@ -22,7 +22,7 @@ class metabase {
   file {
     "/opt/metabase":
       ensure => directory;
-    "/opt/metabase/run":
+    "/media/persistent/metabase":
       ensure => directory,
       owner => 'metabase',
       group => 'metabase',
@@ -59,6 +59,7 @@ class metabase {
     require => [
       Package["jre-openjdk-headless"],
       File["/usr/lib/systemd/system/metabase.service"],
+      File["/media/persistent/metabase"],
     ];
   }
 }

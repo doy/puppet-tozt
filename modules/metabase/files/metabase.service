@@ -3,7 +3,7 @@ Description=metabase
 After=network.target postgresql.service
 
 [Service]
-WorkingDirectory=/opt/metabase/run
+WorkingDirectory=/media/persistent/metabase
 User=metabase
 Environment=MB_JETTY_HOST=127.0.0.1
 ExecStart=java -jar /opt/metabase/metabase.jar
