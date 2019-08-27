@@ -11,7 +11,7 @@ cleanup() {
 trap cleanup EXIT
 
 cd "$tmp"
-su doy ynab-export
+su doy /home/doy/.cargo/bin/ynab-export
 
 psql -U metabase ynab < schema.sql
 psql -U metabase ynab -c 'COPY accounts FROM STDIN' < accounts.tsv
