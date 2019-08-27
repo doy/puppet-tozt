@@ -76,7 +76,7 @@ class tozt::metabase {
   package::cargo { "ynab-export for doy":
     ensure => installed,
     user => 'doy',
-    package => 'fancy-prompt';
+    package => 'ynab-export';
   }
 
   exec { "clone investments-sheet-export":
