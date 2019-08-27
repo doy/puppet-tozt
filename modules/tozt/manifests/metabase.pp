@@ -11,23 +11,11 @@ class tozt::metabase {
       source => 'puppet:///modules/tozt/nginx/metabase.conf';
   }
 
-  exec { "create ynab db":
+  exec { "create money db":
     provider => shell,
-    command => "createdb -U metabase ynab",
+    command => "createdb -U metabase money",
     user => 'postgres',
-    unless => "psql -Atc 'select datname from pg_catalog.pg_database' | grep -F ynab",
-    require => [
-      Exec["create metabase db user"],
-      Package["postgresql"],
-      Service["postgresql"],
-    ];
-  }
-
-  exec { "create investments db":
-    provider => shell,
-    command => "createdb -U metabase investments",
-    user => 'postgres',
-    unless => "psql -Atc 'select datname from pg_catalog.pg_database' | grep -F investments",
+    unless => "psql -Atc 'select datname from pg_catalog.pg_database' | grep -F money",
     require => [
       Exec["create metabase db user"],
       Package["postgresql"],
@@ -54,8 +42,7 @@ class tozt::metabase {
         Exec["clone metabase-utils"],
         Secret["/home/doy/.config/ynab/api-key"],
         Secret["/home/doy/.config/google/investments-sheet"],
-        Exec["create ynab db"],
-        Exec["create investments db"],
+        Exec["create money db"],
       ];
   }
 
