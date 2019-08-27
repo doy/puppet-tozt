@@ -50,7 +50,7 @@ class tozt::metabase {
       mode => '0755',
       source => "puppet:///modules/tozt/metabase",
       require => [
-        Exec["clone ynab-export"],
+        Exec["install ynab-export"],
         Exec["clone investments-sheet-export"],
         Secret["/home/doy/.config/ynab/api-key"],
         Secret["/home/doy/.config/google/investments-sheet"],
