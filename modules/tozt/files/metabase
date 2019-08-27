@@ -10,6 +10,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
+chown doy:doy "$tmp"
 cd "$tmp"
 su doy -c /home/doy/.cargo/bin/ynab-export
 
