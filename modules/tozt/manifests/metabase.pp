@@ -73,15 +73,11 @@ class tozt::metabase {
     require => File["/home/doy/.config/google"];
   }
 
-  exec { "clone ynab-export":
-    command => "/usr/bin/git clone git://github.com/doy/ynab-export",
+  exec { "install ynab-export":
+    command => "/usr/bin/cargo install ynab-export",
     user => "doy",
-    cwd => "/home/doy/coding",
-    creates => "/home/doy/coding/ynab-export",
-    require => [
-      Class["git"],
-      File["/home/doy/coding"],
-    ],
+    creates => "/home/doy/.cargo/bin/ynab-export",
+    require => Rust::User['doy'];
   }
 
   exec { "clone investments-sheet-export":
