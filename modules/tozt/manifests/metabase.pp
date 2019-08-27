@@ -73,11 +73,10 @@ class tozt::metabase {
     require => File["/home/doy/.config/google"];
   }
 
-  exec { "install ynab-export":
-    command => "/usr/bin/cargo install ynab-export",
-    user => "doy",
-    creates => "/home/doy/.cargo/bin/ynab-export",
-    require => Rust::User['doy'];
+  package::cargo { "ynab-export for doy":
+    ensure => installed,
+    user => 'doy',
+    package => 'fancy-prompt';
   }
 
   exec { "clone investments-sheet-export":
