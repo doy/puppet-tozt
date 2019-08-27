@@ -12,22 +12,22 @@ trap cleanup EXIT
 
 chown doy:doy "$tmp"
 cd "$tmp"
-su doy -c /home/doy/.cargo/bin/ynab-export
+su doy -c /home/doy/.cargo/bin/ynab-export > /dev/null
 
-ynab-export schema | psql -U metabase ynab
+ynab-export schema | psql -U metabase ynab > /dev/null
 
-psql -U metabase ynab -c 'COPY accounts FROM STDIN' < accounts.tsv
-psql -U metabase ynab -c 'COPY category_groups FROM STDIN' < category_groups.tsv
-psql -U metabase ynab -c 'COPY categories FROM STDIN' < categories.tsv
-psql -U metabase ynab -c 'COPY months FROM STDIN' < months.tsv
-psql -U metabase ynab -c 'COPY categories_by_month FROM STDIN' < categories_by_month.tsv
-psql -U metabase ynab -c 'COPY payees FROM STDIN' < payees.tsv
-psql -U metabase ynab -c 'COPY transactions FROM STDIN' < transactions.tsv
-psql -U metabase ynab -c 'COPY subtransactions FROM STDIN' < subtransactions.tsv
-psql -U metabase ynab -c 'COPY scheduled_transactions FROM STDIN' < scheduled_transactions.tsv
-psql -U metabase ynab -c 'COPY scheduled_subtransactions FROM STDIN' < scheduled_subtransactions.tsv
+psql -U metabase ynab -c 'COPY accounts FROM STDIN' < accounts.tsv > /dev/null
+psql -U metabase ynab -c 'COPY category_groups FROM STDIN' < category_groups.tsv > /dev/null
+psql -U metabase ynab -c 'COPY categories FROM STDIN' < categories.tsv > /dev/null
+psql -U metabase ynab -c 'COPY months FROM STDIN' < months.tsv > /dev/null
+psql -U metabase ynab -c 'COPY categories_by_month FROM STDIN' < categories_by_month.tsv > /dev/null
+psql -U metabase ynab -c 'COPY payees FROM STDIN' < payees.tsv > /dev/null
+psql -U metabase ynab -c 'COPY transactions FROM STDIN' < transactions.tsv > /dev/null
+psql -U metabase ynab -c 'COPY subtransactions FROM STDIN' < subtransactions.tsv > /dev/null
+psql -U metabase ynab -c 'COPY scheduled_transactions FROM STDIN' < scheduled_transactions.tsv > /dev/null
+psql -U metabase ynab -c 'COPY scheduled_subtransactions FROM STDIN' < scheduled_subtransactions.tsv > /dev/null
 
-seq 1000000 | psql -U metabase ynab -c 'COPY ints FROM STDIN'
+seq 1000000 | psql -U metabase ynab -c 'COPY ints FROM STDIN' > /dev/null
 
 # shellcheck disable=SC2046
 su doy /home/doy/coding/investments-sheet-export/bin/load $(cat /home/doy/.config/google/investments-sheet) > /dev/null
