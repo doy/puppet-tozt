@@ -5,7 +5,7 @@ node 'tozt', 'tozt.localdomain' {
 
   class { 'base':
     extra_script => "
-      (cd /home/doy/coding/investments-sheet-export && git pull)
+      (cd /home/doy/coding/metabase-utils && git pull)
     ";
   }
 
