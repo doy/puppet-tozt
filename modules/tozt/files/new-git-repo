@@ -139,6 +139,7 @@ EOF
                 (defined($description)
                     ? (description => $description)
                     : ()),
+                visibility => 'public',
             }
         );
     }
