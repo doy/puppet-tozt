@@ -172,7 +172,7 @@ EOF
     }
 
     sub gitlab_v4($self, $method, $path, $data=undef) {
-        my $res = $self->github_ua->request(
+        my $res = $self->gitlab_ua->request(
             $method,
             "https://gitlab.com/api/v4$path",
             {
@@ -186,6 +186,7 @@ EOF
         }
         decode_json($res->{content})
     }
+
     sub github_ua($self) {
         $self->{github_ua} ||= HTTP::Tiny->new(
             default_headers => {
