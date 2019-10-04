@@ -24,7 +24,8 @@ package NewGitRepo {
         my $new_dir = "${\$self->{root}}/$opts{name}";
         my $github_user = $self->{github_user};
         my $gitlab_user = $self->{gitlab_user};
-        my $token = $self->github_token;
+        my $github_token = $self->github_token;
+        my $gitlab_token = $self->gitlab_token;
 
         local $ENV{GIT_DIR} = $new_dir;
 
@@ -52,12 +53,12 @@ package NewGitRepo {
         git(
             'remote',
             'add', 'github',
-            "https://$github_user:$token\@github.com/$github_user/$opts{name}",
+            "https://$github_user:$github_token\@github.com/$github_user/$opts{name}",
         );
         git(
             'remote',
             'add', 'gitlab',
-            "https://$gitlab_user:$token\@gitlab.com/$gitlab_user/$opts{name}",
+            "https://$gitlab_user:$gitlab_token\@gitlab.com/$gitlab_user/$opts{name}",
         );
 
         my $cgitrc = $self->generate_cgitrc(%opts);
