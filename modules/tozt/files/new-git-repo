@@ -58,7 +58,7 @@ package NewGitRepo {
         git(
             'remote',
             'add', 'gitlab',
-            "https://$gitlab_user:$gitlab_token\@gitlab.com/$gitlab_user/$opts{name}",
+            "https://$gitlab_user:$gitlab_token\@gitlab.com/$gitlab_user/$opts{name}.git",
         );
 
         my $cgitrc = $self->generate_cgitrc(%opts);
