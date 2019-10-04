@@ -54,6 +54,17 @@ class tozt::git {
     ];
   }
 
+  secret { "/home/doy/.gitlab":
+    source => 'gitlab',
+    owner => 'doy',
+    group => 'doy',
+    require => [
+      User['doy'],
+      Group['doy'],
+      File["/home/doy"],
+    ];
+  }
+
   nginx::site {
     "git-tls":
       source => 'puppet:///modules/tozt/nginx/git-tls.conf',

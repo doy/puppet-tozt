@@ -14,14 +14,16 @@ package NewGitRepo {
 
     sub new($class, %opts) {
         bless {
-            user => $opts{user},
+            github_user => $opts{github_user},
+            gitlab_user => $opts{gitlab_user},
             root => $opts{root},
         }, $class;
     }
 
     sub init($self, %opts) {
         my $new_dir = "${\$self->{root}}/$opts{name}";
-        my $user = $self->{user};
+        my $github_user = $self->{github_user};
+        my $gitlab_user = $self->{gitlab_user};
         my $token = $self->github_token;
 
         local $ENV{GIT_DIR} = $new_dir;
@@ -30,7 +32,7 @@ package NewGitRepo {
             git(
                 'clone',
                 '--bare',
-                "git://github.com/$user/$opts{name}",
+                "git://github.com/$github_user/$opts{name}",
                 $new_dir
             );
             git(qw(remote rm origin));
@@ -45,10 +47,17 @@ package NewGitRepo {
             $self->create_github_repository($opts{name}, $opts{description});
         }
 
+        $self->create_gitlab_repository($opts{name}, $opts{description});
+
         git(
             'remote',
             'add', 'github',
-            "https://$user:$token\@github.com/$user/$opts{name}",
+            "https://$github_user:$token\@github.com/$github_user/$opts{name}",
+        );
+        git(
+            'remote',
+            'add', 'gitlab',
+            "https://$gitlab_user:$token\@gitlab.com/$gitlab_user/$opts{name}",
         );
 
         my $cgitrc = $self->generate_cgitrc(%opts);
@@ -89,7 +98,7 @@ package NewGitRepo {
     sub repo_metadata($self, $name) {
         my $query = <<EOF;
             query {
-                repository(owner: "${\$self->{user}}", name: "$name") {
+                repository(owner: "${\$self->{github_user}}", name: "$name") {
                     description
                 }
             }
@@ -100,7 +109,7 @@ EOF
     sub set_github_description($self, $name, $description) {
         $self->github_v3(
             'PATCH',
-            "/repos/${\$self->{user}}/$name",
+            "/repos/${\$self->{github_user}}/$name",
             {
                 description => $description,
             }
@@ -120,8 +129,21 @@ EOF
         );
     }
 
+    sub create_gitlab_repository($self, $name, $description) {
+        $self->gitlab_v4(
+            'POST',
+            '/projects',
+            {
+                name => $name,
+                (defined($description)
+                    ? (description => $description)
+                    : ()),
+            }
+        );
+    }
+
     sub github_v3($self, $method, $path, $data=undef) {
-        my $res = $self->ua->request(
+        my $res = $self->github_ua->request(
             $method,
             "https://api.github.com$path",
             {
@@ -137,7 +159,7 @@ EOF
     }
 
     sub github_v4($self, $query) {
-        my $res = $self->ua->post(
+        my $res = $self->github_ua->post(
             "https://api.github.com/graphql",
             {
                 content => encode_json({query => $query}),
@@ -149,10 +171,36 @@ EOF
         decode_json($res->{content})
     }
 
-    sub ua($self) {
-        $self->{ua} ||= HTTP::Tiny->new(
+    sub gitlab_v4($self, $method, $path, $data=undef) {
+        my $res = $self->github_ua->request(
+            $method,
+            "https://gitlab.com/api/v4$path",
+            {
+                (defined($data)
+                    ? (content => encode_json($data))
+                    : ()),
+            }
+        );
+        if (!$res->{success}) {
+            die "query failed ($res->{status}): $res->{content}";
+        }
+        decode_json($res->{content})
+    }
+    sub github_ua($self) {
+        $self->{github_ua} ||= HTTP::Tiny->new(
             default_headers => {
                 'Authorization' => "bearer ${\$self->github_token}",
+                'Content-Type' => "application/json",
+                'Accept' => "application/json",
+            },
+            verify_SSL => 1,
+        );
+    }
+
+    sub gitlab_ua($self) {
+        $self->{gitlab_ua} ||= HTTP::Tiny->new(
+            default_headers => {
+                'Authorization' => "bearer ${\$self->gitlab_token}",
                 'Content-Type' => "application/json",
                 'Accept' => "application/json",
             },
@@ -163,6 +211,13 @@ EOF
     sub github_token($self) {
         $self->{github_token} ||= do {
             chomp(my $token = slurp("$ENV{HOME}/.github"));
+            $token
+        }
+    }
+
+    sub gitlab_token($self) {
+        $self->{gitlab_token} ||= do {
+            chomp(my $token = slurp("$ENV{HOME}/.gitlab"));
             $token
         }
     }
@@ -186,10 +241,12 @@ EOF
 
 sub main(@argv) {
     my %opts = parse_args(\@argv);
-    my $user = delete $opts{user};
+    my $github_user = delete $opts{github_user};
+    my $gitlab_user = delete $opts{gitlab_user};
     my $root = delete $opts{root};
     NewGitRepo->new(
-        user => $user,
+        github_user => $github_user,
+        gitlab_user => $gitlab_user,
         root => $root,
     )->init(%opts);
 }
@@ -197,7 +254,8 @@ sub main(@argv) {
 sub parse_args($argv) {
     my %opts = (
         from_github => undef,
-        user => $ENV{USER},
+        github_user => "doy",
+        gitlab_user => "doyster",
         root => "$ENV{HOME}/git",
         unmaintained => undef,
         description => undef,
@@ -206,7 +264,8 @@ sub parse_args($argv) {
     Getopt::Long::GetOptionsFromArray(
         $argv,
         'from-github' => \$opts{from_github},
-        'user=s' => \$opts{user},
+        'github_user=s' => \$opts{github_user},
+        'gitlab_user=s' => \$opts{gitlab_user},
         'root=s' => \$opts{root},
         'unmaintained' => \$opts{unmaintained},
         'description=s' => \$opts{description},
