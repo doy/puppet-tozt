@@ -5,5 +5,7 @@ set -o pipefail
 mkdir -p info/web
 git for-each-ref --sort=committerdate --format='%(committerdate)' refs/heads | tail -n1 > info/web/last-modified
 
-git push --mirror github
-git push --mirror gitlab
+git push --all github
+git push --tags github
+git push --all gitlab
+git push --tags gitlab
