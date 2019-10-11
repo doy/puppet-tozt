@@ -3,4 +3,4 @@ set -eu
 set -o pipefail
 
 cd "$RENEWED_LINEAGE"
-openssl pkcs12 -export -out identity.pfx -inkey privkey.pem -in cert.pem -certfile chain.pem
+openssl pkcs12 -export -out identity.pfx -inkey privkey.pem -in cert.pem -certfile chain.pem -passout pass:
