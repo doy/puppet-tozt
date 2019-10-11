@@ -31,10 +31,16 @@ class certbot($config_dir=undef) {
     "${_config_dir}/renewal-hooks/deploy":
       ensure => directory,
       require => File["${_config_dir}/renewal-hooks"];
-    "${_config_dir}/renewal-hooks/deploy/reload-cert":
+    "${_config_dir}/renewal-hooks/deploy/00-generate-pfx":
+      source => 'puppet:///modules/certbot/generate-pfx',
+      mode => '0755',
+      require => File["${_config_dir}/renewal-hooks/deploy"];
+    "${_config_dir}/renewal-hooks/deploy/10-reload-cert":
       source => 'puppet:///modules/certbot/reload-cert',
       mode => '0755',
       require => File["${_config_dir}/renewal-hooks/deploy"];
+    "${_config_dir}/renewal-hooks/deploy/reload-cert":
+      ensure => absent;
     "/usr/local/bin/bootstrap-certbot":
       source => 'puppet:///modules/certbot/bootstrap-certbot',
       mode => '0755';
