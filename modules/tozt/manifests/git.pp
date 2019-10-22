@@ -13,6 +13,7 @@ class tozt::git {
       owner => 'doy',
       group => 'doy',
       require => [
+        File['/media/persistent/git'],
         Class['tozt::persistent'],
         User['doy'],
         Group['doy'],
@@ -32,6 +33,7 @@ class tozt::git {
       owner => 'doy',
       group => 'doy',
       require => [
+        File['/media/persistent/releases'],
         Class['tozt::persistent'],
         User['doy'],
         Group['doy'],
