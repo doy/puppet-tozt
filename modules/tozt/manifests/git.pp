@@ -27,6 +27,25 @@ class tozt::git {
         Group['doy'],
         File["/home/doy"],
       ];
+    "/media/persistent/releases/doy":
+      ensure => directory,
+      owner => 'doy',
+      group => 'doy',
+      require => [
+        Class['tozt::persistent'],
+        User['doy'],
+        Group['doy'],
+      ];
+    "/home/doy/releases":
+      ensure => link,
+      target => "/media/persistent/releases/doy",
+      owner => 'doy',
+      group => 'doy',
+      require => [
+        User['doy'],
+        Group['doy'],
+        File["/home/doy"],
+      ];
     "/etc/cgitrc":
       source => "puppet:///modules/tozt/cgitrc";
     "/usr/local/share/git":
