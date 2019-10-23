@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 ExecStart=/usr/bin/tt server
-Restart=on-failure
+Restart=always
 
 [Install]
 WantedBy=default.target
