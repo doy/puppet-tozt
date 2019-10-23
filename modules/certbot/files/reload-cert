@@ -3,3 +3,4 @@ set -eu
 set -o pipefail
 
 systemctl restart nginx
+systemctl restart teleterm
