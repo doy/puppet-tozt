@@ -14,7 +14,7 @@ class tozt::teleterm {
     "/etc/teleterm":
       ensure => directory;
     "/etc/teleterm/config.toml":
-      contents => template("tozt/teleterm.toml"),
+      content => template("tozt/teleterm.toml"),
       require => File["/etc/teleterm"],
       before => Service["teleterm"];
   }
