@@ -10,8 +10,6 @@ class base::tools {
       "iftop",
       "iotop",
       "lsof",
-      # remove after https://bugs.archlinux.org/task/61603 is fixed
-      "libidn",
       "neomutt",
       "ncdu",
       "strace",
