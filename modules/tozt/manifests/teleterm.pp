@@ -17,5 +17,15 @@ class tozt::teleterm {
       content => template("tozt/teleterm.toml"),
       require => File["/etc/teleterm"],
       notify => Service["teleterm"];
+    "/var/lib/teleterm":
+      ensure => directory,
+      owner => "teleterm",
+      group => "teleterm",
+      mode => "0700",
+      require => [
+        User["teleterm"],
+        Group["teleterm"],
+      ],
+      before => Service["teleterm"];
   }
 }

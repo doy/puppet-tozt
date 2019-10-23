@@ -3,7 +3,7 @@ Description = runs teleterm
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/tt server
+ExecStart=/usr/bin/env -u HOME /usr/bin/tt server
 Restart=always
 
 [Install]

@@ -1,6 +1,16 @@
 class teleterm($source) {
   include systemd
 
+  group { "teleterm":
+    ensure => present;
+  }
+  user { "teleterm":
+    ensure => present,
+    gid => "teleterm",
+    system => true,
+    require => Group["teleterm"];
+  }
+
   package { "teleterm":
     ensure => installed,
     source => $source,
@@ -19,6 +29,8 @@ class teleterm($source) {
     require => [
       File["/etc/systemd/system/teleterm.service"],
       Exec["/usr/bin/systemctl daemon-reload"],
+      User["teleterm"],
+      Group["teleterm"],
     ];
   }
 }
