@@ -4,6 +4,7 @@ class teleterm($version, $source) {
   package { "teleterm":
     ensure => $version,
     source => $source,
+    notify => Service["teleterm"];
   }
 
   file {
