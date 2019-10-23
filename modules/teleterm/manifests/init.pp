@@ -1,13 +1,9 @@
-class teleterm {
-  include media::persistent
+class teleterm($source) {
   include systemd
-
-  $version = "0.1.0"
 
   package { "teleterm":
     ensure => installed,
-    source => "/media/persistent/releases/doy/teleterm/arch/teleterm-${version}-1-x86_64.pkg.tar.xz",
-    require => File['/media/persistent/releases'];
+    source => $source,
   }
 
   file {
