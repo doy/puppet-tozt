@@ -1,8 +1,8 @@
-class teleterm($version, $source) {
+class teleterm($source) {
   include systemd
 
   package { "teleterm":
-    ensure => $version,
+    ensure => installed,
     source => $source,
     notify => Service["teleterm"];
   }

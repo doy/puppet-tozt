@@ -6,7 +6,6 @@ class tozt::teleterm {
   $client_secret = secret::value('teleterm_client_secret')
 
   class { 'teleterm':
-    version => $version,
     source => "/media/persistent/releases/doy/teleterm/arch/teleterm-${version}-1-x86_64.pkg.tar.xz",
     require => File['/media/persistent/releases'];
   }
