@@ -12,8 +12,8 @@ class base::tools {
       "lsof",
       "neomutt",
       "ncdu",
+      "ripgrep",
       "strace",
-      "the_silver_searcher",
       "tmux",
     ]:
     ensure => 'installed';
