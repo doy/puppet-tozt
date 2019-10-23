@@ -16,6 +16,6 @@ class tozt::teleterm {
     "/etc/teleterm/config.toml":
       content => template("tozt/teleterm.toml"),
       require => File["/etc/teleterm"],
-      before => Service["teleterm"];
+      notify => Service["teleterm"];
   }
 }
