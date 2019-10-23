@@ -8,7 +8,7 @@ class teleterm($source) {
     ensure => present,
     gid => "teleterm",
     system => true,
-    home => undef,
+    home => "/",
     require => Group["teleterm"];
   }
 
