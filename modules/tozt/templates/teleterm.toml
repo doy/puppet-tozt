@@ -1,0 +1,9 @@
+[server]
+allowed_login_methods = ["recurse_center"]
+tls_identity_file = "/media/persistent/certbot/live/tozt.net/identity.pfx"
+uid = "nobody"
+gid = "nobody"
+
+[oauth.recurse_center]
+client_id = "<%= @client_id %>"
+client_secret = "<%= @client_secret %>"

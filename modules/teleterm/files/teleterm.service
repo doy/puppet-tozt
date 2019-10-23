@@ -1,0 +1,10 @@
+[Unit]
+Description = runs teleterm
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/tt server
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
