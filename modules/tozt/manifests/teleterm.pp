@@ -1,7 +1,7 @@
 class tozt::teleterm {
   include tozt::persistent
 
-  $version = "0.1.2"
+  $version = "0.1.3"
   $client_id = secret::value('teleterm_client_id')
   $client_secret = secret::value('teleterm_client_secret')
 
