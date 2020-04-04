@@ -12,7 +12,7 @@ class bitwarden::server($data_dir) {
     $data_dir:
       ensure => directory;
     "/etc/systemd/system/bitwarden.service":
-      source => "puppet:///modules/bitwarden/bitwarden.service",
+      content => template("bitwarden/bitwarden.service"),
       notify => Exec["/usr/bin/systemctl daemon-reload"];
   }
 
