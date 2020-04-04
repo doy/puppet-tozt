@@ -1,0 +1,10 @@
+[Unit]
+Description = runs bitwarden
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/docker run --name bitwarden -v /media/persistent/bitwarden/:/data/ -p 8080:80 bitwardenrs/server:latest
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

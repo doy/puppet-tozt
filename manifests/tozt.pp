@@ -13,6 +13,7 @@ node 'tozt', 'tozt.localdomain' {
   Class['tozt::operatingsystem'] -> Package<| provider == "pacman" |>
 
   include tozt::backups
+  include tozt::bitwarden
   include tozt::git
   include tozt::metabase
   include tozt::monitoring
