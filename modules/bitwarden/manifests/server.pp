@@ -1,4 +1,4 @@
-class bitwarden::server {
+class bitwarden::server($data_dir) {
   include docker
   include systemd
 
@@ -8,9 +8,12 @@ class bitwarden::server {
     require => Service["docker"];
   }
 
-  file { "/etc/systemd/system/bitwarden.service":
-    source => "puppet:///modules/bitwarden/bitwarden.service",
-    notify => Exec["/usr/bin/systemctl daemon-reload"];
+  file {
+    $data_dir:
+      ensure => directory;
+    "/etc/systemd/system/bitwarden.service":
+      source => "puppet:///modules/bitwarden/bitwarden.service",
+      notify => Exec["/usr/bin/systemctl daemon-reload"];
   }
 
   service { "bitwarden":
