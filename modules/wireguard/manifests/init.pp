@@ -1,5 +1,5 @@
 class wireguard {
-  package { "wireguard-tools":
+  package { ["wireguard-tools", "openresolv"]:
     ensure => installed,
   }
 

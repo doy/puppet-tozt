@@ -7,6 +7,7 @@ class conf {
     [
       "cmake",
       "fortune-mod",
+      "inetutils", # for hostname
       "less",
       "vim",
     ]:
