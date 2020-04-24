@@ -2,7 +2,7 @@
 set -eu
 set -o pipefail
 
-python -m virtualenv --python="$(command -v python2)" env
+python -m virtualenv --python="$(command -v python)" env
 set +eu
 # shellcheck disable=SC1091
 source env/bin/activate
