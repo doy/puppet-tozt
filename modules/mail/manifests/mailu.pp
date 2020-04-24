@@ -111,11 +111,4 @@ class mail::mailu {
       File["/etc/systemd/system/mailu.service"],
     ];
   }
-
-  file {
-    '/etc/cron.daily/hack-kick-mailu':
-      ensure => absent;
-  }
-
-  # include mail::mailu::testing
 }
