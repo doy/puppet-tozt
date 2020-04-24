@@ -39,7 +39,7 @@ git apply "${script_path}/algo-config.diff"
 
 echo "Running Ansible..."
 do_token=$(cat /mnt/digitalocean)
-ansible-playbook main.yml -e "provider=digitalocean server_name=algo.tozt.net region=nyc3 do_token=$do_token dns_adblocking=false ssh_tunneling=false" >> "$logfile"
+ansible-playbook main.yml -e "provider=digitalocean server_name=algo.tozt.net region=nyc3 do_token=$do_token dns_adblocking=false ssh_tunneling=false ondemand_cellular=false ondemand_wifi=false" >> "$logfile"
 
 "${script_path}/../algo-config"
 
