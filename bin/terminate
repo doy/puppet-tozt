@@ -6,10 +6,21 @@ script_path="$(realpath "$(dirname "$0")")"
 secrets_bin="${script_path}/secrets"
 
 case "$1" in
-    base|tozt|algo|mail|partofme)
+    tozt|algo|mail)
         "$secrets_bin" open
         trap '"$secrets_bin" close' EXIT
-        doctl -t "$(cat /mnt/digitalocean)" compute droplet delete "$1"
+        case "$1" in
+            tozt)
+                hostname=tozt.net
+            ;;
+            algo)
+                hostname=algo.tozt.net
+            ;;
+            mail)
+                hostname=mail.tozt.net
+            ;;
+        esac
+        doctl -t "$(cat /mnt/digitalocean)" compute droplet delete "$hostname"
         ;;
     *)
         echo "unknown host $1" >&2

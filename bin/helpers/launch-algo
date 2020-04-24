@@ -41,7 +41,7 @@ echo "Running Ansible..."
 do_token=$(cat /mnt/digitalocean)
 ansible-playbook main.yml -e "
     provider=digitalocean
-    server_name=algo
+    server_name=algo.tozt.net
     region=nyc3
     do_token=$do_token
     dns_adblocking=false

@@ -5,7 +5,7 @@ set -o pipefail
 # shellcheck source=functions.sh
 . "$(dirname "$0")/functions.sh"
 
-create_droplet tozt s-1vcpu-2gb 4206344e-cf4f-11e8-a5a7-0a58ac1465db
+create_droplet tozt.net s-1vcpu-2gb 4206344e-cf4f-11e8-a5a7-0a58ac1465db
 
 echo "Assigning floating ip to tozt..."
 # XXX this returns an error for some reason, but actually succeeds:
