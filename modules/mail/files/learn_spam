@@ -1,0 +1,24 @@
+#!/bin/bash
+set -eu
+set -o pipefail
+
+cd /media/persistent
+mkdir -p tmp
+dir=$(mktemp -d -p /media/persistent/tmp learnspam.XXXXXXXX)
+trap 'rm -rf $dir' EXIT
+
+ham="${dir}/ham"
+spam="${dir}/spam"
+mkdir "$ham" "$spam"
+
+find /media/persistent/mail -type f -mtime -90 | grep /cur/ | grep -v Sent | grep -v Junk | xargs -i ln {} "${dir}/ham"
+find /media/persistent/mail -type f -mtime -90 | grep /cur/ | grep -v Sent | grep Junk | xargs -i ln {} "${dir}/spam"
+
+docker-compose exec imap rspamc -h antispam:11334 -P mailu learn_ham "$ham"
+docker-compose exec imap rspamc -h antispam:11334 -P mailu learn_spam "$spam"
+
+docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 13 fuzzy_add "$ham"
+docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 11 fuzzy_del "$ham"
+
+docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 11 fuzzy_add "$spam"
+docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 13 fuzzy_del "$spam"
