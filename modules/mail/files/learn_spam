@@ -15,14 +15,14 @@ container_dir="${dir#/media/persistent}"
 container_ham="${container_dir}/ham"
 container_spam="${container_dir}/spam"
 
-find /media/persistent/mail -type f -mtime -90 | grep /cur/ | grep -v Sent | grep -v Junk | xargs -i ln {} "${dir}/ham"
-find /media/persistent/mail -type f -mtime -90 | grep /cur/ | grep -v Sent | grep Junk | xargs -i ln {} "${dir}/spam"
+find /media/persistent/mail -type f -mtime -30 | grep /cur/ | grep -v Sent | grep -v Junk | xargs -i ln {} "${dir}/ham"
+find /media/persistent/mail -type f -mtime -30 | grep /cur/ | grep -v Sent | grep Junk | xargs -i ln {} "${dir}/spam"
 
-docker-compose exec imap rspamc -h antispam:11334 -P mailu learn_ham "$container_ham"
-docker-compose exec imap rspamc -h antispam:11334 -P mailu learn_spam "$container_spam"
+docker-compose exec imap rspamc -h antispam:11334 -P mailu learn_ham "$container_ham" > /dev/null || true
+docker-compose exec imap rspamc -h antispam:11334 -P mailu learn_spam "$container_spam" > /dev/null || true
 
-docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 13 fuzzy_add "$container_ham"
-docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 11 fuzzy_del "$container_ham"
+docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 13 fuzzy_add "$container_ham" > /dev/null || true
+docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 11 fuzzy_del "$container_ham" > /dev/null || true
 
-docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 11 fuzzy_add "$container_spam"
-docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 13 fuzzy_del "$container_spam"
+docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 11 fuzzy_add "$container_spam" > /dev/null || true
+docker-compose exec imap rspamc -h antispam:11334 -P mailu -f 13 fuzzy_del "$container_spam" > /dev/null || true
