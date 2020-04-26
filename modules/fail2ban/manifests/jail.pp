@@ -2,7 +2,7 @@ define fail2ban::jail($source=undef) {
   include fail2ban
 
   $_source = $source ? {
-    undef => "puppet:///modules/fail2ban/${name}.conf",
+    undef => "puppet:///modules/fail2ban/jail/${name}.conf",
     default => $source,
   }
 
