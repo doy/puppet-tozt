@@ -26,13 +26,4 @@ class munin::node {
       notify => Exec["/usr/bin/systemctl daemon-reload"],
       require => File["/etc/systemd/system/munin-node.service.d"];
   }
-
-  # XXX backport a fix since the arch linux package is out of date
-  # this can be removed once the arch package upgrades to at least 2.0.28
-  exec { 'fix munin if plugin speed calculation':
-    provider => shell,
-    command => "sed -i 's/if \\[\\[ -n \"\$SPEED\" ]]; then/if [[ \"\$SPEED\" -gt 0 ]]; then/' /usr/lib/munin/plugins/if_",
-    onlyif => "grep -qF 'if [[ -n \"\$SPEED\" ]]; then' /usr/lib/munin/plugins/if_",
-    require => Package['munin-node'];
-  }
 }
