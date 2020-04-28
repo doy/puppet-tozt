@@ -12,7 +12,7 @@ class gitea {
       Package['gitea'],
       File['/etc/systemd/system/gitea.service.d/override.conf'],
       Exec["/usr/bin/systemctl daemon-reload"],
-      File['/media/persistent/gitea/work/custom/conf/app.ini'],
+      File['/media/persistent/gitea/custom/conf/app.ini'],
     ];
   }
 
@@ -24,7 +24,7 @@ class gitea {
       ensure => directory,
       owner => 'gitea',
       group => 'gitea';
-    '/media/persistent/gitea/work':
+    '/media/persistent/gitea/custom':
       ensure => directory,
       owner => 'gitea',
       group => 'gitea',
@@ -32,27 +32,19 @@ class gitea {
         Package['gitea'],
         File['/media/persistent/gitea'],
       ];
-    '/media/persistent/gitea/work/custom':
+    '/media/persistent/gitea/custom/conf':
       ensure => directory,
       owner => 'gitea',
       group => 'gitea',
       require => [
         Package['gitea'],
-        File['/media/persistent/gitea/work'],
+        File['/media/persistent/gitea/custom'],
       ];
-    '/media/persistent/gitea/work/custom/conf':
-      ensure => directory,
-      owner => 'gitea',
-      group => 'gitea',
-      require => [
-        Package['gitea'],
-        File['/media/persistent/gitea/work/custom'],
-      ];
-    '/media/persistent/gitea/work/custom/conf/app.ini':
+    '/media/persistent/gitea/custom/conf/app.ini':
       content => template('gitea/app.ini'),
       owner => 'gitea',
       group => 'gitea',
-      require => File['/media/persistent/gitea/work/custom/conf'];
+      require => File['/media/persistent/gitea/custom/conf'];
     '/etc/systemd/system/gitea.service.d':
       ensure => directory;
     '/etc/systemd/system/gitea.service.d/override.conf':
