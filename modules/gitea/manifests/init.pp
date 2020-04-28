@@ -24,7 +24,9 @@ class gitea {
 
   file {
     '/media/persistent/gitea':
-      ensure => directory;
+      ensure => directory,
+      owner => 'gitea',
+      group => 'gitea';
     '/media/persistent/gitea/home':
       ensure => directory,
       owner => 'gitea',
