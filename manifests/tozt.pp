@@ -14,7 +14,8 @@ node 'tozt', 'tozt.localdomain' {
 
   include tozt::backups
   include tozt::bitwarden
-  include tozt::git
+  # include tozt::git
+  include tozt::gitea
   include tozt::metabase
   include tozt::monitoring
   include tozt::munin
