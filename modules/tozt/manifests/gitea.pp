@@ -4,10 +4,10 @@ class tozt::gitea {
   include tozt::persistent
 
   nginx::site {
-    "git-tls":
+    "gitea-tls":
       source => 'puppet:///modules/tozt/nginx/gitea-tls.conf',
       require => Class['certbot'];
-    "git":
-      source => 'puppet:///modules/tozt/nginx/git.conf';
+    "gitea":
+      source => 'puppet:///modules/tozt/nginx/gitea.conf';
   }
 }

@@ -91,7 +91,7 @@ if [ -z "$is_running" ]; then
 fi
 
 if [ -z "$config_dir" ]; then
-    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d tozt.net -d blog.tozt.net -d paste.tozt.net -d git.tozt.net -d rss.tozt.net -d munin.tozt.net -d metabase.tozt.net -d rc-teleterm.tozt.net -d bitwarden.tozt.net
+    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d tozt.net -d blog.tozt.net -d paste.tozt.net -d git.tozt.net -d rss.tozt.net -d munin.tozt.net -d metabase.tozt.net -d rc-teleterm.tozt.net -d bitwarden.tozt.net -d gitea.tozt.net
 else
-    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d tozt.net -d blog.tozt.net -d paste.tozt.net -d git.tozt.net -d rss.tozt.net -d munin.tozt.net -d metabase.tozt.net -d rc-teleterm.tozt.net -d bitwarden.tozt.net --config-dir "$config_dir"
+    /usr/bin/certbot -n --agree-tos -m doy@tozt.net --nginx -d tozt.net -d blog.tozt.net -d paste.tozt.net -d git.tozt.net -d rss.tozt.net -d munin.tozt.net -d metabase.tozt.net -d rc-teleterm.tozt.net -d bitwarden.tozt.net -d gitea.tozt.net --config-dir "$config_dir"
 fi
