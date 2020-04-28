@@ -27,7 +27,7 @@ class gitea {
       ensure => directory;
     '/media/persistent/gitea/home':
       ensure => directory,
-      user => 'gitea',
+      owner => 'gitea',
       group => 'gitea',
       require => [
         Package['gitea'],
@@ -35,7 +35,7 @@ class gitea {
       ];
     '/media/persistent/gitea/work':
       ensure => directory,
-      user => 'gitea',
+      owner => 'gitea',
       group => 'gitea',
       require => [
         Package['gitea'],
@@ -43,7 +43,7 @@ class gitea {
       ];
     '/media/persistent/gitea/custom':
       ensure => directory,
-      user => 'gitea',
+      owner => 'gitea',
       group => 'gitea',
       require => [
         Package['gitea'],
@@ -51,7 +51,7 @@ class gitea {
       ];
     '/media/persistent/gitea/custom/conf':
       ensure => directory,
-      user => 'gitea',
+      owner => 'gitea',
       group => 'gitea',
       require => [
         Package['gitea'],
@@ -62,7 +62,7 @@ class gitea {
       require => File['/media/persistent/gitea/custom/conf'];
     '/media/persistent/gitea/repos':
       ensure => directory,
-      user => 'gitea',
+      owner => 'gitea',
       group => 'gitea',
       require => [
         Package['gitea'],
