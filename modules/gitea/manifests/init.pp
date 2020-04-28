@@ -59,6 +59,8 @@ class gitea {
       ];
     '/media/persistent/gitea/custom/conf/app.ini':
       content => template('gitea/app.ini'),
+      owner => 'gitea',
+      group => 'gitea',
       require => File['/media/persistent/gitea/custom/conf'];
     '/media/persistent/gitea/repos':
       ensure => directory,
