@@ -5,6 +5,11 @@ class gitea {
     ensure => installed;
   }
 
+  user { "gitea":
+    home => '/media/persistent/gitea',
+    require => Package["gitea"];
+  }
+
   service { "gitea":
     ensure => running,
     enable => true,
