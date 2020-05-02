@@ -2,7 +2,6 @@ class mail::mailu {
   include mail::persistent
   include cron
   include docker
-  include haveged
 
   package { "opendkim":
     ensure => installed;
@@ -34,7 +33,6 @@ class mail::mailu {
     ",
     creates => "/media/persistent/secret-key",
     require => [
-      Class["haveged"],
       Class["mail::persistent"],
     ]
   }
@@ -59,7 +57,6 @@ class mail::mailu {
     cwd => "/media/persistent",
     creates => "/media/persistent/dkim/tozt.net.dkim.key",
     require => [
-      Class["haveged"],
       Package["opendkim"],
       Class["mail::persistent"],
       File["/media/persistent/dkim"],

@@ -1,6 +1,4 @@
 class nginx::config {
-  include haveged
-
   file {
     "/etc/nginx/sites-available":
       ensure => directory;
