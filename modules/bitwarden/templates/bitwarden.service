@@ -3,7 +3,7 @@ Description=runs bitwarden
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/docker run --rm --name bitwarden -e ADMIN_TOKEN=<%= @admin_token %> -v <%= @data_dir %>:/data/ -p 8080:80 bitwardenrs/server:latest
+ExecStart=/usr/bin/docker run --rm --name bitwarden -e ADMIN_TOKEN=<%= @admin_token %> -e SIGNUPS_ALLOWED=false -v <%= @data_dir %>:/data/ -p 8080:80 bitwardenrs/server:latest
 ExecStop=/usr/bin/docker stop bitwarden
 Restart=always
 
