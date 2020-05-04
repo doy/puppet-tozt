@@ -2,6 +2,8 @@ class bitwarden::server($data_dir) {
   include docker
   include systemd
 
+  $admin_token = secret::value('bitwarden_admin_token')
+
   exec { "docker pull bitwardenrs/server:latest":
     provider => "shell",
     unless => "docker ps | grep -q bitwardenrs",
