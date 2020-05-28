@@ -2,7 +2,7 @@ class metabase {
   include postgres
   include systemd
 
-  $metabase_version = "v0.35.1"
+  $metabase_version = "v0.35.3"
 
   package { "jre-openjdk-headless":
     ensure => installed;
