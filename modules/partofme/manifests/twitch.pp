@@ -14,7 +14,7 @@ class partofme::twitch {
   }
 
   exec { "compile vtmode":
-    command => "cc /usr/local/src/vtmode.c -o /usr/local/bin/vtmode",
+    command => "/usr/bin/cc /usr/local/src/vtmode.c -o /usr/local/bin/vtmode",
     creates => "/usr/local/bin/vtmode",
     require => [
       File["/usr/local/src/vtmode.c"],
@@ -23,7 +23,7 @@ class partofme::twitch {
   }
 
   exec { "suid vtmode":
-    command => "chmod u+s /usr/local/bin/vtmode",
+    command => "/usr/bin/chmod u+s /usr/local/bin/vtmode",
     require => Exec["compile vtmode"],
   }
 }
