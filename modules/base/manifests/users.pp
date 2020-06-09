@@ -5,7 +5,7 @@ class base::users {
 
   base::user { $::default_user:
     pwhash => secret::value("passwd/$default_user"),
-    extra_groups => ['wheel'],
+    extra_groups => ['wheel', 'video', 'audio'],
     homedir_mode => '0701';
   }
 

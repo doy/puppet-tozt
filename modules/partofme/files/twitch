@@ -1,0 +1,3 @@
+#!/bin/sh
+
+streamlink -p "cvlc -A alsa --alsa-audio-device hdmi:CARD=PCH,DEV=2 -V fb --no-fb-tty" twitch.tv/"${1}" best

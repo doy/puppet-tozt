@@ -14,4 +14,5 @@ node 'partofme', 'partofme.localdomain' {
   include partofme::mdadm
   include partofme::monitoring
   include partofme::persistent
+  include partofme::twitch
 }
