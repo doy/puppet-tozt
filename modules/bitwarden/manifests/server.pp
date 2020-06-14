@@ -3,6 +3,7 @@ class bitwarden::server($data_dir) {
   include systemd
 
   $admin_token = secret::value('bitwarden_admin_token')
+  $smtp_password = secret::value('bitwarden_smtp_password')
 
   exec { "docker pull bitwardenrs/server:latest":
     provider => "shell",
