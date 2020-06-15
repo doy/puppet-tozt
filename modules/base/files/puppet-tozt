@@ -4,4 +4,4 @@ set -o pipefail
 
 branch=${1:-master}
 (cd /usr/local/share/puppet-tozt && sudo git pull && sudo git checkout "$branch" && sudo git reset --hard "origin/$branch")
-sudo puppet apply --show_diff --modulepath=/usr/local/share/puppet-tozt/modules /usr/local/share/puppet-tozt/manifests
+sudo puppet apply --show_diff --modulepath=/usr/local/share/puppet-tozt/modules --hiera_config=/usr/local/share/puppet-tozt/hiera/hiera.yaml /usr/local/share/puppet-tozt/manifests

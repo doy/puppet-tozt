@@ -1,0 +1,7 @@
+---
+version: 5
+hierarchy:
+  - name: Node
+    path: node/%{facts.networking.hostname}.yaml
+  - name: Common
+    path: common.yaml
