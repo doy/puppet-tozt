@@ -9,6 +9,9 @@ class base::operatingsystem {
         File["/etc/locale.gen"],
         Exec["regen locale data"],
       ];
+    "/etc/localtime":
+      ensure => link,
+      target => "/usr/share/zoneinfo/UTC";
     "/etc/hosts":
       content => template('base/hosts');
     '/etc/yaourtrc':
