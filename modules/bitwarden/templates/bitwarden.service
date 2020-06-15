@@ -3,7 +3,7 @@ Description=runs bitwarden
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/docker run --rm --name bitwarden -e DOMAIN=https://bitwarden.tozt.net/ -e ADMIN_TOKEN=<%= @admin_token %> -e SIGNUPS_ALLOWED=false -e SMTP_HOST=mail.tozt.net -e SMTP_FROM=bitwarden-noreply@tozt.net -e SMTP_PORT=587 -e SMTP_SSL=true -e SMTP_USERNAME=bitwarden-noreply@tozt.net -e SMTP_PASSWORD=<%= @smtp_password %> -v <%= @data_dir %>:/data/ -p 8080:80 bitwardenrs/server:latest
+ExecStart=/usr/bin/docker run --rm --name bitwarden -e DOMAIN=https://bitwarden.tozt.net -e ADMIN_TOKEN=<%= @admin_token %> -e SIGNUPS_ALLOWED=false -e SMTP_HOST=mail.tozt.net -e SMTP_FROM=bitwarden-noreply@tozt.net -e SMTP_PORT=587 -e SMTP_SSL=true -e SMTP_USERNAME=bitwarden-noreply@tozt.net -e SMTP_PASSWORD=<%= @smtp_password %> -v <%= @data_dir %>:/data/ -p 8080:80 bitwardenrs/server:latest
 ExecStop=/usr/bin/docker stop bitwarden
 Restart=always
 
