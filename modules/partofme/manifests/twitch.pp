@@ -20,10 +20,11 @@ class partofme::twitch {
       File["/usr/local/src/vtmode.c"],
       Class["c_toolchain"],
     ],
+    notify => Exec["suid vtmode"];
   }
 
   exec { "suid vtmode":
     command => "/usr/bin/chmod u+s /usr/local/bin/vtmode",
-    require => Exec["compile vtmode"],
+    refreshonly => true;
   }
 }
