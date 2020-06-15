@@ -2,5 +2,6 @@
 set -eu
 set -o pipefail
 
-(cd /usr/local/share/puppet-tozt && sudo git pull)
+branch=${1:-master}
+(cd /usr/local/share/puppet-tozt && sudo git pull && sudo git checkout "$branch")
 sudo puppet apply --show_diff --modulepath=/usr/local/share/puppet-tozt/modules /usr/local/share/puppet-tozt/manifests
