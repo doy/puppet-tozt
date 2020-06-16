@@ -22,7 +22,7 @@ class gitea {
   }
 
   $secret_key = secret::value('gitea_secret_key')
-  $jwt_secret = secret::value('gitea_jwt_secret')
+  $smtp_password = secret::value('gitea_smtp_password')
 
   file {
     '/media/persistent/gitea':
