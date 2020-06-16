@@ -3,5 +3,5 @@ set -eu
 set -o pipefail
 
 branch=${1:-master}
-(cd /usr/local/share/puppet-tozt && sudo git checkout "$branch" && sudo git pull && sudo git submodule update --init --recursive && sudo git reset --hard "origin/$branch")
+(cd /usr/local/share/puppet-tozt && sudo git checkout -B "$branch" && sudo git pull && sudo git submodule update --init --recursive && sudo git reset --hard "origin/$branch")
 sudo ruby -W0 /usr/bin/puppet apply --show_diff --modulepath=/usr/local/share/puppet-tozt/modules --hiera_config=/usr/local/share/puppet-tozt/hiera/hiera.yaml /usr/local/share/puppet-tozt/manifests
