@@ -1,0 +1,33 @@
+#!/bin/sh
+set -eu
+
+db=/media/persistent/gitea/gitea.sqlite
+while true; do
+    if ! test -s $db; then
+        sleep 1
+        continue
+    fi
+    # shellcheck disable=SC2016
+    if ! sqlite3 "$db" .dump | grep -q 'CREATE TABLE `user`'; then
+        sleep 1
+        continue
+    fi
+    # shellcheck disable=SC2016
+    if ! sqlite3 "$db" .dump | grep -q 'CREATE TABLE `email_address`'; then
+        sleep 1
+        continue
+    fi
+    break
+done
+
+gitea admin create-user \
+    --username '<%= @gitea_username %>' \
+    --password '<%= @gitea_password %>' \
+    --email '<%= @gitea_email %>' \
+    --admin \
+    --must-change-password=false
+gitea admin auth add-oauth \
+    --name github \
+    --provider github \
+    --key '<%= @github_oauth_key %>' \
+    --secret '<%= @github_oauth_secret %>'

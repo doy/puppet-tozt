@@ -1,0 +1,102 @@
+#!/usr/bin/env python
+# based on https://gitea.com/yige/github2gitea
+
+import requests
+from requests.adapters import HTTPAdapter
+import time
+import json
+import urllib.parse
+
+GITEA_URL = 'https://gitea.tozt.net'
+GITEA_USERNAME = '<%= @gitea_username %>'
+GITEA_PASSWORD = '<%= @gitea_password %>'
+GITHUB_USERNAME = '<%= @github_username %>'
+GITHUB_PASSWORD = '<%= @github_password %>'
+GITHUB_API_TOKEN = '<%= @github_api_token %>'
+
+while True:
+    response_user = requests.get(
+        f'{GITEA_URL}/api/v1/users/{GITEA_USERNAME}',
+        auth=(GITEA_USERNAME, GITEA_PASSWORD),
+    )
+    if response_user.status_code == 200:
+        break
+    time.sleep(1)
+
+verify = False
+
+uid = response_user.json()['id']
+for n in range(1000):
+    page = n + 1
+    n = page
+    response_github = requests.get(
+        f'https://api.github.com/users/{GITHUB_USERNAME}/repos?' +
+        f'per_page=100&page={page}',
+        headers={'Authorization': 'token ' + GITHUB_API_TOKEN})
+
+    if response_github.status_code == 200:
+        if len(response_github.json()):
+            for repo in response_github.json():
+                if repo['fork']:
+                    continue
+
+                repo_clone_url = repo['clone_url']
+                repo_name = repo['name']
+                description = repo['description']
+
+                print('Creating repository: ' + repo_name)
+                print(repo_clone_url)
+
+                s = requests.Session()
+                s.mount('http://', HTTPAdapter(max_retries=3))
+                s.mount('https://', HTTPAdapter(max_retries=3))
+
+                migrate_json = {
+                    'clone_addr': repo_clone_url,
+                    'auth_username': GITHUB_USERNAME,
+                    'auth_password': GITHUB_PASSWORD,
+                    'mirror': False,
+                    'private': False,
+                    "issues": True,
+                    "labels": True,
+                    "milestones": True,
+                    "pull_requests": True,
+                    "releases": True,
+                    "wiki": True,
+                    'repo_name': repo_name,
+                    'uid': uid,
+                    'description': description
+                }
+                response_migrate = s.post(
+                    f'{GITEA_URL}/api/v1/repos/migrate',
+                    json=migrate_json,
+                    auth=(GITEA_USERNAME, GITEA_PASSWORD),
+                    timeout=300
+                )
+                if (response_migrate.status_code == 409
+                        or response_migrate.json()['id'] > 0):
+                    if (response_migrate.status_code == 409):
+                        print(
+                            repo_name +
+                            ': The repository already exists.'
+                        )
+                    else:
+                        print(
+                            repo_name +
+                            ': Clone repository created!'
+                        )
+                else:
+                    print(repo_name + ': Clone repository error!')
+                    print(response_migrate.json())
+                    exit(1)
+        else:
+            if verify:
+                print('All clones finished!')
+                break
+            else:
+                page = 1
+                verify = True
+    else:
+        print(response_github.status_code)
+        print('Error listing Github repos.')
+        exit(1)
