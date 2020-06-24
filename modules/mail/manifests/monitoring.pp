@@ -78,4 +78,26 @@ class mail::monitoring {
       'mail_count',
     ]:
   }
+
+  tick::client::plugin {
+    "cpu":
+      opts => {
+        percpu => true,
+        totalcpu => true,
+        collect_cpu_time => false,
+        report_active => false,
+      };
+    "disk":
+      opts => {
+        ignore_fs => ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"],
+      };
+    [
+      "diskio",
+      "kernel",
+      "mem",
+      "processes",
+      "swap",
+      "system",
+    ]:
+  }
 }
