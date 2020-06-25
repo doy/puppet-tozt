@@ -1,9 +1,13 @@
 class nginx::config {
   file {
     "/etc/nginx/sites-available":
-      ensure => directory;
+      ensure => directory,
+      recurse => true,
+      purge => true;
     "/etc/nginx/sites-enabled":
-      ensure => directory;
+      ensure => directory,
+      recurse => true,
+      purge => true;
     "/etc/nginx/ssl":
       source => 'puppet:///modules/nginx/ssl';
     "/etc/nginx/mime.types.paste":
