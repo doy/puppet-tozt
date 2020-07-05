@@ -4,6 +4,7 @@ class tick::server::kapacitor {
   }
 
   $smtp_password = secret::value('kapacitor_smtp_password')
+  $smtp_to = secret::value('kapacitor_to')
 
   file {
     "/etc/kapacitor/kapacitor.conf":
