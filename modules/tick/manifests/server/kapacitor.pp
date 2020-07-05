@@ -11,6 +11,12 @@ class tick::server::kapacitor {
       content => template('tick/kapacitor.conf'),
       require => Package::Makepkg['kapacitor-bin'],
       notify => Service['kapacitor'];
+    "/etc/kapacitor/load":
+      ensure => directory,
+      require => Package::Makepkg['kapacitor-bin'];
+    "/etc/kapacitor/load/tasks":
+      ensure => directory,
+      require => File["/etc/kapacitor/load"];
     "/media/persistent/kapacitor":
       ensure => directory,
       owner => "kapacitor",
