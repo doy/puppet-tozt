@@ -28,4 +28,6 @@ class tick::client::base_plugins {
       "system",
     ]:
   }
+
+  class { "tick::client::plugin::pacman": }
 }

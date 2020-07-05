@@ -1,0 +1,4 @@
+#!/bin/sh
+
+update_count="$( (yaourt -Qua || true) | wc -l)"
+echo "pacman updates=${update_count}i"

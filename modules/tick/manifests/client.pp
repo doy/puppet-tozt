@@ -14,6 +14,9 @@ class tick::client {
     "/etc/telegraf/telegraf.d":
       ensure => directory,
       require => Package::Makepkg['telegraf-bin'];
+    "/etc/telegraf/plugins":
+      ensure => directory,
+      require => Package::Makepkg['telegraf-bin'];
   }
 
   service { 'telegraf':
