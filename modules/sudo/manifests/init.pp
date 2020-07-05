@@ -4,6 +4,7 @@ class sudo {
   }
 
   file { "/etc/sudoers.d/wheel":
-    content => '%wheel ALL=(ALL) ALL';
+    content => '%wheel ALL=(ALL) ALL',
+    require => Package['sudo'];
   }
 }
