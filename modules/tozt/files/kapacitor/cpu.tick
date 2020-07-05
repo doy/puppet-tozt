@@ -1,0 +1,32 @@
+dbrp "telegraf"."autogen"
+
+var message = '''
+{{- if eq .Level "OK" -}}
+{{ index .Tags "host" }} is no longer using excessive CPU
+{{- else -}}
+{{ index .Tags "host" }} is using excessive CPU
+{{- end -}}
+'''
+
+var details = '''
+{{- if eq .Level "OK" -}}
+{{ index .Tags "host" }} is now only using {{ index .Fields "mean" }}% CPU
+{{- else -}}
+{{ index .Tags "host" }} has used an average of {{ index .Fields "mean" }}% CPU for the last 10 minutes
+{{- end -}}
+'''
+
+stream
+|from()
+    .measurement('cpu')
+    .groupBy('host')
+    .where(lambda: "cpu" == 'cpu-total')
+|eval(lambda: 100.0 - "usage_idle")
+    .as('usage')
+|window()
+    .period(10m)
+|mean('usage')
+|alert()
+    .crit(lambda: "mean" > 90)
+    .message(message)
+    .details(details)

@@ -4,6 +4,8 @@ class tozt::tick {
   tick::server::kapacitor::alert {
     "deadman":
       source => 'puppet:///modules/tozt/kapacitor/deadman.tick';
+    "cpu":
+      source => 'puppet:///modules/tozt/kapacitor/cpu.tick';
   }
 
   secret {
