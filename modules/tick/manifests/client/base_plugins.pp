@@ -12,11 +12,17 @@ class tick::client::base_plugins {
           "squashfs"
         ],
       };
+    "net":
+      opts => {
+        ignore_protocol_stats => true,
+      };
     [
       "cpu",
       "diskio",
       "kernel",
       "mem",
+      "netstat",
+      "ntpq",
       "processes",
       "swap",
       "system",
