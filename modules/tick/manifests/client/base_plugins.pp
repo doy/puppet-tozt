@@ -29,5 +29,10 @@ class tick::client::base_plugins {
     ]:
   }
 
-  class { "tick::client::plugin::pacman": }
+  class {
+    [
+      "tick::client::plugin::duplicati",
+      "tick::client::plugin::pacman",
+    ]:
+  }
 }

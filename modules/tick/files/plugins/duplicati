@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+require 'date'
+require 'yaml'
+
+def parse_duration(dur)
+  hours, minutes, seconds = dur.split(/:/)
+  3600 * hours.to_f + 60 * minutes.to_f + seconds.to_f
+end
+
+def field_name(name)
+  name.gsub(/\A[^A-Za-z_]/, '_').gsub(/[^A-Za-z0-9_]/, '_')
+end
+
+def backup_metadata(id)
+    backup = YAML.load(%x{duplicati-client describe backup #{id}})
+    backup[0]['Backup']['Metadata']
+end
+
+def all_backups
+  _ = %x{duplicati-client login}
+  backups = YAML.load(%x{duplicati-client list backups})
+  ret = {}
+  backups.each do |backup|
+    name = backup.keys[0]
+    id = backup[name]['ID']
+    ret[id] = name
+  end
+  ret
+end
+
+now = Time.now
+all_backups.each do |id, name|
+  metadata = backup_metadata(id)
+
+  ago_s = now - DateTime.iso8601(metadata['LastBackupFinished']).to_time
+  dur_s = parse_duration(metadata['LastBackupDuration'])
+  file_size_b = metadata['SourceFilesSize'].to_i
+  file_count_n = metadata['SourceFilesCount'].to_i
+
+  puts "duplicati,id=#{id},name=#{name} days_since_last_run=#{ago_s / 60.0 / 60.0 / 24.0},last_run_duration_minutes=#{dur_s / 60.0},file_size=#{file_size_b}i,file_count=#{file_count_n}i"
+end
