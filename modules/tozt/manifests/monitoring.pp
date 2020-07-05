@@ -82,4 +82,6 @@ class tozt::monitoring {
   }
 
   include tick::client::base_plugins
+
+  class { "tick::client::plugin::tarsnap": }
 }

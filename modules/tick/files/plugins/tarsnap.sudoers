@@ -1,0 +1,3 @@
+Cmnd_Alias TARSNAP = /usr/bin/tarsnap
+telegraf  ALL=(ALL) NOPASSWD: TARSNAP
+Defaults!TARSNAP !logfile, !syslog, !pam_session
