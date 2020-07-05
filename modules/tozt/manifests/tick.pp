@@ -1,6 +1,11 @@
 class tozt::tick {
   include tick::server
 
+  tick::server::kapacitor::alert {
+    "deadman":
+      source => 'puppet:///modules/tozt/kapacitor/deadman.tick';
+  }
+
   secret {
     "/media/persistent/influxdb.htpasswd":
       source => 'influxdb_htpasswd',
