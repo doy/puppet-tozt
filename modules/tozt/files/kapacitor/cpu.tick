@@ -24,7 +24,7 @@ stream
 |eval(lambda: 100.0 - "usage_idle")
     .as('usage')
 |window()
-    .period(10m)
+    .period(1h)
 |mean('usage')
 |alert()
     .crit(lambda: "mean" > 90)
