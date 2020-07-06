@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sudo "$(dirname $0)/certbot_inner"
