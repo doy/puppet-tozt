@@ -18,6 +18,8 @@ class tozt::tick {
       source => 'puppet:///modules/tozt/kapacitor/tarsnap.tick';
     "duplicati":
       source => 'puppet:///modules/tozt/kapacitor/duplicati.tick';
+    "partofme-data":
+      source => 'puppet:///modules/tozt/kapacitor/partofme-data.tick';
   }
 
   secret {
