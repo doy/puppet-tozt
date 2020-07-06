@@ -1,0 +1,36 @@
+dbrp "telegraf"."autogen"
+
+var message = '''
+{{- if eq .Level "OK" -}}
+{{ index .Tags "host" }} is no longer using excessive disk IO
+{{- else -}}
+{{ index .Tags "host" }} is using excessive disk IO
+{{- end -}}
+'''
+
+var details = '''
+{{- if eq .Level "OK" -}}
+{{ index .Tags "host" }} is now only averaging {{ index .Fields "activity" }}B/s of disk usage
+{{- else -}}
+{{ index .Tags "host" }} has been averaging {{ index .Fields "activity" }}B/s of disk usage for the last 10 minutes
+{{- end -}}
+'''
+
+stream
+|from()
+    .measurement('diskio')
+    .groupBy('host')
+|eval(lambda: "read_bytes" + "write_bytes")
+    .as('activity')
+|sum('activity')
+    .as('activity')
+|derivative('activity')
+    .nonNegative()
+|window()
+    .period(10m)
+|mean('activity')
+    .as('activity')
+|alert()
+    .crit(lambda: "activity" > 512*1024)
+    .message(message)
+    .details(details)
