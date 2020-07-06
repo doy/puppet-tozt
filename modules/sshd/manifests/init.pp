@@ -11,6 +11,8 @@ class sshd {
   file {
     '/etc/ssh/sshd_config.d':
       ensure => directory,
+      recurse => true,
+      purge => true,
       require => Package['openssh'];
   }
 

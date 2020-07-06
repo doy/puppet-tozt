@@ -13,9 +13,13 @@ class tick::client {
       notify => Service['telegraf'];
     "/etc/telegraf/telegraf.d":
       ensure => directory,
+      recurse => true,
+      purge => true,
       require => Package::Makepkg['telegraf-bin'];
     "/etc/telegraf/plugins":
       ensure => directory,
+      recurse => true,
+      purge => true,
       require => Package::Makepkg['telegraf-bin'];
   }
 

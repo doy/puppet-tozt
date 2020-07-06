@@ -16,6 +16,8 @@ class tick::server::kapacitor {
       require => Package::Makepkg['kapacitor-bin'];
     "/etc/kapacitor/load/tasks":
       ensure => directory,
+      recurse => true,
+      purge => true,
       require => File["/etc/kapacitor/load"];
     "/media/persistent/kapacitor":
       ensure => directory,
