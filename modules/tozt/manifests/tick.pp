@@ -14,6 +14,10 @@ class tozt::tick {
     #   source => 'puppet:///modules/tozt/kapacitor/disk.tick';
     "certbot":
       source => 'puppet:///modules/tozt/kapacitor/certbot.tick';
+    "tarsnap":
+      source => 'puppet:///modules/tozt/kapacitor/tarsnap.tick';
+    "duplicati":
+      source => 'puppet:///modules/tozt/kapacitor/duplicati.tick';
   }
 
   secret {
