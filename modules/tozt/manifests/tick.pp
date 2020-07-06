@@ -12,6 +12,8 @@ class tozt::tick {
     # better way to express this alert
     # "disk":
     #   source => 'puppet:///modules/tozt/kapacitor/disk.tick';
+    "certbot":
+      source => 'puppet:///modules/tozt/kapacitor/certbot.tick';
   }
 
   secret {

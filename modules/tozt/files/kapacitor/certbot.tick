@@ -1,0 +1,28 @@
+dbrp "telegraf"."autogen"
+
+var message = '''
+{{- if eq .Level "OK" -}}
+certificate for {{ index .Tags "site" }} has been renewed
+{{- else -}}
+certificate for {{ index .Tags "site" }} is about to expire
+{{- end -}}
+'''
+
+var details = '''
+{{- if eq .Level "OK" -}}
+certificate for {{ index .Tags "site" }} now expires in {{ index .Fields "days_remaining" }} days
+{{- else -}}
+certificate for {{ index .Tags "site" }} has only {{ index .Fields "days_remaining" }} days remaining
+{{- end -}}
+'''
+
+stream
+|from()
+    .measurement('certbot')
+    .groupBy('site')
+|max('days_remaining')
+    .as('days_remaining')
+|alert()
+    .crit(lambda: "days_remaining" < 7)
+    .message(message)
+    .details(details)
