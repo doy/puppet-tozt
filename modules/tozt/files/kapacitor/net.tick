@@ -31,6 +31,6 @@ stream
 |mean('activity')
     .as('activity')
 |alert()
-    .crit(lambda: "activity" > 1024*1024)
+    .crit(lambda: "activity" > 2*1024*1024)
     .message(message)
     .details(details)
