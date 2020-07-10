@@ -18,7 +18,6 @@ node 'tozt', 'tozt.localdomain' {
   include tozt::git
   include tozt::metabase
   include tozt::monitoring
-  include tozt::munin
   include tozt::paste
   include tozt::services
   include tozt::site
