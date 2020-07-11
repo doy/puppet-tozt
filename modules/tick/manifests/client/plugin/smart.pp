@@ -3,6 +3,8 @@ class tick::client::plugin::smart {
     opts => {
       use_sudo => true,
       attributes => true,
+      interval => "5m",
+      timeout => "2m",
     }
   }
 

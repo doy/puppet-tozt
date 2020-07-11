@@ -2,6 +2,8 @@ class tick::client::plugin::fail2ban {
   tick::client::plugin { "fail2ban":
     opts => {
       use_sudo => true,
+      interval => "5m",
+      timeout => "2m",
     }
   }
 
