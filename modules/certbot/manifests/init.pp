@@ -9,6 +9,19 @@ class certbot($config_dir=undef) {
   include cron
   include nginx
 
+  $primary_domain = "tozt.net"
+  $secondary_domains = [
+    "blog.tozt.net",
+    "paste.tozt.net",
+    "git.tozt.net",
+    "rss.tozt.net",
+    "metabase.tozt.net",
+    "rc-teleterm.tozt.net",
+    "bitwarden.tozt.net",
+    "influxdb.tozt.net",
+    "chronograf.tozt.net",
+  ]
+
   package {
     [
       'certbot',
@@ -41,21 +54,21 @@ class certbot($config_dir=undef) {
       require => File["${_config_dir}/renewal-hooks/deploy"];
     "${_config_dir}/renewal-hooks/deploy/reload-cert":
       ensure => absent;
-    "/usr/local/bin/bootstrap-certbot":
-      source => 'puppet:///modules/certbot/bootstrap-certbot',
+    "/usr/local/bin/certbot-tozt":
+      content => template('certbot/certbot-tozt'),
       mode => '0755';
   }
 
   exec { "initial certbot run":
     provider => shell,
-    command => "/usr/local/bin/bootstrap-certbot ${config_dir}",
+    command => "/usr/local/bin/certbot-tozt ${config_dir}",
     creates => "${_config_dir}/live",
     require => [
       Package["certbot"],
       # not Class["nginx"], because of circular dependencies with nginx::site
       Package["nginx"],
       Package["certbot-nginx"],
-      File['/usr/local/bin/bootstrap-certbot'],
+      File['/usr/local/bin/certbot-tozt'],
     ],
   }
 }
