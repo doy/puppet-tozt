@@ -18,7 +18,8 @@ class tick::server::kapacitor {
       ensure => directory,
       recurse => true,
       purge => true,
-      require => File["/etc/kapacitor/load"];
+      require => File["/etc/kapacitor/load"],
+      notify => Service['kapacitor'];
     "/media/persistent/kapacitor":
       ensure => directory,
       owner => "kapacitor",
