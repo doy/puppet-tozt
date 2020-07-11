@@ -19,6 +19,7 @@ class tick::client::base_plugins {
     [
       "cpu",
       "diskio",
+      "internal",
       "kernel",
       "mem",
       "netstat",
