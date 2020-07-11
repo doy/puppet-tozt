@@ -1,4 +1,3 @@
-ssl                        on;
 ssl_certificate            /media/persistent/certbot/live/tozt.net/fullchain.pem;
 ssl_certificate_key        /media/persistent/certbot/live/tozt.net/privkey.pem;
 ssl_protocols              TLSv1.1 TLSv1.2;
