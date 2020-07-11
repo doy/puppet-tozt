@@ -11,6 +11,10 @@ class cron {
       content => template('cron/msmtprc');
     '/etc/aliases':
       content => template('cron/aliases');
+    "/etc/cronjobs":
+      ensure => directory,
+      recurse => true,
+      purge => true;
   }
 
   systemd::override { "cronie":
