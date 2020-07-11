@@ -1,6 +1,4 @@
 class postgres {
-  include systemd
-
   $dbpath = "${persistent_data}/postgres" # lint:ignore:variable_scope
 
   package { "postgresql":
@@ -22,12 +20,10 @@ class postgres {
         Package["postgresql"],
         File[$dbpath],
       ];
-    "/etc/systemd/system/postgresql.service.d":
-      ensure => directory;
-    "/etc/systemd/system/postgresql.service.d/override.conf":
-      content => template('postgres/postgres-service'),
-      notify => Exec["/usr/bin/systemctl daemon-reload"],
-      require => File["/etc/systemd/system/postgresql.service.d"];
+  }
+
+  systemd::override { "postgresql":
+    content => template('postgres/postgres-service');
   }
 
   exec { "fixup db path permissions":
@@ -55,6 +51,7 @@ class postgres {
     enable => true,
     require => [
       Package["postgresql"],
+      Systemd::Override['postgresql'],
       Exec["initialize db path"],
     ];
   }

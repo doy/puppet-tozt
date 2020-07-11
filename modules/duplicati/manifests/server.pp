@@ -1,6 +1,4 @@
 class duplicati::server {
-  include systemd
-
   package {
     [
       "gtk-sharp-2",
@@ -18,13 +16,8 @@ class duplicati::server {
     ]
   }
 
-  file {
-    '/etc/systemd/system/duplicati.service.d':
-      ensure => directory;
-    '/etc/systemd/system/duplicati.service.d/override.conf':
-      source => 'puppet:///modules/duplicati/override.conf',
-      notify => Exec['/usr/bin/systemctl daemon-reload'],
-      require => File['/etc/systemd/system/duplicati.service.d'];
+  systemd::override { "duplicati":
+    source => 'puppet:///modules/duplicati/override.conf';
   }
 
   service { 'duplicati':
@@ -32,7 +25,7 @@ class duplicati::server {
     enable => true,
     require => [
       Package::Makepkg['duplicati-latest'],
-      File['/etc/systemd/system/duplicati.service.d/override.conf'],
+      Systemd::Override['duplicati'],
       Exec['/usr/bin/systemctl daemon-reload'],
     ];
   }

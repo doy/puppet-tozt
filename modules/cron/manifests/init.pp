@@ -1,6 +1,4 @@
 class cron {
-  include systemd
-
   $from = "${facts['networking']['hostname']}-cron"
   $password = secret::value('cron_email_password')
 
@@ -13,15 +11,10 @@ class cron {
       content => template('cron/msmtprc');
     '/etc/aliases':
       content => template('cron/aliases');
-    '/etc/systemd/system/cronie.service.d':
-      ensure => directory;
-    '/etc/systemd/system/cronie.service.d/override.conf':
-      source => 'puppet:///modules/cron/override.conf',
-      require => File['/etc/systemd/system/cronie.service.d'],
-      notify => [
-        Exec["/usr/bin/systemctl daemon-reload"],
-        Service['cronie'],
-      ];
+  }
+
+  systemd::override { "cronie":
+    source => 'puppet:///modules/cron/override.conf';
   }
 
   service { 'cronie':
@@ -29,7 +22,7 @@ class cron {
     enable => true,
     require => [
       Package['cronie'],
-      File['/etc/systemd/system/cronie.service.d/override.conf'],
+      Systemd::Override['cronie'],
       Exec["/usr/bin/systemctl daemon-reload"],
     ];
   }

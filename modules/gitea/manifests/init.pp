@@ -1,6 +1,4 @@
 class gitea {
-  include systemd
-
   package { "gitea":
     ensure => installed;
   }
@@ -15,7 +13,7 @@ class gitea {
     enable => true,
     require => [
       Package['gitea'],
-      File['/etc/systemd/system/gitea.service.d/override.conf'],
+      Systemd::Override['gitea'],
       Exec["/usr/bin/systemctl daemon-reload"],
       File['/media/persistent/gitea/custom/conf/app.ini'],
     ];
@@ -60,18 +58,16 @@ class gitea {
       owner => 'gitea',
       group => 'gitea',
       require => File['/media/persistent/gitea/custom/conf'];
-    '/etc/systemd/system/gitea.service.d':
-      ensure => directory;
-    '/etc/systemd/system/gitea.service.d/override.conf':
-      source => 'puppet:///modules/gitea/override.conf',
-      notify => Exec["/usr/bin/systemctl daemon-reload"],
-      require => File["/etc/systemd/system/gitea.service.d"];
     '/usr/local/bin/github2gitea':
       content => template('gitea/github2gitea'),
       mode => "0755";
     '/usr/local/bin/setup-gitea':
       content => template('gitea/setup-gitea'),
       mode => "0755";
+  }
+
+  systemd::override { "gitea":
+    source => 'puppet:///modules/gitea/override.conf';
   }
 
   exec { "initialize gitea":

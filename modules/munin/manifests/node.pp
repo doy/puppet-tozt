@@ -11,19 +11,16 @@ class munin::node {
     ],
     subscribe => [
       File['/etc/munin/munin-node.conf'],
-      File['/etc/systemd/system/munin-node.service.d/override.conf'],
+      Systemd::Override['munin-node'],
     ];
   }
 
-  file {
-    '/etc/munin/munin-node.conf':
-      content => template('munin/munin-node.conf'),
-      require => Package['munin-node'];
-    '/etc/systemd/system/munin-node.service.d':
-      ensure => directory;
-    '/etc/systemd/system/munin-node.service.d/override.conf':
-      source => 'puppet:///modules/munin/override.conf',
-      notify => Exec["/usr/bin/systemctl daemon-reload"],
-      require => File["/etc/systemd/system/munin-node.service.d"];
+  file { '/etc/munin/munin-node.conf':
+    content => template('munin/munin-node.conf'),
+    require => Package['munin-node'];
+  }
+
+  systemd::override { "munin-node":
+    source => 'puppet:///modules/munin/override.conf';
   }
 }
