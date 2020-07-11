@@ -1,6 +1,5 @@
 class mail::mailu {
   include mail::persistent
-  include cron
   include docker
 
   package { "opendkim":
@@ -17,13 +16,12 @@ class mail::mailu {
     "/media/persistent/.env.common":
       source => "puppet:///modules/mail/mailu.env",
       require => Class["mail::persistent"];
-    '/etc/cron.daily/learn_spam':
-      source => 'puppet:///modules/mail/learn_spam',
-      mode => '0755',
-      require => [
-        Service['mailu'],
-        Class['cron'],
-      ];
+  }
+
+  cron::job { "learn_spam":
+    frequency => "daily",
+    source => 'puppet:///modules/mail/learn_spam',
+    require => Service['mailu'];
   }
 
   exec { "generate mailu secret key":

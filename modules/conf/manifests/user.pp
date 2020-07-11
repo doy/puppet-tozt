@@ -34,7 +34,6 @@ define conf::user($user=$name) {
     ],
     creates => "$home/.vimrc",
     require => [
-      Class['cron'],
       Class['c_toolchain'],
       User[$user],
       Exec["git clone doy/conf for $user"],

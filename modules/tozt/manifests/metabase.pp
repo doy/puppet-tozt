@@ -34,16 +34,18 @@ class tozt::metabase {
       owner => 'doy',
       group => 'doy',
       require => Conf::User["doy"];
-    "/etc/cron.hourly/metabase":
-      mode => '0755',
-      source => "puppet:///modules/tozt/metabase",
-      require => [
-        Package::Cargo["ynab-export for doy"],
-        Exec["clone metabase-utils"],
-        Secret["/home/doy/.config/ynab/api-key"],
-        Secret["/home/doy/.config/google/investments-sheet"],
-        Exec["create money db"],
-      ];
+  }
+
+  cron::job { "metabase":
+    frequency => "hourly",
+    source => "puppet:///modules/tozt/metabase",
+    require => [
+      Package::Cargo["ynab-export for doy"],
+      Exec["clone metabase-utils"],
+      Secret["/home/doy/.config/ynab/api-key"],
+      Secret["/home/doy/.config/google/investments-sheet"],
+      Exec["create money db"],
+    ];
   }
 
   secret { "/home/doy/.config/ynab/api-key":

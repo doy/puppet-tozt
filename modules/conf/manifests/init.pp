@@ -1,6 +1,5 @@
 class conf {
   include c_toolchain
-  include cron
   include git
 
   package {

@@ -1,6 +1,4 @@
 class base::operatingsystem {
-  include cron
-
   file {
     "/etc/locale.gen":
       content => "en_US.UTF-8 UTF-8\n",
@@ -18,10 +16,11 @@ class base::operatingsystem {
       content => template('base/hosts');
     '/etc/yaourtrc':
       source => 'puppet:///modules/base/yaourtrc';
-    '/etc/cron.hourly/pacman':
-      source => 'puppet:///modules/base/pacman-cron',
-      mode => '0755',
-      require => Class['cron'];
+  }
+
+  cron::job { "pacman":
+    frequency => "hourly",
+    source => 'puppet:///modules/base/pacman-cron';
   }
 
   exec { "regen locale data":

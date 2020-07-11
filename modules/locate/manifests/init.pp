@@ -1,18 +1,12 @@
 class locate {
-  include cron
-
   package { "mlocate":
     ensure => installed,
   }
 
-  file {
-    '/etc/cron.daily/updatedb':
-      source => 'puppet:///modules/locate/updatedb',
-      mode => '0755',
-      require => [
-        Package['mlocate'],
-        Class['cron'],
-      ];
+  cron::job { "updatedb":
+    frequency => "daily",
+    source => 'puppet:///modules/locate/updatedb',
+    require => Package['mlocate'];
   }
 
   exec { "initial updatedb run":

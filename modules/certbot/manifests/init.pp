@@ -6,7 +6,6 @@ class certbot($config_dir=undef) {
     $_config_dir = "/etc/letsencrypt"
   }
 
-  include cron
   include nginx
 
   $primary_domain = "tozt.net"
@@ -31,13 +30,6 @@ class certbot($config_dir=undef) {
   }
 
   file {
-    '/etc/cron.daily/certbot':
-      content => template('certbot/certbot'),
-      mode => '0755',
-      require => [
-        Package['certbot'],
-        Class['cron'],
-      ];
     "${_config_dir}/renewal-hooks":
       ensure => directory,
       require => Package['certbot'];
@@ -57,6 +49,12 @@ class certbot($config_dir=undef) {
     "/usr/local/bin/certbot-tozt":
       content => template('certbot/certbot-tozt'),
       mode => '0755';
+  }
+
+  cron::job { "certbot":
+    frequency => "daily",
+    content => template('certbot/certbot'),
+    require => Package['certbot'];
   }
 
   exec { "initial certbot run":
