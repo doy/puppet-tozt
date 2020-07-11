@@ -6,10 +6,11 @@ class tozt::tick {
       source => 'puppet:///modules/tozt/kapacitor/deadman.tick';
     "cpu":
       source => 'puppet:///modules/tozt/kapacitor/cpu.tick';
-    "net":
-      source => 'puppet:///modules/tozt/kapacitor/net.tick';
-    # TODO: disk usage is a bit more all over the place, need to figure out a
-    # better way to express this alert
+    # TODO: disk and network usage are a bit more all over the place (and it's
+    # not super clear that these alerts are even correct), need to figure out a
+    # better way to express these alerts
+    # "net":
+    #   source => 'puppet:///modules/tozt/kapacitor/net.tick';
     # "disk":
     #   source => 'puppet:///modules/tozt/kapacitor/disk.tick';
     "certbot":
