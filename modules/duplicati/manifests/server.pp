@@ -23,10 +23,7 @@ class duplicati::server {
   service { 'duplicati':
     ensure => running,
     enable => true,
-    require => [
-      Package::Makepkg['duplicati-latest'],
-      Systemd::Override['duplicati'],
-      Exec['/usr/bin/systemctl daemon-reload'],
-    ];
+    subscribe => Systemd::Override['duplicati'],
+    require => Package::Makepkg['duplicati-latest'];
   }
 }

@@ -49,9 +49,9 @@ class postgres {
   service { "postgresql":
     ensure => running,
     enable => true,
+    subscribe => Systemd::Override['postgresql'],
     require => [
       Package["postgresql"],
-      Systemd::Override['postgresql'],
       Exec["initialize db path"],
     ];
   }

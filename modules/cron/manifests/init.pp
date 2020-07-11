@@ -20,10 +20,7 @@ class cron {
   service { 'cronie':
     ensure => running,
     enable => true,
-    require => [
-      Package['cronie'],
-      Systemd::Override['cronie'],
-      Exec["/usr/bin/systemctl daemon-reload"],
-    ];
+    subscribe => Systemd::Override['cronie'],
+    require => Package['cronie'];
   }
 }

@@ -5,14 +5,11 @@ class munin::node {
   service { 'munin-node':
     ensure => running,
     enable => true,
-    require => [
-      Package['munin-node'],
-      Exec['/usr/bin/systemctl daemon-reload'],
-    ],
     subscribe => [
-      File['/etc/munin/munin-node.conf'],
       Systemd::Override['munin-node'],
-    ];
+      File['/etc/munin/munin-node.conf'],
+    ],
+    require => Package['munin-node'];
   }
 
   file { '/etc/munin/munin-node.conf':

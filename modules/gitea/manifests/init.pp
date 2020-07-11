@@ -11,12 +11,11 @@ class gitea {
   service { "gitea":
     ensure => running,
     enable => true,
-    require => [
-      Package['gitea'],
+    subscribe => [
       Systemd::Override['gitea'],
-      Exec["/usr/bin/systemctl daemon-reload"],
       File['/media/persistent/gitea/custom/conf/app.ini'],
-    ];
+    ],
+    require => Package['gitea'];
   }
 
   $secret_key = secret::value('gitea_secret_key')
