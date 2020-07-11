@@ -1,4 +1,6 @@
 class cron {
+  include godwrap
+
   $from = "${facts['networking']['hostname']}-cron"
   $password = secret::value('cron_email_password')
 
