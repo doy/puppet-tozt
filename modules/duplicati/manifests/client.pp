@@ -23,7 +23,7 @@ class duplicati::client {
 
   exec { 'checkout duplicati-client':
     provider => shell,
-    command => "/usr/bin/git checkout $duplicati_client_sha",
+    command => "/usr/bin/git fetch && /usr/bin/git checkout $duplicati_client_sha",
     unless => "test \"\$(git rev-parse @)\" = \"$duplicati_client_sha\"",
     cwd => '/opt/duplicati-client',
     require => Exec['clone duplicati-client'];
