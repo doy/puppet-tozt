@@ -14,9 +14,11 @@ class duplicati::client {
       purge => true;
   }
 
-  $duplicati_client_sha = '41ef6d7d1394180b02874736f8e050ff4fc45f32'
+  # patch branch for now until this lands
+  $duplicati_client_sha = '0b5e29d43d0b25cd25c2f3877ea377a2d858c296'
   exec { 'clone duplicati-client':
-    command => '/usr/bin/git clone git://github.com/Pectojin/duplicati-client',
+    # command => '/usr/bin/git clone git://github.com/Pectojin/duplicati-client',
+    command => '/usr/bin/git clone git://github.com/doy/duplicati-client',
     cwd => '/opt',
     creates => '/opt/duplicati-client/.git';
   }
