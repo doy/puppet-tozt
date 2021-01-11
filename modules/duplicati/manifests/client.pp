@@ -14,7 +14,7 @@ class duplicati::client {
       purge => true;
   }
 
-  $duplicati_client_sha = '4f8b46a6f00dc719d84278e66b5a17939fb4a3d6'
+  $duplicati_client_sha = '41ef6d7d1394180b02874736f8e050ff4fc45f32'
   exec { 'clone duplicati-client':
     command => '/usr/bin/git clone git://github.com/Pectojin/duplicati-client',
     cwd => '/opt',
