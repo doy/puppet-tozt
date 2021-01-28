@@ -3,7 +3,7 @@ class metabase {
   include systemd
 
   # when updating this value, also rm /opt/metabase/metabase.jar
-  $metabase_version = "v0.35.4"
+  $metabase_version = "v0.37.7"
 
   package { "jre-openjdk-headless":
     ensure => installed;
