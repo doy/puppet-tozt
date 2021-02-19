@@ -5,7 +5,7 @@ class ttrss {
     [
       "tt-rss",
       "php7-pgsql",
-      "php-fpm",
+      "php7-fpm",
     ]:
       ensure => installed;
   }
@@ -87,9 +87,9 @@ class ttrss {
     ]
   }
 
-  service { "php-fpm":
+  service { "php-fpm7":
     ensure => running,
     enable => true,
-    require => Package["php-fpm"];
+    require => Package["php7-fpm"];
   }
 }
