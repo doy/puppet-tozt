@@ -12,7 +12,7 @@ define('SELF_URL_PATH', 'https://rss.tozt.net/');
 define('SINGLE_USER_MODE', false);
 define('SIMPLE_UPDATE_MODE', false);
 
-define('PHP_EXECUTABLE', '/usr/bin/php');
+define('PHP_EXECUTABLE', '/usr/bin/php7');
 define('LOCK_DIRECTORY', 'lock');
 define('CACHE_DIR', 'cache');
 define('ICONS_DIR', 'feed-icons');
