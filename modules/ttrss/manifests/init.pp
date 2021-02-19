@@ -4,7 +4,7 @@ class ttrss {
   package {
     [
       "tt-rss",
-      "php-pgsql",
+      "php7-pgsql",
       "php-fpm",
     ]:
       ensure => installed;
