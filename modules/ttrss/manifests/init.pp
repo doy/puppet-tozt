@@ -49,15 +49,15 @@ class ttrss {
 
   exec { "fixup php.ini for pgsql":
     provider => shell,
-    command => "sed -i 's/^;\\(extension=.*pgsql\\)$/\\1/' /etc/php/php.ini",
-    unless => "grep -q '^extension=pgsql$' /etc/php/php.ini && grep -q '^extension=pdo_pgsql$' /etc/php/php.ini",
+    command => "sed -i 's/^;\\(extension=.*pgsql\\)$/\\1/' /etc/php7/php.ini",
+    unless => "grep -q '^extension=pgsql$' /etc/php7/php.ini && grep -q '^extension=pdo_pgsql$' /etc/php7/php.ini",
     require => Package["php7-pgsql"];
   }
 
   exec { "fixup php.ini for intl":
     provider => shell,
-    command => "sed -i 's/^;\\(extension=intl\\)$/\\1/' /etc/php/php.ini",
-    unless => "grep -q '^extension=intl$' /etc/php/php.ini",
+    command => "sed -i 's/^;\\(extension=intl\\)$/\\1/' /etc/php7/php.ini",
+    unless => "grep -q '^extension=intl$' /etc/php7/php.ini",
     require => Package["tt-rss"];
   }
 
