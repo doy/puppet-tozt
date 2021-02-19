@@ -51,7 +51,7 @@ class ttrss {
     provider => shell,
     command => "sed -i 's/^;\\(extension=.*pgsql\\)$/\\1/' /etc/php/php.ini",
     unless => "grep -q '^extension=pgsql$' /etc/php/php.ini && grep -q '^extension=pdo_pgsql$' /etc/php/php.ini",
-    require => Package["php-pgsql"];
+    require => Package["php7-pgsql"];
   }
 
   exec { "fixup php.ini for intl":
