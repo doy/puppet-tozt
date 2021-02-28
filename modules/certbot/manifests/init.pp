@@ -18,7 +18,6 @@ class certbot($config_dir=undef) {
     "rc-teleterm.tozt.net",
     "bitwarden.tozt.net",
     "influxdb.tozt.net",
-    "chronograf.tozt.net",
   ]
 
   package {
