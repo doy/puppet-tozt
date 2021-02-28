@@ -3,9 +3,6 @@ class tick::client {
     ensure => installed;
   }
 
-  $influxdb_username = secret::value('influxdb_username')
-  $influxdb_password = secret::value('influxdb_password')
-
   file {
     "/etc/telegraf/telegraf.conf":
       content => template("tick/telegraf.conf"),
