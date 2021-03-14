@@ -61,6 +61,27 @@ class ttrss {
     require => Package["tt-rss"];
   }
 
+  exec { "fixup php.ini for curl":
+    provider => shell,
+    command => "sed -i 's/^;\\(extension=curl\\)$/\\1/' /etc/php/php.ini",
+    unless => "grep -q '^extension=curl$' /etc/php/php.ini",
+    require => Package["tt-rss"];
+  }
+
+  exec { "fixup php.ini for iconv":
+    provider => shell,
+    command => "sed -i 's/^;\\(extension=iconv\\)$/\\1/' /etc/php/php.ini",
+    unless => "grep -q '^extension=iconv$' /etc/php/php.ini",
+    require => Package["tt-rss"];
+  }
+
+  exec { "fixup php.ini for soap":
+    provider => shell,
+    command => "sed -i 's/^;\\(extension=soap\\)$/\\1/' /etc/php/php.ini",
+    unless => "grep -q '^extension=soap$' /etc/php/php.ini",
+    require => Package["tt-rss"];
+  }
+
   exec { "initialize tt-rss db":
     provider => shell,
     command => "psql ttrss -U ttrss -f /usr/share/webapps/tt-rss/schema/ttrss_schema_pgsql.sql",
@@ -82,6 +103,9 @@ class ttrss {
       Package["tt-rss"],
       Exec["fixup php.ini for pgsql"],
       Exec["fixup php.ini for intl"],
+      Exec["fixup php.ini for curl"],
+      Exec["fixup php.ini for iconv"],
+      Exec["fixup php.ini for soap"],
       File["/etc/webapps/tt-rss/config.php"],
       Exec["create ttrss db"],
     ]
