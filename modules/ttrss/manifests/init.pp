@@ -4,8 +4,8 @@ class ttrss {
   package {
     [
       "tt-rss",
-      "php7-pgsql",
-      "php7-fpm",
+      "php-pgsql",
+      "php-fpm",
     ]:
       ensure => installed;
   }
@@ -49,15 +49,15 @@ class ttrss {
 
   exec { "fixup php.ini for pgsql":
     provider => shell,
-    command => "sed -i 's/^;\\(extension=.*pgsql\\)$/\\1/' /etc/php7/php.ini",
-    unless => "grep -q '^extension=pgsql$' /etc/php7/php.ini && grep -q '^extension=pdo_pgsql$' /etc/php7/php.ini",
-    require => Package["php7-pgsql"];
+    command => "sed -i 's/^;\\(extension=.*pgsql\\)$/\\1/' /etc/php/php.ini",
+    unless => "grep -q '^extension=pgsql$' /etc/php/php.ini && grep -q '^extension=pdo_pgsql$' /etc/php/php.ini",
+    require => Package["php-pgsql"];
   }
 
   exec { "fixup php.ini for intl":
     provider => shell,
-    command => "sed -i 's/^;\\(extension=intl\\)$/\\1/' /etc/php7/php.ini",
-    unless => "grep -q '^extension=intl$' /etc/php7/php.ini",
+    command => "sed -i 's/^;\\(extension=intl\\)$/\\1/' /etc/php/php.ini",
+    unless => "grep -q '^extension=intl$' /etc/php/php.ini",
     require => Package["tt-rss"];
   }
 
@@ -87,9 +87,9 @@ class ttrss {
     ]
   }
 
-  service { "php-fpm7":
+  service { "php-fpm":
     ensure => running,
     enable => true,
-    require => Package["php7-fpm"];
+    require => Package["php-fpm"];
   }
 }
