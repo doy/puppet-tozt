@@ -12,7 +12,7 @@ Environment=MB_DB_PORT=5432
 Environment=MB_DB_USER=metabase
 Environment=MB_DB_PASS=
 Environment=MB_DB_HOST=localhost
-ExecStart=java -jar /opt/metabase/metabase.jar
+ExecStart=java -Xmx128m -jar /opt/metabase/metabase.jar
 
 [Install]
 WantedBy=multi-user.target
