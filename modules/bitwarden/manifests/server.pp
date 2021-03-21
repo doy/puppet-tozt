@@ -11,18 +11,20 @@ class bitwarden::server($data_dir) {
     require => Service["docker"];
   }
 
-  file {
-    $data_dir:
-      ensure => directory;
-    "/etc/systemd/system/bitwarden.service":
-      content => template("bitwarden/bitwarden.service"),
-      notify => Exec["/usr/bin/systemctl daemon-reload"];
+  file { $data_dir:
+    ensure => directory;
+  }
+
+  systemd::service { "bitwarden":
+    content => template("bitwarden/bitwarden.service"),
   }
 
   service { "bitwarden":
     ensure => running,
     enable => true,
-    require => Exec["docker pull bitwardenrs/server:latest"],
-    subscribe => File["/etc/systemd/system/bitwarden.service"];
+    require => [
+      Exec["docker pull bitwardenrs/server:latest"],
+      Systemd::Service["bitwarden"],
+    ]
   }
 }

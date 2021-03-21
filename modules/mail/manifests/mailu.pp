@@ -100,9 +100,8 @@ class mail::mailu {
     require => Service["mailu"];
   }
 
-  file { "/etc/systemd/system/mailu.service":
+  systemd::service { "mailu":
     source => "puppet:///modules/mail/mailu.service",
-    notify => Exec["/usr/bin/systemctl daemon-reload"];
   }
 
   service { "mailu":
@@ -111,7 +110,7 @@ class mail::mailu {
     subscribe => [
       File["/media/persistent/docker-compose.yml"],
       Exec["create env file"],
-      File["/etc/systemd/system/mailu.service"],
+      Systemd::Service["mailu"],
     ];
   }
 }

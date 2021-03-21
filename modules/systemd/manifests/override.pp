@@ -7,7 +7,10 @@ define systemd::override($source = undef, $content = undef) {
     "/etc/systemd/system/${name}.service.d/override.conf":
       source => $source,
       content => $content,
-      notify => Exec['/usr/bin/systemctl daemon-reload'],
+      notify => [
+        Exec['/usr/bin/systemctl daemon-reload'],
+        Service["${name}"]
+      ],
       require => File["/etc/systemd/system/${name}.service.d"];
   }
 }

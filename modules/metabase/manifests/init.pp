@@ -32,12 +32,10 @@ class metabase {
         User['metabase'],
         Group['metabase'],
       ];
-    "/usr/lib/systemd/system/metabase.service":
-      source => "puppet:///modules/metabase/metabase.service",
-      notify => [
-        Exec["/usr/bin/systemctl daemon-reload"],
-        Service["metabase"],
-      ];
+  }
+
+  systemd::service { "metabase":
+    source => "puppet:///modules/metabase/metabase.service",
   }
 
   exec { "download metabase":
@@ -76,7 +74,7 @@ class metabase {
     enable => true,
     require => [
       Package["jre11-openjdk-headless"],
-      File["/usr/lib/systemd/system/metabase.service"],
+      Systemd::Service["metabase"],
       File["/media/persistent/metabase"],
       Exec["download metabase"],
       Exec["create metabase db user"],
