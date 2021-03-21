@@ -34,7 +34,10 @@ class metabase {
       ];
     "/usr/lib/systemd/system/metabase.service":
       source => "puppet:///modules/metabase/metabase.service",
-      notify => Exec["/usr/bin/systemctl daemon-reload"];
+      notify => [
+        Exec["/usr/bin/systemctl daemon-reload"],
+        Service["metabase"],
+      ];
   }
 
   exec { "download metabase":
