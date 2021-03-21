@@ -1,7 +1,7 @@
 define systemd::service($source = undef, $content = undef) {
   include systemd
 
-  file { "/usr/lib/systemd/system/${name}.service":
+  file { "/etc/systemd/system/${name}.service":
     source => $source,
     content => $content,
     notify => [
