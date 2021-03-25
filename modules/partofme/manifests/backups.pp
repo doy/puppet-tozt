@@ -54,7 +54,7 @@ class partofme::backups {
       ensure => directory,
       require => User['borg'];
     "/media/persistent/borg/.ssh/authorized_keys":
-      source => 'puppet:///modules/partofme/borg_authorized_keys'
+      source => 'puppet:///modules/partofme/borg_authorized_keys',
       require => File["/media/persistent/borg/.ssh"];
   }
 
