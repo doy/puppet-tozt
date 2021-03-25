@@ -45,16 +45,32 @@ class partofme::backups {
     ensure => installed;
   }
 
+  group { 'borg':
+    ensure => present;
+  }
+
   user { 'borg':
+    ensure => present,
+    gid => 'borg',
     home => '/media/persistent/borg';
   }
 
   file {
+    "/media/persistent/borg/":
+      ensure => directory,
+      owner => 'borg',
+      group => 'borg',
+      require => User['borg'];
     "/media/persistent/borg/.ssh":
       ensure => directory,
+      owner => 'borg',
+      group => 'borg',
       require => User['borg'];
     "/media/persistent/borg/.ssh/authorized_keys":
       source => 'puppet:///modules/partofme/borg_authorized_keys',
+      owner => 'borg',
+      group => 'borg',
+      mode => '0600',
       require => File["/media/persistent/borg/.ssh"];
   }
 
