@@ -38,4 +38,27 @@ class partofme::backups {
     unless => 'grep -qF /usr/local/bin/sftp-only /etc/shells',
     require => File['/usr/local/bin/sftp-only'];
   }
+
+  #############################
+
+  package { 'borg':
+    ensure => installed;
+  }
+
+  user { 'borg':
+    home => '/media/persistent/borg';
+  }
+
+  file {
+    "/media/persistent/borg/.ssh":
+      ensure => directory,
+      require => User['borg'];
+    "/media/persistent/borg/.ssh/authorized_keys":
+      source => 'puppet:///modules/partofme/borg_authorized_keys'
+      require => File["/media/persistent/borg/.ssh"];
+  }
+
+  sshd::configsection { 'borg':
+    source => 'puppet:///modules/partofme/sshd_config.borg';
+  }
 }
