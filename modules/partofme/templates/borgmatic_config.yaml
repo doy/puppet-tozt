@@ -16,7 +16,7 @@ location:
 
 storage:
     encryption_passphrase: "<%= @borgmatic_passphrase %>"
-    ssh_command: /usr/bin/ssh -i /media/persistent/borg/.ssh/borg_ssh_key
+    ssh_command: /usr/bin/ssh -i /media/persistent/borg/.ssh/borg_ssh_key -o StrictHostKeyChecking=no
 
 retention:
     keep_daily: 7
