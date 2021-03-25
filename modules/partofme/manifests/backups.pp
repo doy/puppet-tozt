@@ -96,7 +96,7 @@ class partofme::backups {
     require => File["/media/persistent/borg/.ssh"];
   }
 
-  exec { '/usr/bin/borgmatic init':
+  exec { '/usr/bin/borgmatic init --encryption repokey':
     environment => [
       "BORG_PASSPHRASE=${borgmatic_passphrase}",
     ],
@@ -105,5 +105,15 @@ class partofme::backups {
       Package['borgmatic'],
       File['/etc/borgmatic/config.yaml'],
     ]
+  }
+
+  service { 'borgmatic.timer':
+    ensure => running,
+    enable => true,
+    require => [
+      Package['borgmatic'],
+      File['/etc/borgmatic/config.yaml'],
+      Exec['/usr/bin/borgmatic init --encryption repokey'],
+    ];
   }
 }
