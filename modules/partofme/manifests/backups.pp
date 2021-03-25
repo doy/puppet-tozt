@@ -77,4 +77,33 @@ class partofme::backups {
   sshd::configsection { 'borg':
     source => 'puppet:///modules/partofme/sshd_config.borg';
   }
+
+  package { 'borgmatic':
+    ensure => installed;
+  }
+
+  $borgmatic_passphrase = secret::value('borgmatic_passphrase')
+  file {
+    "/etc/borgmatic":
+      ensure => directory;
+    "/etc/borgmatic/config.yaml":
+      content => template('partofme/borgmatic_config.yaml'),
+      require => File["/etc/borgmatic"];
+  }
+
+  secret { "/media/persistent/borg/.ssh/borg_ssh_key":
+    source => 'borg_ssh_key',
+    require => File["/media/persistent/borg/.ssh"];
+  }
+
+  exec { '/usr/bin/borgmatic init':
+    environment => [
+      "BORG_PASSPHRASE=${borgmatic_passphrase}",
+    ],
+    unless => '/usr/bin/borgmatic info > /dev/null',
+    require => [
+      Package['borgmatic'],
+      File['/etc/borgmatic/config.yaml'],
+    ]
+  }
 }

@@ -1,0 +1,25 @@
+location:
+    source_directories:
+        - /home
+        - /etc
+        - /usr/local/bin
+    repositories:
+        - borg@localhost:partofme
+    atime: false
+    exclude_patterns:
+        - /home/*/.cache
+        - /home/*/.cargo
+        - /home/*/.rustup
+        - /home/doy/coding/*/target
+        - /home/doy/mnt
+        - /home/doy/tmp
+
+storage:
+    encryption_passphrase: "<%= @borgmatic_passphrase %>"
+    ssh_command: /usr/bin/ssh -i /media/persistent/borg/.ssh/borg_ssh_key
+
+retention:
+    keep_daily: 7
+    keep_weekly: 4
+    keep_monthly: 12
+    keep_yearly: 1000
