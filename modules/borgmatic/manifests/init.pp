@@ -27,6 +27,7 @@ class borgmatic($host = 'partofme.algo', $extra_paths = []) {
     require => [
       Package['borgmatic'],
       File['/etc/borgmatic/config.yaml'],
+      File['/etc/borgmatic/borg_ssh_key'],
     ]
   }
 
