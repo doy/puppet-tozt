@@ -54,4 +54,23 @@ class partofme::backups {
   class { 'borgmatic':
     host => 'localhost';
   }
+
+  package { 'rclone':
+    ensure => installed;
+  }
+
+  $b2_account = secret::value('b2-account')
+  $b2_key = secret::value('b2-key')
+  file { '/etc/rclone.conf':
+    content => template('partofme/rclone.conf');
+  }
+
+  cron::job { 'rclone':
+    frequency => "daily",
+    source => 'puppet:///modules/partofme/rclone-cron',
+    require => [
+      Package['rclone'],
+      File['/etc/rclone.conf'],
+    ];
+  }
 }
