@@ -4,7 +4,7 @@ location:
         - /etc
         - /usr/local/bin
 <%- @extra_paths.each do |path| -%>
-        - <%= @path %>
+        - <%= path %>
 <%- end -%>
     repositories:
         - borg@<%= @borgmatic_host %>:<%= @current_hostname %>
