@@ -18,7 +18,7 @@ location:
         - /home/doy/tmp
 
 storage:
-    encryption_passphrase: "<%= @borgmatic_passphrase %>"
+    encryption_passphrase: '<%= @escaped_borgmatic_passphrase %>'
     ssh_command: /usr/bin/ssh -i /etc/borgmatic/borg_ssh_key -o StrictHostKeyChecking=no
 
 retention:
