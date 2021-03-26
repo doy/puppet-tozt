@@ -61,6 +61,8 @@ class partofme::backups {
 
   $b2_account = secret::value('b2-account')
   $b2_key = secret::value('b2-key')
+  $b2_password = secret::value('b2-password')
+  $b2_salt = secret::value('b2-salt')
   file { '/etc/rclone.conf':
     content => template('partofme/rclone.conf');
   }
