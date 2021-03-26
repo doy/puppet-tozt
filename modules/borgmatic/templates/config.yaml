@@ -3,6 +3,9 @@ location:
         - /home
         - /etc
         - /usr/local/bin
+<%- @extra_paths.each do |path| -%>
+        - <%= @path %>
+<%- end -%>
     repositories:
         - borg@<%= @borgmatic_host %>:<%= @current_hostname %>
     atime: false

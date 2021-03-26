@@ -8,4 +8,8 @@ class tozt::backups {
   duplicati::backup { 'tozt':
     content => template('tozt/duplicati-tozt.json');
   }
+
+  class { 'borgmatic':
+    extra_paths => ['/media/persistent'],
+  }
 }
