@@ -4,6 +4,7 @@ class borgmatic($host = 'partofme.algo') {
   }
 
   $current_hostname = "${facts['networking']['hostname']}"
+  $borgmatic_host = $host
   $borgmatic_passphrase = secret::value('borgmatic_passphrase')
   file {
     "/etc/borgmatic":
