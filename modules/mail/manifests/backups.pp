@@ -8,4 +8,8 @@ class mail::backups {
   duplicati::backup { 'mail':
     content => template('mail/duplicati-mail.json');
   }
+
+  class { 'borgmatic':
+    extra_paths => ['/media/persistent'];
+  }
 }
