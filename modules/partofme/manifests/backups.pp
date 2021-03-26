@@ -91,9 +91,9 @@ class partofme::backups {
       require => File["/etc/borgmatic"];
   }
 
-  secret { "/media/persistent/borg/.ssh/borg_ssh_key":
+  secret { "/etc/borgmatic/borg_ssh_key":
     source => 'borg_ssh_key',
-    require => File["/media/persistent/borg/.ssh"];
+    require => File["/etc/borgmatic"];
   }
 
   exec { '/usr/bin/borgmatic init --encryption repokey':
