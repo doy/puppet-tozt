@@ -5,7 +5,8 @@ class borgmatic($host = 'partofme.algo', $extra_paths = []) {
 
   $current_hostname = "${facts['networking']['hostname']}"
   $borgmatic_host = $host
-  $escaped_borgmatic_passphrase = regsubst(secret::value('borgmatic_passphrase'), "'", "''", 'G')
+  $borgmatic_passphrase = secret::value('borgmatic_passphrase')
+  $escaped_borgmatic_passphrase = regsubst($borgmatic_passphrase, "'", "''", 'G')
   file {
     "/etc/borgmatic":
       ensure => directory;
