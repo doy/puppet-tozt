@@ -41,79 +41,17 @@ class partofme::backups {
 
   #############################
 
-  package { 'borg':
-    ensure => installed;
-  }
-
-  group { 'borg':
-    ensure => present;
-  }
-
-  user { 'borg':
-    ensure => present,
-    gid => 'borg',
-    home => '/media/persistent/borg';
-  }
-
+  include borg
   file {
-    "/media/persistent/borg/":
-      ensure => directory,
-      owner => 'borg',
-      group => 'borg',
-      require => User['borg'];
-    "/media/persistent/borg/.ssh":
-      ensure => directory,
-      owner => 'borg',
-      group => 'borg',
-      require => User['borg'];
     "/media/persistent/borg/.ssh/authorized_keys":
       source => 'puppet:///modules/partofme/borg_authorized_keys',
       owner => 'borg',
       group => 'borg',
       mode => '0600',
-      require => File["/media/persistent/borg/.ssh"];
+      require => Class['borg'];
   }
 
-  sshd::configsection { 'borg':
-    source => 'puppet:///modules/partofme/sshd_config.borg';
-  }
-
-  package { 'borgmatic':
-    ensure => installed;
-  }
-
-  $borgmatic_passphrase = secret::value('borgmatic_passphrase')
-  file {
-    "/etc/borgmatic":
-      ensure => directory;
-    "/etc/borgmatic/config.yaml":
-      content => template('partofme/borgmatic_config.yaml'),
-      require => File["/etc/borgmatic"];
-  }
-
-  secret { "/etc/borgmatic/borg_ssh_key":
-    source => 'borg_ssh_key',
-    require => File["/etc/borgmatic"];
-  }
-
-  exec { '/usr/bin/borgmatic init --encryption repokey':
-    environment => [
-      "BORG_PASSPHRASE=${borgmatic_passphrase}",
-    ],
-    unless => '/usr/bin/borgmatic info > /dev/null',
-    require => [
-      Package['borgmatic'],
-      File['/etc/borgmatic/config.yaml'],
-    ]
-  }
-
-  service { 'borgmatic.timer':
-    ensure => running,
-    enable => true,
-    require => [
-      Package['borgmatic'],
-      File['/etc/borgmatic/config.yaml'],
-      Exec['/usr/bin/borgmatic init --encryption repokey'],
-    ];
+  class { 'borgmatic':
+    host => 'localhost';
   }
 }

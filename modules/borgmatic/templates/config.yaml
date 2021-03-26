@@ -4,7 +4,7 @@ location:
         - /etc
         - /usr/local/bin
     repositories:
-        - borg@localhost:partofme
+        - borg@<%= @borgmatic_host %>:<%= current_hostname %>
     atime: false
     exclude_patterns:
         - /home/*/.cache
