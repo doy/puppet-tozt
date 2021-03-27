@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'date'
+require 'json'
+
+now = Time.now
+
+data = JSON.load(%x{borgmatic info --archive latest --json})
+
+repository = data[0]["repository"]
+archive = data[0]["archives"][0]
+
+location = repository["location"]
+ago_s = now - DateTime.iso8601(archive["end"]).to_time
+dur_s = archive["duration"].to_f
+file_size_b = archive["stats"]["original_size"]
+file_count_n = archive["stats"]["nfiles"]
+
+puts "borg,location=#{location} days_since_last_run=#{ago_s / 60.0 / 60.0 / 24.0},last_run_duration_minutes=#{dur_s / 60.0},file_size=#{file_size_b}i,file_count=#{file_count_n}i"
