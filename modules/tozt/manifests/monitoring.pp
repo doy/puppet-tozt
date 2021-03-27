@@ -11,7 +11,6 @@ class tozt::monitoring {
     [
       "tick::client::plugin::certbot",
       "tick::client::plugin::fail2ban",
-      "tick::client::plugin::tarsnap",
     ]:
   }
 }

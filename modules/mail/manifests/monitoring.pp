@@ -4,7 +4,6 @@ class mail::monitoring {
   class {
     [
       "tick::client::plugin::fail2ban",
-      "tick::client::plugin::tarsnap",
     ]:
   }
 }
