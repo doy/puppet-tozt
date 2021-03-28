@@ -11,5 +11,8 @@ class tick::client::plugin::borg {
       source => 'puppet:///modules/tick/plugins/borg',
       mode => '0755',
       require => File['/etc/telegraf/plugins'];
+    "/etc/sudoers.d/telegraf-borg":
+      source => 'puppet:///modules/tick/plugins/borg.sudoers',
+      require => Package['sudo'];
   }
 }

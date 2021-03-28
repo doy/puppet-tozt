@@ -5,7 +5,7 @@ require 'json'
 
 now = Time.now
 
-data = JSON.load(%x{borgmatic info --archive latest --json})
+data = JSON.load(%x{sudo borgmatic info --archive latest --json})
 
 repository = data[0]["repository"]
 archive = data[0]["archives"][0]
