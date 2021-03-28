@@ -4,4 +4,5 @@ if ! mount | grep -q /media/persistent; then
     exit 1
 fi
 
+date -Iseconds >/media/persistent/last_run
 rclone --config /etc/rclone.conf sync /media/persistent crypt:partofme
