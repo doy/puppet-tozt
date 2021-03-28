@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require 'date'
+require 'json'
+
+rclone = "rclone --config /etc/rclone.conf"
+now = Time.now
+
+JSON.load(%x{#{rclone} lsjson crypt:}).each do |dir|
+  repo_path = "crypt:#{dir["Path"]}"
+
+  date = %x{#{rclone} cat #{repo_path}/last_run}
+  data = JSON.load(%x{#{rclone} size #{repo_path} --json})
+
+  ago_s = now - DateTime.iso8601(date).to_time
+  file_size_b = data["bytes"]
+  file_count_n = data["count"]
+
+  puts "rclone,location=#{repo_path} days_since_last_run=#{ago_s / 60.0 / 60.0 / 24.0},file_size=#{file_size_b}i,file_count=#{file_count_n}i"
+end
