@@ -11,7 +11,9 @@ repository = data[0]["repository"]
 archive = data[0]["archives"][0]
 
 location = repository["location"]
-ago_s = now - DateTime.iso8601(archive["end"]).to_time
+end_without_tz = DateTime.iso8601(archive["end"]).to_time
+local_end = end_without_tz.getlocal - end_without_tz.getlocal.utc_offset
+ago_s = now - local_end
 dur_s = archive["duration"].to_f
 file_size_b = archive["stats"]["original_size"]
 file_count_n = archive["stats"]["nfiles"]
