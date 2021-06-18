@@ -19,7 +19,7 @@ define package::makepkg($ensure, $build_user, $asdeps=false) {
           su $build_user -c 'git clone https://aur.archlinux.org/$name.git makepkg-$name'
           cd 'makepkg-$name'
           su $build_user -c makepkg
-          pacman -U --noconfirm --needed $extra_cmdline $name-*.pkg.tar.xz
+          pacman -U --noconfirm --needed $extra_cmdline $name-*.pkg.tar.zst
         ",
         unless => "pacman -Q $name > /dev/null 2>&1",
         path => "/usr/bin",
