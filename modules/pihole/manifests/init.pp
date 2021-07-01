@@ -1,4 +1,4 @@
-class pihole($dir, $server_ip) {
+class pihole($dir) {
   include podman
 
   file {
