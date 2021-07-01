@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 ExecStart=/usr/bin/podman run --rm --name pihole -p 53:53/tcp -p 53:53/udp -p 80:80 -e TZ=America/New_York -v "<%= @dir %>/etc-pihole/:/etc/pihole/" -v "<%= @dir %>/etc-dnsmasq.d/:/etc/dnsmasq.d/" -v "<%= @dir %>/var-log/pihole.log:/var/log/pihole.log" --dns 127.0.0.1 --dns 4.2.2.4 --hostname pi.hole -e VIRTUAL_HOST=pi.hole -e PROXY_LOCATION=pi.hole -e WEBPASSWORD=<%= @webpassword %> -e ServerIP=127.0.0.1 docker.io/pihole/pihole:latest
-ExecStop=/usr/bin/docker stop pihole
+ExecStop=/usr/bin/podman stop pihole
 Restart=always
 
 [Install]
