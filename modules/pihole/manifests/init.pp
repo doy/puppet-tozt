@@ -1,6 +1,8 @@
 class pihole($dir) {
   include podman
 
+  $webpassword = secret::value("pihole")
+
   file {
     $dir:
       ensure => directory;
