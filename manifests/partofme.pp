@@ -4,7 +4,11 @@ node 'partofme', 'partofme.localdomain' {
   # time to type in a password
   $persistent_data = undef
 
-  include base
+  class { 'base':
+    extra_script => "
+      (sudo podman pull docker.io/pihole/pihole)
+    ";
+  }
 
   include partofme::operatingsystem
   Class['partofme::operatingsystem'] -> Package<| provider == "pacman" |>
