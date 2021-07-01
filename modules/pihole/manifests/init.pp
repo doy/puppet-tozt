@@ -14,17 +14,23 @@ class pihole($dir) {
       ensure => directory,
       require => File[$dir];
     "${dir}/var-log/pihole.log":
-      content => "",
+      ensure => file,
       require => File["${dir}/var-log"];
   }
 
   systemd::service { "pihole":
-    source => "puppet:///modules/pihole/pihole.service";
+    content => template("pihole/pihole.service"),
   }
 
   service { "pihole":
     ensure => "running",
     enable => true,
+    require => [
+      Package["podman"],
+      File["${dir}/etc-pihole"],
+      File["${dir}/etc-dnsmasq.d"],
+      File["${dir}/var-log/pihole.log"],
+    ],
     subscribe => Systemd::Service["pihole"];
   }
 }
