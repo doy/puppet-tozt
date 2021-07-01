@@ -1,6 +1,0 @@
-#!/bin/sh
-
-vtmode graphics
-trap "vtmode text" EXIT
-
-streamlink -p "cvlc -A alsa --alsa-audio-device hdmi:CARD=PCH,DEV=2 -V fb --no-fb-tty" twitch.tv/"${1}" best

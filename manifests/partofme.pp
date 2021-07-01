@@ -19,5 +19,4 @@ node 'partofme', 'partofme.localdomain' {
   include partofme::monitoring
   include partofme::persistent
   include partofme::pihole
-  include partofme::twitch
 }
