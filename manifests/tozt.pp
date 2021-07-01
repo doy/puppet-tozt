@@ -6,7 +6,7 @@ node 'tozt', 'tozt.localdomain' {
   class { 'base':
     extra_script => "
       (cd /home/doy/coding/metabase-utils && git pull)
-      (sudo podman pull docker.io/bitwardenrs/server)
+      (sudo podman pull docker.io/vaultwarden/server)
     ";
   }
 

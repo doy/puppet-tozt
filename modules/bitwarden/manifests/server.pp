@@ -2,12 +2,12 @@ class bitwarden::server($data_dir) {
   include podman
   include systemd
 
-  $admin_token = secret::value('bitwarden_admin_token')
-  $smtp_password = secret::value('bitwarden_smtp_password')
+  $admin_token = secret::value('vaultwarden_admin_token')
+  $smtp_password = secret::value('vaultwarden_smtp_password')
 
-  exec { "podman pull docker.io/bitwardenrs/server:latest":
+  exec { "podman pull docker.io/vaultwarden/server:latest":
     provider => "shell",
-    unless => "podman ps | grep -q bitwardenrs",
+    unless => "podman ps | grep -q vaultwarden",
     require => Package["podman"];
   }
 
@@ -15,16 +15,16 @@ class bitwarden::server($data_dir) {
     ensure => directory;
   }
 
-  systemd::service { "bitwarden":
-    content => template("bitwarden/bitwarden.service"),
+  systemd::service { "vaultwarden":
+    content => template("bitwarden/vaultwarden.service"),
   }
 
-  service { "bitwarden":
+  service { "vaultwarden":
     ensure => running,
     enable => true,
     require => [
-      Exec["podman pull docker.io/bitwardenrs/server:latest"],
-      Systemd::Service["bitwarden"],
+      Exec["podman pull docker.io/vaultwarden/server:latest"],
+      Systemd::Service["vaultwarden"],
     ]
   }
 }
