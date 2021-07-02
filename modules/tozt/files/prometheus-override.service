@@ -1,0 +1,2 @@
+[Service]
+ExecStart=/usr/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/media/persistent/prometheus $PROMETHEUS_ARGS

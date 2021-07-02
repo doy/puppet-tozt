@@ -1,19 +1,18 @@
 class tozt::prometheus {
   include prometheus
 
-  file {
-    "/media/persistent/prometheus":
-      ensure => directory,
-      owner => "prometheus",
-      group => "prometheus",
-      require => [
-        File["/media/persistent"],
-        Package["prometheus"],
-      ];
-    "/etc/conf.d/prometheus":
-      source => "puppet:///modules/tozt/prometheus-service-conf",
-      require => Package["prometheus"],
-      notify => Service["prometheus"];
+  file { "/media/persistent/prometheus":
+    ensure => directory,
+    owner => "prometheus",
+    group => "prometheus",
+    require => [
+      File["/media/persistent"],
+      Package["prometheus"],
+    ];
+  }
+
+  systemd::override { "prometheus":
+    source => 'puppet:///modules/tozt/prometheus-override.conf';
   }
 
   nginx::site {
