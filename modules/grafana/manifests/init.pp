@@ -5,7 +5,7 @@ class grafana {
 
   service { "grafana":
     ensure => running,
-    enabled => true,
+    enable => true,
     subscribe => [
       Package["grafana"],
       File["/etc/grafana.ini"],
