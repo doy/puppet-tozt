@@ -19,6 +19,7 @@ node 'tozt', 'tozt.localdomain' {
   include tozt::metabase
   include tozt::monitoring
   include tozt::paste
+  include tozt::prometheus
   include tozt::services
   include tozt::site
   include tozt::ttrss
