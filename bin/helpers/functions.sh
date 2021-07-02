@@ -23,7 +23,7 @@ create_droplet() {
         --image debian-9-x64 \
         --region nyc3 \
         --size ${_size} \
-        --ssh-keys 23160354 \
+        --ssh-keys 30728567 \
         $_volume_opt \
         --format ID,PublicIPv4 \
         --no-header \
