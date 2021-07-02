@@ -4,14 +4,17 @@ class tick::server::influxdb {
   }
 
   file {
+    "/etc/influxdb":
+      ensure => directory;
     "/etc/influxdb/influxdb.conf":
       source => "puppet:///modules/tick/influxdb.conf",
-      require => Package['influxdb'],
+      require => [
+        Package['influxdb'],
+        File["/etc/influxdb"],
+      ],
       notify => Service['influxdb'];
     "/media/persistent/influxdb":
       ensure => directory,
-      owner => "influxdb",
-      group => "influxdb",
       require => Package['influxdb'];
   }
 

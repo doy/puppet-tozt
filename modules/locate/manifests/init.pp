@@ -15,6 +15,7 @@ class locate {
     require => [
       File["/etc/cron.daily/updatedb"],
       Package['mlocate'],
+      Package['godwrap'],
     ]
   }
 }
