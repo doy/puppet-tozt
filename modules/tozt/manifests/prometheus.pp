@@ -12,7 +12,8 @@ class tozt::prometheus {
       ];
     "/etc/conf.d/prometheus":
       source => "puppet:///modules/tozt/prometheus-service-conf",
-      require => Package["prometheus"];
+      require => Package["prometheus"],
+      notify => Service["prometheus"];
   }
 
   nginx::site {
