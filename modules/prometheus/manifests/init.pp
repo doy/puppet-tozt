@@ -4,7 +4,7 @@ class prometheus {
   }
 
   file { "/etc/prometheus/prometheus.yml":
-    source => "puppet:///modules/prometheus/prometheus.yml",
+    content => template('/prometheus/prometheus.yml'),
     require => Package['prometheus'];
   }
 
