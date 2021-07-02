@@ -11,7 +11,7 @@ class prometheus {
   service { "prometheus":
     ensure => running,
     enable => true,
-    require => [
+    subscribe => [
       Package['prometheus'],
       File['/etc/prometheus/prometheus.yml'],
     ];
