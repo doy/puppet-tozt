@@ -17,6 +17,7 @@ class certbot($config_dir=undef) {
     "metabase.tozt.net",
     "bitwarden.tozt.net",
     "prometheus.tozt.net",
+    "grafana.tozt.net",
   ]
 
   package {
