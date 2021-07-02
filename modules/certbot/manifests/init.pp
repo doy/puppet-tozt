@@ -15,9 +15,8 @@ class certbot($config_dir=undef) {
     "git.tozt.net",
     "rss.tozt.net",
     "metabase.tozt.net",
-    "rc-teleterm.tozt.net",
     "bitwarden.tozt.net",
-    "influxdb.tozt.net",
+    "prometheus.tozt.net",
   ]
 
   package {
