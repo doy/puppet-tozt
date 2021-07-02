@@ -21,7 +21,6 @@ node 'tozt', 'tozt.localdomain' {
   include tozt::paste
   include tozt::services
   include tozt::site
-  include tozt::teleterm
   include tozt::tick
   include tozt::ttrss
 }
