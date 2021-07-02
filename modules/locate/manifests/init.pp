@@ -1,4 +1,6 @@
 class locate {
+  include godwrap
+
   package { "mlocate":
     ensure => installed,
   }
@@ -15,7 +17,7 @@ class locate {
     require => [
       File["/etc/cron.daily/updatedb"],
       Package['mlocate'],
-      Package['godwrap'],
+      Class['godwrap'],
     ]
   }
 }
