@@ -6,5 +6,5 @@ scrape_configs:
   static_configs:
   - targets:
 <% @vpn_ips.each do |_, ip| -%>
-    - "<%= @ip %>:9273"
+    - "<%= ip %>:9273"
 <% end -%>
