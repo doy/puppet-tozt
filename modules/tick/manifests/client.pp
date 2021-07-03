@@ -3,8 +3,6 @@ class tick::client {
     ensure => installed;
   }
 
-  $influxdb_token = secret::value('influxdb_token')
-
   file {
     "/etc/telegraf/telegraf.conf":
       content => template("tick/telegraf.conf"),
