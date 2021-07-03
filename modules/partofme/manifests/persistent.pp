@@ -23,4 +23,8 @@ class partofme::persistent {
     unless => "/usr/bin/grep -qF '${fstab_line}' /etc/fstab",
     require => File["/media/persistent"],
   }
+
+  file { "/etc/udev/rules.d/99-local.rules":
+    source => "puppet:///modules/partofme/99-media-persistent.rules";
+  }
 }
