@@ -1,1 +1,1 @@
-SUBSYSTEM=="block" ATTR{dm/name}=="partofme-data" RUN+="/usr/bin/mount /media/persistent" RUN+="/usr/bin/systemctl start pihole"
+SUBSYSTEM=="block" ATTR{dm/name}=="partofme-data" TAG+="systemd" ENV{SYSTEMD_WANTS}+="media-persistent.mount" ENV{SYSTEMD_WANTS}+="pihole.service"
