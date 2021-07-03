@@ -1,1 +1,1 @@
-SUBSYSTEM=="block" ATTR{dm/name}="partofme-data" RUN+="/usr/bin/mount /media/persistent" RUN+="/usr/bin/systemctl start pihole"
+SUBSYSTEM=="block" ATTR{dm/name}=="partofme-data" RUN+="/usr/bin/mount /media/persistent" RUN+="/usr/bin/systemctl start pihole"
