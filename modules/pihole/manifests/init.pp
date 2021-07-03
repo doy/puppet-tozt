@@ -12,12 +12,8 @@ class pihole($dir) {
     "${dir}/etc-dnsmasq.d":
       ensure => directory,
       require => File[$dir];
-    "${dir}/var-log":
-      ensure => directory,
-      require => File[$dir];
-    "${dir}/var-log/pihole.log":
-      ensure => file,
-      require => File["${dir}/var-log"];
+    "/var/log/pihole.log":
+      ensure => file;
   }
 
   systemd::service { "pihole":
