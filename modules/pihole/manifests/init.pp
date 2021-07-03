@@ -27,7 +27,7 @@ class pihole($dir) {
       Package["podman"],
       File["${dir}/etc-pihole"],
       File["${dir}/etc-dnsmasq.d"],
-      File["${dir}/var-log/pihole.log"],
+      File["/var/log/pihole.log"],
     ],
     subscribe => Systemd::Service["pihole"];
   }
