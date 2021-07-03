@@ -17,8 +17,10 @@ class tozt::prometheus {
     source => 'puppet:///modules/tozt/prometheus-override.conf';
   }
 
+  $smtp_password = secret::value("grafana_smtp_password")
+
   file { "/etc/grafana.ini":
-    source => "puppet:///modules/tozt/grafana.ini",
+    content => template("tozt/grafana.ini"),
     require => Package["grafana"];
   }
 
