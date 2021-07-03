@@ -48,11 +48,6 @@ class tozt::prometheus {
   }
 
   nginx::site {
-    "prometheus-tls":
-      source => 'puppet:///modules/tozt/nginx/prometheus-tls.conf',
-      require => Class['certbot'];
-    "prometheus":
-      source => 'puppet:///modules/tozt/nginx/prometheus.conf';
     "grafana-tls":
       source => 'puppet:///modules/tozt/nginx/grafana-tls.conf',
       require => Class['certbot'];
