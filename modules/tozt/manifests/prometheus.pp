@@ -54,4 +54,13 @@ class tozt::prometheus {
     "grafana":
       source => 'puppet:///modules/tozt/nginx/grafana.conf';
   }
+
+  secret { "/media/persistent/grafana.htpasswd":
+    source => "grafana",
+    owner => 'http',
+    require => [
+      Class["tozt::persistent"],
+      Package['nginx'],
+    ];
+  }
 }
