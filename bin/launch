@@ -6,13 +6,13 @@ script_path="$(realpath "$(dirname "$0")")"
 secrets_bin="${script_path}/secrets"
 
 case "$1" in
-    base|tozt|algo|mail|partofme)
-        "$secrets_bin" open
-        trap '"$secrets_bin" close' EXIT
-        "$(dirname "$0")/helpers/launch-$1"
-        ;;
-    *)
-        echo "unknown host $1" >&2
-        exit 1
-        ;;
+base | tozt | algo | mail | mail2 | partofme)
+    "$secrets_bin" open
+    trap '"$secrets_bin" close' EXIT
+    "$(dirname "$0")/helpers/launch-$1"
+    ;;
+*)
+    echo "unknown host $1" >&2
+    exit 1
+    ;;
 esac
