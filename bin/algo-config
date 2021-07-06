@@ -20,7 +20,7 @@ fixup_configs() {
     shift
 
     sed -i 's/^\(Address.*\) *,.*/\1/' "$config_path"/"${name}".conf
-    sed -i 'g/^DNS/d' "$config_path"/"${name}".conf
+    sed -i '/^DNS/d' "$config_path"/"${name}".conf
     cp "$config_path"/"${name}".conf "$config_path"/"${name}"-not-captive.conf
     sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/"${name}".conf
     sed -i 's|^AllowedIPs.*|AllowedIPs = 10.49.0.0/24|' "$config_path"/"${name}"-not-captive.conf
