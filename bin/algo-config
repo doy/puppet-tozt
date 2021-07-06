@@ -15,49 +15,46 @@ if [ -z "${VIRTUAL_ENV:-}" ]; then
     python -m pip install segno
 fi
 
+fixup_configs() {
+    name=$(shift)
+    sed -i 's/^\(Address.*\) *,.*/\1/' "$config_path"/"${name}".conf
+    sed -i 'g/^DNS/d' "$config_path"/"${name}".conf
+    cp "$config_path"/"${name}".conf "$config_path"/"${name}"-not-captive.conf
+    sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/"${name}".conf
+    sed -i 's|^AllowedIPs.*|AllowedIPs = 10.49.0.0/24|' "$config_path"/"${name}"-not-captive.conf
+}
+
 # hornet
-sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/hornet.conf
-cp "$config_path"/hornet.conf "$config_path"/hornet-not-captive.conf
-sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/hornet.conf
+fixup_configs hornet
 sudo cp "$config_path"/hornet.conf /etc/wireguard/algo-captive.conf
 sudo cp "$config_path"/hornet-not-captive.conf /etc/wireguard/algo.conf
 
 # tozt
-sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/tozt.conf
-cp "$config_path"/tozt.conf "$config_path"/tozt-not-captive.conf
-sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/tozt.conf
+fixup_configs tozt
 scp "$config_path"/tozt-not-captive.conf root@tozt.net:/etc/wireguard/algo.conf
 cp "$config_path"/tozt-not-captive.conf /mnt/puppet/tozt/wireguard
 $secrets_bin sync tozt
 
 # partofme
-sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/partofme.conf
-cp "$config_path"/partofme.conf "$config_path"/partofme-not-captive.conf
-sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/partofme.conf
+fixup_configs partofme
 scp "$config_path"/partofme-not-captive.conf root@partofme:/etc/wireguard/algo.conf
 cp "$config_path"/partofme-not-captive.conf /mnt/puppet/partofme/wireguard
 $secrets_bin sync partofme
 
 # mail
-sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/mail.conf
-cp "$config_path"/mail.conf "$config_path"/mail-not-captive.conf
-sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/mail.conf
+fixup_configs mail
 scp "$config_path"/mail-not-captive.conf root@mail.tozt.net:/etc/wireguard/algo.conf
 cp "$config_path"/mail-not-captive.conf /mnt/puppet/mail/wireguard
 $secrets_bin sync mail
 
 # mail2
-sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/mail2.conf
-cp "$config_path"/mail2.conf "$config_path"/mail2-not-captive.conf
-sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/mail2.conf
+fixup_configs mail2
 scp "$config_path"/mail2-not-captive.conf root@mail2.tozt.net:/etc/wireguard/algo.conf
 cp "$config_path"/mail2-not-captive.conf /mnt/puppet/mail2/wireguard
 $secrets_bin sync mail2
 
 # phone
-sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/phone.conf
-cp "$config_path"/phone.conf "$config_path"/phone-not-captive.conf
-sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/phone.conf
+fixup_configs phone
 echo "algo-captive"
 segno --scale=5 --output="$config_path"/phone.png "$(cat "$config_path"/phone.conf)"
 sxiv "$config_path/phone.png"
