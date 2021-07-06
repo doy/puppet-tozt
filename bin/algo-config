@@ -15,51 +15,49 @@ if [ -z "${VIRTUAL_ENV:-}" ]; then
     python -m pip install segno
 fi
 
-# hush
-dns=$(perl -nle 'print $1 if /DNS\s*=\s*(.*),/' "$config_path"/hush.conf)
-sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/hush.conf
-cp "$config_path"/hush.conf "$config_path"/hush-not-captive.conf
-sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/hush.conf
-sed -i "s|^AllowedIPs.*|AllowedIPs = 10.49.0.0/24, $dns/32|" "$config_path"/hush-not-captive.conf
-sudo cp "$config_path"/hush.conf /etc/wireguard/algo-captive.conf
-sudo cp "$config_path"/hush-not-captive.conf /etc/wireguard/algo.conf
+# hornet
+sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/hornet.conf
+cp "$config_path"/hornet.conf "$config_path"/hornet-not-captive.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/hornet.conf
+sudo cp "$config_path"/hornet.conf /etc/wireguard/algo-captive.conf
+sudo cp "$config_path"/hornet-not-captive.conf /etc/wireguard/algo.conf
 
 # tozt
-dns=$(perl -nle 'print $1 if /DNS\s*=\s*(.*),/' "$config_path"/tozt.conf)
 sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/tozt.conf
 cp "$config_path"/tozt.conf "$config_path"/tozt-not-captive.conf
 sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/tozt.conf
-sed -i "s|^AllowedIPs.*|AllowedIPs = 10.49.0.0/24, $dns/32|" "$config_path"/tozt-not-captive.conf
 scp "$config_path"/tozt-not-captive.conf root@tozt.net:/etc/wireguard/algo.conf
 cp "$config_path"/tozt-not-captive.conf /mnt/puppet/tozt/wireguard
 $secrets_bin sync tozt
 
 # partofme
-dns=$(perl -nle 'print $1 if /DNS\s*=\s*(.*),/' "$config_path"/partofme.conf)
 sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/partofme.conf
 cp "$config_path"/partofme.conf "$config_path"/partofme-not-captive.conf
 sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/partofme.conf
-sed -i "s|^AllowedIPs.*|AllowedIPs = 10.49.0.0/24, $dns/32|" "$config_path"/partofme-not-captive.conf
 scp "$config_path"/partofme-not-captive.conf root@partofme:/etc/wireguard/algo.conf
 cp "$config_path"/partofme-not-captive.conf /mnt/puppet/partofme/wireguard
 $secrets_bin sync partofme
 
 # mail
-dns=$(perl -nle 'print $1 if /DNS\s*=\s*(.*),/' "$config_path"/mail.conf)
 sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/mail.conf
 cp "$config_path"/mail.conf "$config_path"/mail-not-captive.conf
 sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/mail.conf
-sed -i "s|^AllowedIPs.*|AllowedIPs = 10.49.0.0/24, $dns/32|" "$config_path"/mail-not-captive.conf
 scp "$config_path"/mail-not-captive.conf root@mail.tozt.net:/etc/wireguard/algo.conf
 cp "$config_path"/mail-not-captive.conf /mnt/puppet/mail/wireguard
 $secrets_bin sync mail
 
+# mail2
+sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/mail2.conf
+cp "$config_path"/mail2.conf "$config_path"/mail2-not-captive.conf
+sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/mail2.conf
+scp "$config_path"/mail2-not-captive.conf root@mail2.tozt.net:/etc/wireguard/algo.conf
+cp "$config_path"/mail2-not-captive.conf /mnt/puppet/mail2/wireguard
+$secrets_bin sync mail2
+
 # phone
-dns=$(perl -nle 'print $1 if /DNS\s*=\s*(.*),/' "$config_path"/phone.conf)
 sed -i 's|^\(Address.*\),.*|\1|' "$config_path"/phone.conf
 cp "$config_path"/phone.conf "$config_path"/phone-not-captive.conf
 sed -i 's|^AllowedIPs.*|AllowedIPs = 0.0.0.0/0|' "$config_path"/phone.conf
-sed -i "s|^AllowedIPs.*|AllowedIPs = 10.49.0.0/24, $dns/32|" "$config_path"/phone-not-captive.conf
 echo "algo-captive"
 segno --scale=5 --output="$config_path"/phone.png "$(cat "$config_path"/phone.conf)"
 sxiv "$config_path/phone.png"
