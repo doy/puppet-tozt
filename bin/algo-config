@@ -16,7 +16,9 @@ if [ -z "${VIRTUAL_ENV:-}" ]; then
 fi
 
 fixup_configs() {
-    name=$(shift)
+    name=$1
+    shift
+
     sed -i 's/^\(Address.*\) *,.*/\1/' "$config_path"/"${name}".conf
     sed -i 'g/^DNS/d' "$config_path"/"${name}".conf
     cp "$config_path"/"${name}".conf "$config_path"/"${name}"-not-captive.conf
