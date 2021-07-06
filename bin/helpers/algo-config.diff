@@ -1,19 +1,19 @@
 diff --git i/config.cfg w/config.cfg
-index bee023f..c23c723 100644
+index bee023f..887ca40 100644
 --- i/config.cfg
 +++ w/config.cfg
 @@ -6,9 +6,12 @@
  # User names with leading 0's or containing only numbers should be escaped in double quotes, e.g. "000dan" or "123".
  # Email addresses are not allowed.
  users:
-+  - hush
++  - hornet
++  - mail
++  - mail2
 +  - partofme
    - phone
 -  - laptop
 -  - desktop
 +  - tozt
-+  - mail
-+  - hornet
  
  ### Review these options BEFORE you run Algo, as they are very difficult/impossible to change after the server is deployed.
  
@@ -35,7 +35,14 @@ index bee023f..c23c723 100644
  
  # Algo will use the following lists to block ads. You can add new block lists
  # after deployment by modifying the line starting "BLOCKLIST_URLS=" at:
-@@ -59,7 +62,7 @@ dns_encryption: true
+@@ -53,13 +56,13 @@ adblock_lists:
+ # Enable DNS encryption.
+ # If 'false', 'dns_servers' should be specified below.
+ # DNS encryption can not be disabled if DNS adblocking is enabled
+-dns_encryption: true
++dns_encryption: false
+ 
+ # Block traffic between connected clients. Change this to false to enable
  # connected clients to reach each other, as well as other computers on the
  # same LAN as your Algo server (i.e. the "road warrior" setup). In this
  # case, you may also want to enable SMB/CIFS and NETBIOS traffic below.
