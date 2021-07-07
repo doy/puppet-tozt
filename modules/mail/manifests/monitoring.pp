@@ -3,6 +3,7 @@ class mail::monitoring {
 
   class {
     [
+      "tick::client::plugin::certbot",
       "tick::client::plugin::fail2ban",
     ]:
   }
