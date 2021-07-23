@@ -1,6 +1,6 @@
 class mail::mailu {
   include mail::persistent
-  include docker
+  include podman::compose
 
   package { "opendkim":
     ensure => installed;
@@ -92,12 +92,15 @@ class mail::mailu {
   }
 
   exec { "compile sieve scripts":
-    command => "/usr/bin/docker-compose exec -T -u mail imap sievec /overrides/sieve/filters.sieve",
+    command => "/usr/bin/podman-compose exec -T -u mail imap sievec /overrides/sieve/filters.sieve",
     cwd => "/media/persistent",
     refreshonly => true,
     tries => 12,
     try_sleep => 15,
-    require => Service["mailu"];
+    require => [
+      Package::Makepkg['podman-compose-git'],
+      Service["mailu"],
+    ];
   }
 
   systemd::service { "mailu":

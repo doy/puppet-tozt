@@ -5,7 +5,7 @@ node 'mail', 'mail.localdomain' {
 
   class { 'base':
     extra_script => "
-      (cd /media/persistent && sudo docker-compose pull -q)
+      (cd /media/persistent && sudo podman-compose pull -q)
     ";
   }
 
