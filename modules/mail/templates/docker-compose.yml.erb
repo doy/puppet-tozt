@@ -8,14 +8,14 @@ services:
 
   # External dependencies
   redis:
-    image: redis:alpine
+    image: docker.io/redis:alpine
     restart: always
     volumes:
       - "/media/persistent/redis:/data"
     
   # Core services
   front:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}nginx:${MAILU_VERSION:-1.7}
+    image: docker.io/${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}nginx:${MAILU_VERSION:-1.7}
     restart: always
     env_file: mailu.env
     logging:
@@ -35,7 +35,7 @@ services:
       - "/media/persistent/overrides/nginx:/overrides"
 
   resolver:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}unbound:${MAILU_VERSION:-1.7}
+    image: docker.io/${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}unbound:${MAILU_VERSION:-1.7}
     env_file: mailu.env
     restart: always
     networks:
@@ -43,7 +43,7 @@ services:
         ipv4_address: 192.168.203.254
 
   admin:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}admin:${MAILU_VERSION:-1.7}
+    image: docker.io/${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}admin:${MAILU_VERSION:-1.7}
     restart: always
     env_file: mailu.env
     volumes:
@@ -53,7 +53,7 @@ services:
       - redis
 
   imap:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}dovecot:${MAILU_VERSION:-1.7}
+    image: docker.io/${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}dovecot:${MAILU_VERSION:-1.7}
     restart: always
     env_file: mailu.env
     volumes:
@@ -63,7 +63,7 @@ services:
       - front
 
   smtp:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}postfix:${MAILU_VERSION:-1.7}
+    image: docker.io/${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}postfix:${MAILU_VERSION:-1.7}
     restart: always
     env_file: mailu.env
     volumes:
@@ -75,7 +75,7 @@ services:
       - 192.168.203.254
 
   antispam:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}rspamd:${MAILU_VERSION:-1.7}
+    image: docker.io/${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}rspamd:${MAILU_VERSION:-1.7}
     restart: always
     env_file: mailu.env
     volumes:
@@ -91,7 +91,7 @@ services:
   # Optional services
 
   webdav:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}radicale:${MAILU_VERSION:-1.7}
+    image: docker.io/${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}radicale:${MAILU_VERSION:-1.7}
     restart: always
     env_file: mailu.env
     volumes:
@@ -100,7 +100,7 @@ services:
 
   # Webmail
   webmail:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}rainloop:${MAILU_VERSION:-1.7}
+    image: docker.io/${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}rainloop:${MAILU_VERSION:-1.7}
     restart: always
     env_file: mailu.env
     volumes:
