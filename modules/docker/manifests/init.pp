@@ -1,11 +1,14 @@
 class docker {
-  package { "docker-compose":
+  package { ["docker", "docker-compose"]:
     ensure => installed;
   }
 
   service { "docker":
     ensure => running,
     enable => true,
-    require => Package["docker-compose"];
+    require => [
+      Package["docker"],
+      Package["docker-compose"],
+    ];
   }
 }
