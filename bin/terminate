@@ -19,9 +19,6 @@ tozt | algo | mail | mail2)
     mail)
         hostname=mail.tozt.net
         ;;
-    mail2)
-        hostname=mail2.tozt.net
-        ;;
     esac
     doctl -t "$(cat /mnt/digitalocean)" compute droplet delete "$hostname"
     ;;

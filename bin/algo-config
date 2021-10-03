@@ -49,12 +49,6 @@ scp "$config_path"/mail-not-captive.conf root@mail.tozt.net:/etc/wireguard/algo.
 cp "$config_path"/mail-not-captive.conf /mnt/puppet/mail/wireguard
 $secrets_bin sync mail
 
-# mail2
-fixup_configs mail2
-scp "$config_path"/mail2-not-captive.conf root@mail2.tozt.net:/etc/wireguard/algo.conf
-cp "$config_path"/mail2-not-captive.conf /mnt/puppet/mail2/wireguard
-$secrets_bin sync mail2
-
 # phone
 fixup_configs phone
 echo "algo-captive"
