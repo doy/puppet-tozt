@@ -3,7 +3,7 @@ class metabase {
   include systemd
 
   # when updating this value, also rm /opt/metabase/metabase.jar
-  $metabase_version = "v0.40.5"
+  $metabase_version = "v0.41.5"
 
   # move back to jre-openjdk-headless once metabase supports java 15?
   package { "jre11-openjdk-headless":
