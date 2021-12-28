@@ -13,11 +13,14 @@ JSON.load(%x{#{rclone} lsjson #{crypt_repo}}).each do |dir|
   b2_path = "#{b2_repo}/#{dir["Path"]}"
 
   date = %x{#{rclone} cat #{crypt_path}/last_run}
-  data = JSON.load(%x{#{rclone} size #{b2_path} --b2-versions --json})
-
   ago_s = now - DateTime.iso8601(date).to_time
-  file_size_b = data["bytes"]
-  file_count_n = data["count"]
 
-  puts "rclone,location=#{crypt_path} days_since_last_run=#{ago_s / 60.0 / 60.0 / 24.0},file_size=#{file_size_b}i,file_count=#{file_count_n}i"
+  # rclone size uses quite a lot of backblaze api calls, which turns out to be
+  # super expensive
+  # data = JSON.load(%x{#{rclone} size #{b2_path} --b2-versions --json})
+  # file_size_b = data["bytes"]
+  # file_count_n = data["count"]
+
+  # puts "rclone,location=#{crypt_path} days_since_last_run=#{ago_s / 60.0 / 60.0 / 24.0},file_size=#{file_size_b}i,file_count=#{file_count_n}i"
+  puts "rclone,location=#{crypt_path} days_since_last_run=#{ago_s / 60.0 / 60.0 / 24.0}"
 end
