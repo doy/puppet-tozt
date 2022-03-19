@@ -13,7 +13,7 @@ define conf::user($user=$name) {
   }
 
   exec { "git clone doy/conf for $user":
-    command => "/usr/bin/git clone git://github.com/doy/conf",
+    command => "/usr/bin/git clone https://github.com/doy/conf",
     user => $user,
     cwd => $home,
     creates => "$home/conf",

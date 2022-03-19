@@ -4,7 +4,7 @@ set -o pipefail
 
 host="${1:-partofme}"
 conf_location="/usr/local/share/puppet-tozt"
-conf_repo="git://github.com/doy/puppet-tozt"
+conf_repo="https://github.com/doy/puppet-tozt"
 
 ssh_opts="-o ControlMaster=auto -o ControlPath=~/.ssh/puppet-tozt-%r-%h-%p -o ControlPersist=5"
 

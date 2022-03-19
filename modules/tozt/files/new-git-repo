@@ -33,7 +33,7 @@ package NewGitRepo {
             git(
                 'clone',
                 '--bare',
-                "git://github.com/$github_user/$opts{name}",
+                "https://github.com/$github_user/$opts{name}",
                 $new_dir
             );
             git(qw(remote rm origin));

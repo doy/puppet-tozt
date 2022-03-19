@@ -69,7 +69,7 @@ class tozt::metabase {
   }
 
   exec { "clone metabase-utils":
-    command => "/usr/bin/git clone git://github.com/doy/metabase-utils",
+    command => "/usr/bin/git clone https://github.com/doy/metabase-utils",
     user => "doy",
     cwd => "/home/doy/coding",
     creates => "/home/doy/coding/metabase-utils",

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 conf_location="/usr/local/share/puppet-tozt"
-conf_repo="git://github.com/doy/puppet-tozt"
+conf_repo="https://github.com/doy/puppet-tozt"
 
 create_droplet() {
     _name="$1"
