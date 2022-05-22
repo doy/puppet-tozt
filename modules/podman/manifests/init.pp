@@ -1,5 +1,5 @@
 class podman {
-  package { "podman":
+  package { ["podman", "cni-plugins"]:
     ensure => installed;
   }
 }
