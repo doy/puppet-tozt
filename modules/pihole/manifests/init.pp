@@ -1,10 +1,6 @@
 class pihole($dir) {
   include podman
 
-  package { "cni-plugins":
-    ensure => installed;
-  }
-
   $webpassword = secret::value("pihole")
 
   file {
@@ -29,7 +25,6 @@ class pihole($dir) {
     enable => true,
     require => [
       Package["podman"],
-      Package["cni-plugins"],
       File["${dir}/etc-pihole"],
       File["${dir}/etc-dnsmasq.d"],
       File["/var/log/pihole.log"],
