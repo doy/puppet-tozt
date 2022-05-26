@@ -24,7 +24,7 @@ class pihole($dir) {
     ensure => "running",
     enable => true,
     require => [
-      Package["podman"],
+      Class["podman"],
       File["${dir}/etc-pihole"],
       File["${dir}/etc-dnsmasq.d"],
       File["/var/log/pihole.log"],

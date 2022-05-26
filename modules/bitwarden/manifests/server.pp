@@ -23,6 +23,7 @@ class bitwarden::server($data_dir) {
     ensure => running,
     enable => true,
     require => [
+      Class["podman"],
       Exec["podman pull docker.io/vaultwarden/server:latest"],
       Systemd::Service["vaultwarden"],
     ]
