@@ -1,5 +1,5 @@
 class base::tools {
-  include yaourt
+  include yay
 
   package {
     [

@@ -14,8 +14,6 @@ class base::operatingsystem {
       target => "/usr/share/zoneinfo/UTC";
     "/etc/hosts":
       content => template('base/hosts');
-    '/etc/yaourtrc':
-      source => 'puppet:///modules/base/yaourtrc';
   }
 
   cron::job { "pacman":
