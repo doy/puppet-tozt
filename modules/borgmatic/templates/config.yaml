@@ -7,7 +7,7 @@ location:
         - <%= path %>
 <%- end -%>
     repositories:
-        - borg@<%= @borgmatic_host %>:<%= @current_hostname %>
+        - ssh://borg@<%= @borgmatic_host %>:<%= @current_hostname %>
     atime: false
     exclude_patterns:
         - /home/*/.cache
