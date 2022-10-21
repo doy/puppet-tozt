@@ -13,6 +13,7 @@ Environment=MB_DB_USER=metabase
 Environment=MB_DB_PASS=
 Environment=MB_DB_HOST=localhost
 ExecStart=java -Xmx128m -jar /opt/metabase/metabase.jar
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
