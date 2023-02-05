@@ -6,6 +6,7 @@ class base::tools {
       "bc",
       "exa",
       "fzf",
+      "helix",
       "htop",
       "iftop",
       "iotop",
