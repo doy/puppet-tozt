@@ -9,6 +9,9 @@ class pihole($dir) {
     "${dir}/etc-pihole":
       ensure => directory,
       require => File[$dir];
+    "${dir}/etc-pihole/pihole-FTL.conf":
+      source => "puppet:///modules/pihole/pihole-FTL.conf",
+      require => File["${dir}/etc-pihole"];
     "${dir}/etc-dnsmasq.d":
       ensure => directory,
       require => File[$dir];
