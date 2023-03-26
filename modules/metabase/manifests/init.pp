@@ -73,7 +73,7 @@ class metabase {
     ensure => running,
     enable => true,
     require => [
-      Package["jre11-openjdk-headless"],
+      Package["jre-openjdk-headless"],
       Systemd::Service["metabase"],
       File["/media/persistent/metabase"],
       Exec["download metabase"],
