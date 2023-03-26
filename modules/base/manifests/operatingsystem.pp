@@ -25,4 +25,14 @@ class base::operatingsystem {
     command => "/usr/bin/locale-gen",
     refreshonly => true;
   }
+
+  package { "pacman-contrib":
+    ensure => installed;
+  }
+
+  service { "paccache.timer":
+    ensure => running,
+    enable => true,
+    require => Package["pacman-contrib"];
+  }
 }
