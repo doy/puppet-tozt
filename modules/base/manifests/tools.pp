@@ -6,6 +6,7 @@ class base::tools {
       "bc",
       "exa",
       "fzf",
+      "git-delta",
       "helix",
       "htop",
       "iftop",
