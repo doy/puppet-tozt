@@ -1,0 +1,6 @@
+name: puppet-tozt
+description: puppet-tozt
+runtime:
+    name: python
+    options:
+        virtualenv: venv

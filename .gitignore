@@ -1,2 +1,4 @@
 /env
 /modules/secret/files/
+*.pyc
+venv/

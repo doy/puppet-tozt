@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+script_path="$(realpath "$(dirname "$0")")"
+secrets_bin="${script_path}/secrets"
+
+"$secrets_bin" open
+trap '"$secrets_bin" close' EXIT
+
+DIGITALOCEAN_TOKEN="$(cat /mnt/digitalocean)"
+export DIGITALOCEAN_TOKEN
+export PULUMI_SKIP_UPDATE_CHECK=1
+PULUMI_CONFIG_PASSPHRASE="$(rbw get --folder=pulumi "$(hostname)" puppet-tozt)"
+export PULUMI_CONFIG_PASSPHRASE
+
+pulumi "$@"

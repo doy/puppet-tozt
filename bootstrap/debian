@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+conf_location="/usr/local/share/puppet-tozt"
+conf_repo="https://github.com/doy/puppet-tozt"
+
+apt-get -y update
+apt-get -y install git
+
+mkdir -p "$conf_location"
+cd "$conf_location" || exit 1
+git clone "$conf_repo" .
+git checkout pulumi
+git submodule update --init --recursive
+
+cd digitalocean-debian-to-arch || exit 1
+bash install.sh --i_understand_that_this_droplet_will_be_completely_wiped --extra_packages "puppet git ruby-shadow"
