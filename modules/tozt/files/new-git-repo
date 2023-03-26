@@ -15,7 +15,6 @@ package NewGitRepo {
     sub new($class, %opts) {
         bless {
             github_user => $opts{github_user},
-            gitlab_user => $opts{gitlab_user},
             root => $opts{root},
         }, $class;
     }
@@ -23,9 +22,7 @@ package NewGitRepo {
     sub init($self, %opts) {
         my $new_dir = "${\$self->{root}}/$opts{name}";
         my $github_user = $self->{github_user};
-        my $gitlab_user = $self->{gitlab_user};
         my $github_token = $self->github_token;
-        my $gitlab_token = $self->gitlab_token;
 
         local $ENV{GIT_DIR} = $new_dir;
 
@@ -48,17 +45,10 @@ package NewGitRepo {
             $self->create_github_repository($opts{name}, $opts{description});
         }
 
-        $self->create_gitlab_repository($opts{name}, $opts{description});
-
         git(
             'remote',
             'add', 'github',
             "https://$github_user:$github_token\@github.com/$github_user/$opts{name}",
-        );
-        git(
-            'remote',
-            'add', 'gitlab',
-            "https://$gitlab_user:$gitlab_token\@gitlab.com/$gitlab_user/$opts{name}.git",
         );
 
         my $cgitrc = $self->generate_cgitrc(%opts);
@@ -130,20 +120,6 @@ EOF
         );
     }
 
-    sub create_gitlab_repository($self, $name, $description) {
-        $self->gitlab_v4(
-            'POST',
-            '/projects',
-            {
-                name => $name,
-                (defined($description)
-                    ? (description => $description)
-                    : ()),
-                visibility => 'public',
-            }
-        );
-    }
-
     sub github_v3($self, $method, $path, $data=undef) {
         my $res = $self->github_ua->request(
             $method,
@@ -173,22 +149,6 @@ EOF
         decode_json($res->{content})
     }
 
-    sub gitlab_v4($self, $method, $path, $data=undef) {
-        my $res = $self->gitlab_ua->request(
-            $method,
-            "https://gitlab.com/api/v4$path",
-            {
-                (defined($data)
-                    ? (content => encode_json($data))
-                    : ()),
-            }
-        );
-        if (!$res->{success}) {
-            die "query failed ($res->{status}): $res->{content}";
-        }
-        decode_json($res->{content})
-    }
-
     sub github_ua($self) {
         $self->{github_ua} ||= HTTP::Tiny->new(
             default_headers => {
@@ -200,27 +160,9 @@ EOF
         );
     }
 
-    sub gitlab_ua($self) {
-        $self->{gitlab_ua} ||= HTTP::Tiny->new(
-            default_headers => {
-                'Authorization' => "bearer ${\$self->gitlab_token}",
-                'Content-Type' => "application/json",
-                'Accept' => "application/json",
-            },
-            verify_SSL => 1,
-        );
-    }
-
     sub github_token($self) {
         $self->{github_token} ||= do {
             chomp(my $token = slurp("$ENV{HOME}/.github"));
-            $token
-        }
-    }
-
-    sub gitlab_token($self) {
-        $self->{gitlab_token} ||= do {
-            chomp(my $token = slurp("$ENV{HOME}/.gitlab"));
             $token
         }
     }
@@ -245,11 +187,9 @@ EOF
 sub main(@argv) {
     my %opts = parse_args(\@argv);
     my $github_user = delete $opts{github_user};
-    my $gitlab_user = delete $opts{gitlab_user};
     my $root = delete $opts{root};
     NewGitRepo->new(
         github_user => $github_user,
-        gitlab_user => $gitlab_user,
         root => $root,
     )->init(%opts);
 }
@@ -258,7 +198,6 @@ sub parse_args($argv) {
     my %opts = (
         from_github => undef,
         github_user => "doy",
-        gitlab_user => "doyster",
         root => "$ENV{HOME}/git",
         unmaintained => undef,
         description => undef,
@@ -268,7 +207,6 @@ sub parse_args($argv) {
         $argv,
         'from-github' => \$opts{from_github},
         'github_user=s' => \$opts{github_user},
-        'gitlab_user=s' => \$opts{gitlab_user},
         'root=s' => \$opts{root},
         'unmaintained' => \$opts{unmaintained},
         'description=s' => \$opts{description},

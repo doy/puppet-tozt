@@ -5,12 +5,4 @@ set -o pipefail
 mkdir -p info/web
 git for-each-ref --sort=committerdate --format='%(committerdate)' refs/heads | tail -n1 > info/web/last-modified
 
-# XXX github accepts pushes of things under refs/remotes (and presumably just
-# ignores them), but gitlab throws an error when you do this. as far as i can
-# tell though, --mirror is the only way to keep the list of branches in sync
-# (like, delete remote branches when the local branch is deleted, etc), and
-# there's no way to configure the set of refs when using --mirror, so this is
-# probably the best i can do for now
-rm -rf refs/remotes
-git push --mirror gitlab
 git push --mirror github
