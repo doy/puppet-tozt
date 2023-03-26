@@ -1,3 +1,3 @@
 #!/bin/sh
 
-podman system prune -f --filter until=7d
+podman system prune -f --filter until=168h
