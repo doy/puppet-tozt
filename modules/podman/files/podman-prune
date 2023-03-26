@@ -1,0 +1,3 @@
+#!/bin/sh
+
+podman system prune -f --filter until=7d
