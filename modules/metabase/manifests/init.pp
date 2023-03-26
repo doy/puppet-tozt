@@ -1,9 +1,6 @@
-class metabase {
+class metabase($version) {
   include postgres
   include systemd
-
-  # when updating this value, also rm /opt/metabase/metabase.jar
-  $metabase_version = "v0.45.3"
 
   # move back to jre-openjdk-headless once metabase supports java 15?
   package { "jre-openjdk-headless":
@@ -40,7 +37,7 @@ class metabase {
 
   exec { "download metabase":
     provider => shell,
-    command => "curl -LO http://downloads.metabase.com/${metabase_version}/metabase.jar",
+    command => "curl -LO http://downloads.metabase.com/${version}/metabase.jar",
     cwd => "/opt/metabase",
     creates => "/opt/metabase/metabase.jar",
     require => File["/opt/metabase"];

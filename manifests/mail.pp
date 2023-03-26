@@ -1,16 +1,9 @@
 node 'mail', 'mail.localdomain' {
-  $persistent_data = '/media/persistent'
-  include mail::persistent
-  Class['mail::persistent'] -> Class['base']
-
-  class { 'base':
-    extra_script => "
-      (cd /media/persistent && sudo docker-compose pull -q)
-    ";
-  }
-
+  include base
   include mail::operatingsystem
+  include mail::persistent
   Class['mail::operatingsystem'] -> Package<| provider == "pacman" |>
+  Class['mail::persistent'] -> Class['base']
 
   include mail::backups
   include mail::mailu

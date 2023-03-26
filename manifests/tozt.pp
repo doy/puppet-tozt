@@ -1,17 +1,9 @@
 node 'tozt', 'tozt.localdomain' {
-  $persistent_data = '/media/persistent'
-  include tozt::persistent
-  Class['tozt::persistent'] -> Class['base']
-
-  class { 'base':
-    extra_script => "
-      (cd /home/doy/coding/metabase-utils && git pull)
-      (sudo podman pull docker.io/vaultwarden/server)
-    ";
-  }
-
+  include base
   include tozt::operatingsystem
+  include tozt::persistent
   Class['tozt::operatingsystem'] -> Package<| provider == "pacman" |>
+  Class['tozt::persistent'] -> Class['base']
 
   include tozt::backups
   include tozt::bitwarden
