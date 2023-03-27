@@ -6,5 +6,4 @@ class base($extra_script="") {
   contain base::services
   contain base::tools
   contain base::users
-  contain base::vpn
 }

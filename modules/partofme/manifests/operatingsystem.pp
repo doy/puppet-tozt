@@ -1,4 +1,6 @@
 class partofme::operatingsystem {
+  include wireguard
+  
   file {
     '/etc/mkinitcpio.conf':
       source => 'puppet:///modules/partofme/mkinitcpio.conf',
