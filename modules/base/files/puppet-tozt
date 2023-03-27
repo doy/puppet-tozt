@@ -7,8 +7,9 @@ branch=${1:-main}
 
 set +e
 sudo puppet apply --show_diff --modulepath=/usr/local/share/puppet-tozt/modules --hiera_config=/usr/local/share/puppet-tozt/hiera/hiera.yaml --detailed-exitcodes /usr/local/share/puppet-tozt/manifests
-if [ $? -eq 2 ]; then
+puppet_exit=$?
+if [ $puppet_exit -eq 2 ]; then
   exit 0
 else
-  exit $?
+  exit $puppet_exit
 fi
