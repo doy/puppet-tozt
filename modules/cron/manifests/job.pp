@@ -1,5 +1,6 @@
 define cron::job($frequency, $source = undef, $content = undef, $ensure = undef) {
   require cron
+  require godwrap
 
   file {
     "/etc/cronjobs/${name}":
