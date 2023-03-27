@@ -1,4 +1,4 @@
-class godwrap {
+class godwrap($directory = "/var/lib/godwrap") {
   include go
 
   package::makepkg { 'godwrap':
@@ -7,7 +7,7 @@ class godwrap {
   }
 
   file {
-    "/media/persistent/godwrap":
+    $directory:
       ensure => directory;
   }
 }

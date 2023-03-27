@@ -2,3 +2,4 @@
 persistent_data: '/media/persistent'
 base::extra_script: |
   (cd /media/persistent && sudo docker-compose pull -q)
+godwrap::directory: /media/persistent/godwrap
