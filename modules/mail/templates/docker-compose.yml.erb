@@ -12,14 +12,20 @@ services:
     restart: always
     volumes:
       - "/media/persistent/redis:/data"
-    
+    depends_on:
+      - resolver
+    dns:
+      - 192.168.203.254
+
   # Core services
   front:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}nginx:${MAILU_VERSION:-1.7}
+    image: ${DOCKER_ORG:-ghcr.io/mailu}/${DOCKER_PREFIX:-}nginx:${MAILU_VERSION:-2.0}
     restart: always
     env_file: mailu.env
     logging:
-      driver: json-file
+      driver: journald
+      options:
+        tag: mailu-front
     ports:
       - "<%= @bind_address %>:80:80"
       - "<%= @bind_address %>:443:443"
@@ -30,12 +36,20 @@ services:
       - "<%= @bind_address %>:995:995"
       - "<%= @bind_address %>:143:143"
       - "<%= @bind_address %>:993:993"
+    networks:
+      - default
+      - webmail
+      - radicale
     volumes:
       - "/media/persistent/certs:/certs"
-      - "/media/persistent/overrides/nginx:/overrides"
+      - "/media/persistent/overrides/nginx:/overrides:ro"
+    depends_on:
+      - resolver
+    dns:
+      - 192.168.203.254
 
   resolver:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}unbound:${MAILU_VERSION:-1.7}
+    image: ${DOCKER_ORG:-ghcr.io/mailu}/${DOCKER_PREFIX:-}unbound:${MAILU_VERSION:-2.0}
     env_file: mailu.env
     restart: always
     networks:
@@ -43,47 +57,72 @@ services:
         ipv4_address: 192.168.203.254
 
   admin:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}admin:${MAILU_VERSION:-1.7}
+    image: ${DOCKER_ORG:-ghcr.io/mailu}/${DOCKER_PREFIX:-}admin:${MAILU_VERSION:-2.0}
     restart: always
     env_file: mailu.env
+    logging:
+      driver: journald
+      options:
+        tag: mailu-admin
     volumes:
       - "/media/persistent/data:/data"
       - "/media/persistent/dkim:/dkim"
     depends_on:
       - redis
+      - resolver
+    dns:
+      - 192.168.203.254
 
   imap:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}dovecot:${MAILU_VERSION:-1.7}
+    image: ${DOCKER_ORG:-ghcr.io/mailu}/${DOCKER_PREFIX:-}dovecot:${MAILU_VERSION:-2.0}
     restart: always
     env_file: mailu.env
+    logging:
+      driver: journald
+      options:
+        tag: mailu-imap
     volumes:
       - "/media/persistent/mail:/mail"
-      - "/media/persistent/overrides:/overrides"
-    depends_on:
-      - front
-
-  smtp:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}postfix:${MAILU_VERSION:-1.7}
-    restart: always
-    env_file: mailu.env
-    volumes:
-      - "/media/persistent/overrides:/overrides"
+      - "/media/persistent/overrides/dovecot:/overrides:ro"
     depends_on:
       - front
       - resolver
     dns:
       - 192.168.203.254
 
-  antispam:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}rspamd:${MAILU_VERSION:-1.7}
+  smtp:
+    image: ${DOCKER_ORG:-ghcr.io/mailu}/${DOCKER_PREFIX:-}postfix:${MAILU_VERSION:-2.0}
     restart: always
     env_file: mailu.env
+    logging:
+      driver: journald
+      options:
+        tag: mailu-smtp
     volumes:
-      - "/media/persistent/filter:/var/lib/rspamd"
-      - "/media/persistent/dkim:/dkim"
-      - "/media/persistent/overrides/rspamd:/etc/rspamd/override.d"
+      - "/media/persistent/mailqueue:/queue"
+      - "/media/persistent/overrides/postfix:/overrides:ro"
     depends_on:
       - front
+      - resolver
+    dns:
+      - 192.168.203.254
+
+
+  antispam:
+    image: ${DOCKER_ORG:-ghcr.io/mailu}/${DOCKER_PREFIX:-}rspamd:${MAILU_VERSION:-2.0}
+    hostname: antispam
+    restart: always
+    env_file: mailu.env
+    logging:
+      driver: journald
+      options:
+        tag: mailu-antispam
+    volumes:
+      - "/media/persistent/filter:/var/lib/rspamd"
+      - "/media/persistent/overrides/rspamd:/overrides:ro"
+    depends_on:
+      - front
+      - redis
       - resolver
     dns:
       - 192.168.203.254
@@ -91,23 +130,26 @@ services:
   # Optional services
 
   webdav:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}radicale:${MAILU_VERSION:-1.7}
+    image: ${DOCKER_ORG:-ghcr.io/mailu}/${DOCKER_PREFIX:-}radicale:${MAILU_VERSION:-2.0}
     restart: always
-    env_file: mailu.env
     volumes:
       - "/media/persistent/dav:/data"
+    networks:
+      - radicale
 
 
   # Webmail
   webmail:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}rainloop:${MAILU_VERSION:-1.7}
+    image: ${DOCKER_ORG:-ghcr.io/mailu}/${DOCKER_PREFIX:-}webmail:${MAILU_VERSION:-2.0}
     restart: always
     env_file: mailu.env
     volumes:
       - "/media/persistent/webmail:/data"
+      - "/media/persistent/overrides/snappymail:/overrides:ro"
+    networks:
+      - webmail
     depends_on:
-      - imap
-
+      - front
 
 networks:
   default:
@@ -116,3 +158,7 @@ networks:
       driver: default
       config:
         - subnet: 192.168.203.0/24
+  radicale:
+    driver: bridge
+  webmail:
+    driver: bridge
