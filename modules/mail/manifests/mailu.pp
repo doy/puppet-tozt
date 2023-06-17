@@ -19,6 +19,7 @@ class mail::mailu {
   }
 
   cron::job { "learn_spam":
+    frequency => "daily",
     ensure => absent;
   }
 
