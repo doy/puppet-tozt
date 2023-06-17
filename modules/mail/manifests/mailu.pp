@@ -99,7 +99,7 @@ class mail::mailu {
   }
 
   exec { "compile sieve scripts":
-    command => "/usr/bin/docker-compose exec -T -u mail imap sievec /overrides/dovecot/sieve/filters.sieve",
+    command => "/usr/bin/docker-compose exec -T -u mail imap sievec /overrides/sieve/filters.sieve",
     cwd => "/media/persistent",
     refreshonly => true,
     tries => 12,
