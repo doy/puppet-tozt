@@ -19,9 +19,7 @@ class mail::mailu {
   }
 
   cron::job { "learn_spam":
-    frequency => "daily",
-    source => 'puppet:///modules/mail/learn_spam',
-    require => Service['mailu'];
+    ensure => absent;
   }
 
   exec { "generate mailu secret key":
@@ -65,12 +63,13 @@ class mail::mailu {
     "/media/persistent/overrides":
       ensure => directory,
       require => Class["mail::persistent"];
+    "/media/persistent/overrides/dovecot":
+      ensure => directory,
+      require => Class["mail::persistent"];
     "/media/persistent/overrides/dovecot/dovecot.conf":
       source => "puppet:///modules/mail/dovecot.conf",
-      require => File["/media/persistent/overrides"],
+      require => File["/media/persistent/overrides/dovecot"],
       notify => Service["mailu"];
-    "/media/persistent/overrides/dovecot.conf":
-      ensure => absent;
     "/media/persistent/overrides/rspamd":
       ensure => directory,
       require => File["/media/persistent/overrides"];
@@ -79,22 +78,27 @@ class mail::mailu {
       require => File["/media/persistent/overrides/rspamd"],
       notify => Service["mailu"];
     "/media/persistent/overrides/sieve":
+      ensure => absent;
+    "/media/persistent/overrides/dovecot/sieve":
       ensure => directory,
       owner => 'mail',
       group => 'mail',
-      require => File["/media/persistent/overrides"];
+      require => File["/media/persistent/overrides/dovecot"];
   }
 
-  secret { "/media/persistent/overrides/sieve/filters.sieve":
+  secret { "/media/persistent/overrides/dovecot/sieve/filters.sieve":
     owner => 'mail',
     group => 'mail',
     source => 'sieve',
-    require => File["/media/persistent/overrides/sieve"],
+    require => File["/media/persistent/overrides/dovecot/sieve"],
     notify => Exec["compile sieve scripts"];
+  }
+  secret { "/media/persistent/overrides/sieve/filters.sieve":
+    ensure => absent;
   }
 
   exec { "compile sieve scripts":
-    command => "/usr/bin/docker-compose exec -T -u mail imap sievec /overrides/sieve/filters.sieve",
+    command => "/usr/bin/docker-compose exec -T -u mail imap sievec /overrides/dovecot/sieve/filters.sieve",
     cwd => "/media/persistent",
     refreshonly => true,
     tries => 12,
