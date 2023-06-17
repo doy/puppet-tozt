@@ -65,10 +65,12 @@ class mail::mailu {
     "/media/persistent/overrides":
       ensure => directory,
       require => Class["mail::persistent"];
-    "/media/persistent/overrides/dovecot.conf":
+    "/media/persistent/overrides/dovecot/dovecot.conf":
       source => "puppet:///modules/mail/dovecot.conf",
       require => File["/media/persistent/overrides"],
       notify => Service["mailu"];
+    "/media/persistent/overrides/dovecot.conf":
+      ensure => absent;
     "/media/persistent/overrides/rspamd":
       ensure => directory,
       require => File["/media/persistent/overrides"];
