@@ -15,6 +15,7 @@ class base::tools {
       "neomutt",
       "ncdu",
       "ripgrep",
+      "starship",
       "strace",
       "tmux",
     ]:

@@ -3,15 +3,6 @@ define conf::user($user=$name) {
 
   include conf
 
-  if $user != 'root' {
-    package::cargo { "fancy-prompt for $user":
-      ensure => installed,
-      user => $user,
-      package => 'fancy-prompt',
-      require => Package["cmake"],
-    }
-  }
-
   exec { "git clone doy/conf for $user":
     command => "/usr/bin/git clone https://github.com/doy/conf",
     user => $user,
