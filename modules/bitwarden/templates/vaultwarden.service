@@ -3,7 +3,7 @@ Description=runs vaultwarden
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/podman run --rm --name vaultwarden -e DOMAIN=https://bitwarden.tozt.net -e ADMIN_TOKEN=<%= @admin_token %> -e SIGNUPS_ALLOWED=false -e SMTP_HOST=mail.tozt.net -e SMTP_FROM=bitwarden-noreply@tozt.net -e SMTP_PORT=587 -e SMTP_SSL=true -e SMTP_USERNAME=bitwarden-noreply@tozt.net -e SMTP_PASSWORD=<%= @smtp_password %> -v <%= @data_dir %>:/data/ -p 127.0.0.1:8080:80 docker.io/vaultwarden/server:latest
+ExecStart=/usr/bin/podman run --rm --name vaultwarden -e DOMAIN=https://bitwarden.tozt.net -e ADMIN_TOKEN=<%= @admin_token %> -e SIGNUPS_ALLOWED=false -e SMTP_HOST=mail.tozt.net -e SMTP_FROM=bitwarden-noreply@tozt.net -e SMTP_PORT=587 -e SMTP_SSL=true -e SMTP_USERNAME=bitwarden-noreply@tozt.net -e SMTP_PASSWORD=<%= @smtp_password %> -e WEBSOCKET_ENABLED=true -v <%= @data_dir %>:/data/ -p 127.0.0.1:8080:80 docker.io/vaultwarden/server:latest
 ExecStop=/usr/bin/podman stop vaultwarden
 Restart=always
 
