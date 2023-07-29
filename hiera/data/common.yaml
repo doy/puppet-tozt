@@ -8,4 +8,4 @@ vpn_ips:
   tozt: '10.49.0.6'
 
 # when updating this value, also rm /opt/metabase/metabase.jar
-metabase::version: 'v0.46.6.1'
+metabase::version: 'v0.46.6.4'
