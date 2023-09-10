@@ -4,7 +4,7 @@ class base::tools {
   package {
     [
       "bc",
-      "exa",
+      "eza",
       "fzf",
       "git-delta",
       "helix",
