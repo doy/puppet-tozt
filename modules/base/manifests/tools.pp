@@ -16,6 +16,7 @@ class base::tools {
       "ncdu",
       "ripgrep",
       "starship",
+      "stow",
       "strace",
       "tmux",
     ]:
