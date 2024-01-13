@@ -24,7 +24,7 @@ class borgmatic($host = 'partofme.algo', $extra_paths = []) {
     environment => [
       "BORG_PASSPHRASE=${borgmatic_passphrase}",
     ],
-    unless => '/usr/bin/borgmatic info > /dev/null',
+    unless => '/usr/bin/borgmatic info --archive latest > /dev/null',
     require => [
       Package['borgmatic'],
       File['/etc/borgmatic/config.yaml'],
