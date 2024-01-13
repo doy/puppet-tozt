@@ -17,7 +17,7 @@ define rust::user($user=$name) {
     provider => "shell",
     command => "rustup component remove rust-docs",
     user => $user,
-    onlyif => "rustup component list | grep -q rust-docs",
+    onlyif => "rustup component list | grep -q 'rust-docs.*installed'",
     require => [
       Package["rustup"],
       User[$user],
