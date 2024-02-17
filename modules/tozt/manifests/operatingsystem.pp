@@ -1,7 +1,4 @@
 class tozt::operatingsystem {
+  include reflector
   include wireguard
-  
-  file { '/etc/pacman.d/mirrorlist':
-    source => 'puppet:///modules/tozt/mirrorlist';
-  }
 }

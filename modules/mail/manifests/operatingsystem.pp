@@ -1,7 +1,4 @@
 class mail::operatingsystem {
+  include reflector
   include wireguard
-  
-  file { '/etc/pacman.d/mirrorlist':
-    source => 'puppet:///modules/mail/mirrorlist';
-  }
 }
