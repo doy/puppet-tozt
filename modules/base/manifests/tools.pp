@@ -4,6 +4,7 @@ class base::tools {
   package {
     [
       "bc",
+      "debugedit",
       "eza",
       "fzf",
       "git-delta",
