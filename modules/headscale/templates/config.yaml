@@ -1,6 +1,6 @@
 server_url: https://headscale.tozt.net
 listen_addr: 0.0.0.0:8081
-metrics_listen_addr: 0.0.0.0:9090
+metrics_listen_addr: 0.0.0.0:9091
 private_key_path: <%= @data_dir %>/private.key
 noise:
   private_key_path: <%= @data_dir %>/noise_private.key
