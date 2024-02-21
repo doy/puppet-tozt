@@ -14,6 +14,10 @@ class headscale($data_dir) {
       require => Package['headscale'];
   }
 
+  systemd::override { "headscale":
+      content => template("headscale/override.conf");
+  }
+
   service { "headscale":
     ensure => running,
     enable => true,
@@ -21,6 +25,7 @@ class headscale($data_dir) {
       File[$data_dir],
       File["/var/run/headscale"],
       File['/etc/headscale/config.yaml'],
+      Systemd::Override["headscale"],
       Package['headscale'],
     ];
   }
