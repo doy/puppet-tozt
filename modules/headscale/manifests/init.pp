@@ -5,7 +5,10 @@ class headscale($data_dir) {
 
   file {
     $data_dir:
-      ensure => directory;
+      owner => 'headscale',
+      group => 'headscale',
+      ensure => directory,
+      require => Package['headscale'];
     "/etc/headscale/config.yaml":
       content => template("headscale/config.yaml"),
       require => Package['headscale'];
