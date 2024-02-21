@@ -4,7 +4,7 @@ class headscale($data_dir) {
   }
 
   file {
-    $data_dir:
+    [$data_dir, "/var/run/headscale"]:
       owner => 'headscale',
       group => 'headscale',
       ensure => directory,
