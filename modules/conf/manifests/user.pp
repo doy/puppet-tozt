@@ -23,7 +23,7 @@ define conf::user($user=$name) {
       "HOME=$home",
       "PWD=$home/conf",
     ],
-    creates => "$home/.vimrc",
+    creates => "$home/.zshrc",
     require => [
       Class['c_toolchain'],
       User[$user],
