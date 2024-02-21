@@ -9,3 +9,7 @@ ip_prefixes:
 disable_check_updates: true
 db_type: sqlite3
 db_path: <%= @data_dir %>/db.sqlite
+dns_config:
+  override_local_dns: false
+  magic_dns: true
+  base_domain: headscale.tozt.net
