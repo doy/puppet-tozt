@@ -19,6 +19,7 @@ class headscale($data_dir) {
     enable => true,
     require => [
       File[$data_dir],
+      File["/var/run/headscale"],
       File['/etc/headscale/config.yaml'],
       Package['headscale'],
     ];
