@@ -1,5 +1,6 @@
 class partofme::operatingsystem {
   include reflector
+  include tailscale
   include wireguard
   
   file {
