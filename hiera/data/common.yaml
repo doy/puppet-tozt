@@ -1,5 +1,11 @@
 ---
 default_user: doy
+vpn_ips:
+  hornet: 100.64.0.1
+  tozt: 100.64.0.2
+  oneplus-le2115: 100.64.0.3
+  mail: 100.64.0.4
+  partofme: 100.64.0.5
 
 # when updating this value, also rm /opt/metabase/metabase.jar
 metabase::version: 'v0.48.3'
