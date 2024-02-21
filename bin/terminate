@@ -6,13 +6,10 @@ script_path="$(realpath "$(dirname "$0")")"
 secrets_bin="${script_path}/secrets"
 
 case "$1" in
-algo | mail | mail2)
+mail)
     "$secrets_bin" open
     trap '"$secrets_bin" close' EXIT
     case "$1" in
-    algo)
-        hostname=algo.tozt.net
-        ;;
     mail)
         hostname=mail.tozt.net
         ;;

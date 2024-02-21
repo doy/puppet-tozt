@@ -1,4 +1,4 @@
-class borgmatic($host = 'partofme.algo', $extra_paths = []) {
+class borgmatic($host = 'partofme', $extra_paths = []) {
   package { 'borgmatic':
     ensure => installed;
   }
