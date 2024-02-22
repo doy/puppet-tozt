@@ -11,7 +11,8 @@ class headscale($data_dir) {
       require => Package['headscale'];
     "/etc/headscale/config.yaml":
       content => template("headscale/config.yaml"),
-      require => Package['headscale'];
+      require => Package['headscale'],
+      notify => Service["headscale"];
   }
 
   systemd::override { "headscale":
