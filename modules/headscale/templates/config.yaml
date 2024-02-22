@@ -7,6 +7,12 @@ noise:
 ip_prefixes:
   - fd7a:115c:a1e0::/48
   - 100.64.0.0/10
+derp:
+  server:
+    enabled: true
+    stun_listen_addr: 0.0.0.0:3478
+    private_key_path: <%= @data_dir %>/derp_server_private.key
+    ipv4: <%= @bind_address %>
 disable_check_updates: true
 db_type: sqlite3
 db_path: <%= @data_dir %>/db.sqlite
