@@ -17,9 +17,3 @@ derp:
 disable_check_updates: true
 db_type: sqlite3
 db_path: <%= @data_dir %>/db.sqlite
-dns_config:
-  override_local_dns: true
-  nameservers:
-    - 4.2.2.4
-  magic_dns: true
-  base_domain: headscale.tozt.net
