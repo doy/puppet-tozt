@@ -8,7 +8,8 @@ class reflector {
     require => Package['reflector'];
   }
 
-  service { "reflector":
+  service { "reflector.timer":
+    ensure => running,
     enable => true,
     require => [
       Package['reflector'],
