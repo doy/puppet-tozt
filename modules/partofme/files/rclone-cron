@@ -5,4 +5,9 @@ if ! mount | grep -q /media/persistent; then
 fi
 
 date -Iseconds >/media/persistent/last_run
-rclone --config /etc/rclone.conf sync /media/persistent crypt:partofme
+sudo lvcreate --size 10G --snapshot --name backup /dev/partofme/data
+sudo mkdir -p /media/backup
+sudo mount -o ro /dev/partofme/backup /media/backup
+rclone --config /etc/rclone.conf sync /media/backup crypt:partofme
+sudo umount /media/backup
+sudo lvremove partofme/backup
