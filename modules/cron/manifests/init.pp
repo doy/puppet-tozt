@@ -1,30 +1,27 @@
 class cron {
-  $from = "${facts['networking']['hostname']}-cron"
-  $password = secret::value('cron_email_password')
-
-  package { ["cronie", "msmtp"]:
-    ensure => installed,
-  }
-
   file {
-    '/etc/msmtprc':
-      content => template('cron/msmtprc');
-    '/etc/aliases':
-      content => template('cron/aliases');
-    "/etc/cronjobs":
+    '/etc/cronjobs':
       ensure => directory,
       recurse => true,
       purge => true;
   }
 
+  package { ["cronie", "msmtp"]:
+    ensure => absent;
+  }
+
+  file {
+    '/etc/msmtprc':
+      ensure => absent;
+    '/etc/aliases':
+      ensure => absent;
+  }
+
   systemd::override { "cronie":
-    source => 'puppet:///modules/cron/override.conf';
+    ensure => absent;
   }
 
   service { 'cronie':
-    ensure => running,
-    enable => true,
-    subscribe => Systemd::Override['cronie'],
-    require => Package['cronie'];
+    ensure => absent;
   }
 }

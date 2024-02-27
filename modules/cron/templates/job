@@ -1,3 +1,0 @@
-#!/bin/sh
-
-exec godwrap run --name <%= @name %> --status <%= @godwrap_directory %> --mode 0644 -- /etc/cronjobs/<%= @name %>

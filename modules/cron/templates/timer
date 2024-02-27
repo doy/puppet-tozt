@@ -1,0 +1,6 @@
+[Timer]
+OnCalendar=<%= @frequency %>
+Persistent=True
+
+[Install]
+WantedBy=timers.target

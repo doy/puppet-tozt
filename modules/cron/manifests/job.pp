@@ -1,6 +1,7 @@
 define cron::job($frequency, $source = undef, $content = undef, $ensure = undef) {
   require cron
   require godwrap
+  require systemd
 
   $godwrap_directory = $godwrap::directory;
 
@@ -11,10 +12,28 @@ define cron::job($frequency, $source = undef, $content = undef, $ensure = undef)
       content => $content,
       mode => '0755',
       require => File["/etc/cronjobs"];
-    "/etc/cron.${frequency}/${name}":
+    "/etc/systemd/system/${name}.service":
       ensure => $ensure,
-      content => template('cron/job'),
+      content => template('cron/service'),
       mode => '0755',
-      require => File["/etc/cronjobs/${name}"];
+      require => File["/etc/cronjobs/${name}"],
+      notify => Exec['/usr/bin/systemctl daemon-reload'];
+    "/etc/systemd/system/${name}.timer":
+      ensure => $ensure,
+      content => template('cron/timer'),
+      mode => '0755',
+      require => File["/etc/cronjobs/${name}"],
+      notify => Exec['/usr/bin/systemctl daemon-reload'];
+    "/etc/cron.${frequency}/${name}":
+      ensure => absent;
+  }
+
+  service { "${name}.timer":
+    ensure => running,
+    enable => true,
+    require => [
+      File["/etc/systemd/system/${name}.service"],
+      File["/etc/systemd/system/${name}.timer"],
+    ];
   }
 }
