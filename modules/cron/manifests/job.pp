@@ -28,12 +28,18 @@ define cron::job($frequency, $source = undef, $content = undef, $ensure = undef)
       ensure => absent;
   }
 
-  service { "${name}.timer":
-    ensure => running,
-    enable => true,
-    require => [
-      File["/etc/systemd/system/${name}.service"],
-      File["/etc/systemd/system/${name}.timer"],
-    ];
+  case $ensure {
+    'absent': {
+    }
+    default: {
+      service { "${name}.timer":
+        ensure => running,
+        enable => true,
+        require => [
+          File["/etc/systemd/system/${name}.service"],
+          File["/etc/systemd/system/${name}.timer"],
+        ];
+      }
+    }
   }
 }
