@@ -1,7 +1,7 @@
 define cron::job($frequency, $source = undef, $content = undef, $ensure = undef) {
   require cron
   require godwrap
-  require systemd
+  include systemd
 
   $godwrap_directory = $godwrap::directory;
 
