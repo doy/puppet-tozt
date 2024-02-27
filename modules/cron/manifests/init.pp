@@ -22,6 +22,7 @@ class cron {
   }
 
   service { 'cronie':
-    ensure => absent;
+    ensure => stopped,
+    enable => false;
   }
 }
