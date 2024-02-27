@@ -18,11 +18,6 @@ class mail::mailu {
       require => Class["mail::persistent"];
   }
 
-  cron::job { "learn_spam":
-    frequency => "daily",
-    ensure => absent;
-  }
-
   exec { "generate mailu secret key":
     provider => shell,
     command => "
@@ -78,8 +73,6 @@ class mail::mailu {
       source => "puppet:///modules/mail/milter_headers.conf",
       require => File["/media/persistent/overrides/rspamd"],
       notify => Service["mailu"];
-    "/media/persistent/overrides/sieve":
-      ensure => absent;
     "/media/persistent/overrides/dovecot/sieve":
       ensure => directory,
       owner => 'mail',
@@ -93,9 +86,6 @@ class mail::mailu {
     source => 'sieve',
     require => File["/media/persistent/overrides/dovecot/sieve"],
     notify => Exec["compile sieve scripts"];
-  }
-  secret { "/media/persistent/overrides/sieve/filters.sieve":
-    ensure => absent;
   }
 
   exec { "compile sieve scripts":

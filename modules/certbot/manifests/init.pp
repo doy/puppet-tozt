@@ -43,8 +43,6 @@ class certbot($config_dir=undef) {
       source => 'puppet:///modules/certbot/reload-cert',
       mode => '0755',
       require => File["${_config_dir}/renewal-hooks/deploy"];
-    "${_config_dir}/renewal-hooks/deploy/reload-cert":
-      ensure => absent;
     "/usr/local/bin/certbot-tozt":
       content => template('certbot/certbot-tozt'),
       mode => '0755';
