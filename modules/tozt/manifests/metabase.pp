@@ -36,7 +36,7 @@ class tozt::metabase {
       require => Conf::User["doy"];
   }
 
-  cron::job { "metabase":
+  cron::job { "refresh-metabase":
     frequency => "hourly",
     source => "puppet:///modules/tozt/metabase",
     require => [
