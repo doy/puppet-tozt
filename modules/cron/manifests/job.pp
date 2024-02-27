@@ -15,13 +15,11 @@ define cron::job($frequency, $source = undef, $content = undef, $ensure = undef)
     "/etc/systemd/system/${name}.service":
       ensure => $ensure,
       content => template('cron/service'),
-      mode => '0755',
       require => File["/etc/cronjobs/${name}"],
       notify => Exec['/usr/bin/systemctl daemon-reload'];
     "/etc/systemd/system/${name}.timer":
       ensure => $ensure,
       content => template('cron/timer'),
-      mode => '0755',
       require => File["/etc/cronjobs/${name}"],
       notify => Exec['/usr/bin/systemctl daemon-reload'];
     "/etc/cron.${frequency}/${name}":
