@@ -44,9 +44,9 @@ class tozt::metabase {
       Exec["clone metabase-utils"],
       Secret["/home/doy/.config/ynab/api-key"],
       Secret["/home/doy/.config/google/investments-sheet"],
-      Exec["create money db"],
     ];
   }
+  Exec["create money db"] -> Service["refresh-metabase.timer"]
 
   secret { "/home/doy/.config/ynab/api-key":
     source => "ynab",
