@@ -5,11 +5,6 @@ class locate {
     ensure => installed,
   }
 
-  cron::job { "updatedb":
-    frequency => "daily",
-    ensure => absent;
-  }
-
   service { "updatedb.timer":
     ensure => running,
     enable => true,

@@ -22,8 +22,6 @@ define cron::job($frequency, $source = undef, $content = undef, $ensure = undef)
       content => template('cron/timer'),
       require => File["/etc/cronjobs/${name}"],
       notify => Exec['/usr/bin/systemctl daemon-reload'];
-    "/etc/cron.${frequency}/${name}":
-      ensure => absent;
   }
 
   case $ensure {
