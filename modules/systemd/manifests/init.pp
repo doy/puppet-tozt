@@ -3,5 +3,5 @@ class systemd {
     refreshonly => true;
   }
 
-  Exec["/usr/bin/systemctl daemon-reload"] -> Service<| |>
+  Exec["/usr/bin/systemctl daemon-reload"] -> Service<| ensure == running |>
 }
