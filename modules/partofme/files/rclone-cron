@@ -8,6 +8,6 @@ date -Iseconds >/media/persistent/last_run
 sudo lvcreate --size 10G --snapshot --name backup /dev/partofme/data
 sudo mkdir -p /media/backup
 sudo mount -o ro /dev/partofme/backup /media/backup
-rclone --config /etc/rclone.conf sync /media/backup crypt:partofme
+rclone --config /etc/rclone.conf sync --fast-list /media/backup crypt:partofme
 sudo umount /media/backup
 sudo lvremove -y partofme/backup
