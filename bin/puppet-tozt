@@ -4,6 +4,22 @@ import os
 from typing import Any, Callable, Coroutine
 
 
+HOST_COLORS = {
+    "tozt": "\x1b[1;33m",
+    "mail": "\x1b[32m",
+    "partofme": "\x1b[35m",
+}
+
+
+def color_host(host: str):
+    return HOST_COLORS[host] + host + "\x1b[m"
+
+
+async def unlock_rbw():
+    proc = await asyncio.create_subprocess_exec("rbw", "unlock")
+    await proc.wait()
+
+
 async def get_password(host: str):
     proc = await asyncio.create_subprocess_exec(
         "rbw",
@@ -36,9 +52,10 @@ async def read_stream(
         for line in lines:
             print_cb(line.decode())
 
-        if sudo_cb and buf == b"[sudo] password for doy: ":
+        if sudo_cb and buf == f"[sudo] password for {os.environ['USER']}: ".encode():
             await sudo_cb
             sudo_cb = None
+            buf = b""
 
 
 async def puppet_tozt(host: str):
@@ -57,6 +74,8 @@ async def puppet_tozt(host: str):
     assert proc.stdout is not None
     assert proc.stderr is not None
 
+    colored_host = color_host(host)
+
     async def sudo_cb():
         assert proc.stdin is not None
         proc.stdin.write(password + b"\n")
@@ -65,24 +84,25 @@ async def puppet_tozt(host: str):
     await asyncio.gather(
         read_stream(
             proc.stdout,
-            lambda line: print(f"[{host}:out] {line}"),
+            lambda line: print(f"[{colored_host}:out] {line}"),
             None,
         ),
         read_stream(
             proc.stderr,
-            lambda line: print(f"[{host}:err] {line}"),
+            lambda line: print(f"[{colored_host}:\x1b[31merr\x1b[m] {line}"),
             sudo_cb(),
         ),
     )
 
     ret = await proc.wait()
     if ret == 0:
-        print(f"[{host}] Exited successfully")
+        print(f"[{colored_host}] Exited successfully")
     else:
-        print(f"[{host}] Exited with code {ret}")
+        print(f"[{colored_host}] \x1b[31mExited with code {ret}\x1b[m")
 
 
 async def main():
+    await unlock_rbw()
     await asyncio.gather(
         puppet_tozt("tozt"),
         puppet_tozt("mail"),
