@@ -5,6 +5,8 @@ class base::tools {
     [
       "bc",
       "debugedit",
+      "duf",
+      "dust",
       "eza",
       "fzf",
       "git-delta",
