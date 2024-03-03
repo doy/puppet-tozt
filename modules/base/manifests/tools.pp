@@ -3,6 +3,7 @@ class base::tools {
 
   package {
     [
+      "bat",
       "bc",
       "debugedit",
       "duf",
