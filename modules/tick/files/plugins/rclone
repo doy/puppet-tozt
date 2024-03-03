@@ -13,7 +13,7 @@ JSON.load(%x{#{rclone} lsjson #{crypt_repo}}).each do |dir|
   b2_path = "#{b2_repo}/#{dir["Path"]}"
 
   run_start = %x{#{rclone} cat #{crypt_path}/last_run_start}
-  run_end = File.ready("/media/persistent/last_run_end")
+  run_end = File.read("/media/persistent/last_run_end")
   ago_s = now - DateTime.iso8601(run_end).to_time
   dur_s = DateTime.iso8601(run_end).to_time - DateTime.iso8601(run_start).to_time
   if dur_s > 0
