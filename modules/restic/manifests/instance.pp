@@ -20,7 +20,6 @@ class restic::instance($repo, $extra_paths) {
     content => template("restic/restic"),
     require => [
       Package["restic"],
-      Exec["restic init"],
     ]
   }
 }
