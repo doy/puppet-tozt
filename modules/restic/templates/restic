@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RESTIC_REPOSITORY='<%= @restic_repository %>'
+RESTIC_REPOSITORY='<%= @repo %>'
 RESTIC_PASSWORD='<%= @restic_password.gsub("'", "\"'\"") %>'
 export RESTIC_REPOSITORY RESTIC_PASSWORD
 
