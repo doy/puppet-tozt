@@ -4,7 +4,7 @@ class mail::backups {
     require => Service["tailscaled"];
   }
   class { 'restic::remote':
-    extra_paths => ['/media/persistent'];
+    extra_paths => ['/media/persistent'],
+    require => Service["tailscaled"];
   }
-  Service["tailscaled"] -> Exec["restic init"]
 }
