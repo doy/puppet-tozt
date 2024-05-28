@@ -2,6 +2,7 @@
 
 RESTIC_REPOSITORY='<%= @restic_repository %>'
 RESTIC_PASSWORD='<%= @restic_password.gsub("'", "\"'\"") %>'
+export RESTIC_REPOSITORY RESTIC_PASSWORD
 
 restic backup \
 	--exclude-caches \
@@ -15,5 +16,5 @@ restic forget \
 	--keep-within-daily 7d \
 	--keep-within-weekly 1m \
 	--keep-within-monthly 1y \
-	--keep-yearly -1 \
+	--keep-yearly unlimited \
 	--keep-last 4
