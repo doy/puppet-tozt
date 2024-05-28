@@ -13,7 +13,7 @@ class restic::remote($host = 'partofme', $extra_paths = []) {
     repo => "sftp:restic@restic:/media/persistent/restic/${facts['networking']['hostname']}",
     extra_paths => $extra_paths,
     require => [
-      File["/etc/restic/restic_ssh_key"],
+      File["/etc/ssh/restic"],
       File["/etc/ssh/ssh_config.d/restic.conf"],
     ];
   }
