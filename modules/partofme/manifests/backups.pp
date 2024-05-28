@@ -16,6 +16,19 @@ class partofme::backups {
     host => 'localhost';
   }
 
+  include restic::server
+  file {
+    "/media/persistent/restic/.ssh/authorized_keys":
+      source => 'puppet:///modules/partofme/restic_authorized_keys',
+      owner => 'restic',
+      group => 'restic',
+      mode => '0600',
+      require => Class['restic::server'];
+  }
+
+  class { 'restic::local':
+  }
+
   package { 'rclone':
     ensure => installed;
   }

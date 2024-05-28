@@ -1,0 +1,19 @@
+#!/bin/sh
+
+RESTIC_REPOSITORY='<%= @restic_repository %>'
+RESTIC_PASSWORD='<%= @restic_password.gsub("'", "\"'\"") %>'
+
+restic backup \
+	--exclude-caches \
+	--exclude='/home/*/.cache' \
+	--exclude='/home/*/.cargo' \
+	--exclude='/home/*/.rustup' \
+	--exclude='/home/doy/mnt' \
+	--exclude='/home/doy/tmp' \
+	/home /etc /usr/local/bin <%= @extra_paths.join(" ") %>
+restic forget \
+	--keep-within-daily 7d \
+	--keep-within-weekly 1m \
+	--keep-within-monthly 1y \
+	--keep-yearly -1 \
+	--keep-last 4
