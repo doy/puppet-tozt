@@ -2,8 +2,7 @@ class restic::remote($host = 'partofme', $extra_paths = []) {
   include restic
   
   secret { "/etc/ssh/restic":
-    source => 'restic_ssh_key',
-    require => File["/etc/restic"];
+    source => 'restic_ssh_key';
   }
 
   file { "/etc/ssh/ssh_config.d/restic.conf":
