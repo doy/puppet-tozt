@@ -4,6 +4,7 @@ class restic::instance($repo, $extra_paths) {
   $restic_password = secret::value('restic_password')
 
   exec { "restic init":
+    provider => shell,
     environment => [
       "RESTIC_REPOSITORY=${repo}",
       "RESTIC_PASSWORD=${restic_password}",
