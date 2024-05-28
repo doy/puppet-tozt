@@ -1,0 +1,3 @@
+Host restic
+	Hostname <%= @host %>
+	IdentityFile /etc/ssh/restic
