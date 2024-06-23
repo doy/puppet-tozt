@@ -1,4 +1,4 @@
-class restic::instance($repo, $extra_paths) {
+class restic::instance($repo, $extra_paths, $extra_env = []) {
   include restic
 
   $restic_password = secret::value('restic_password')
@@ -8,7 +8,7 @@ class restic::instance($repo, $extra_paths) {
     environment => [
       "RESTIC_REPOSITORY=${repo}",
       "RESTIC_PASSWORD=${restic_password}",
-    ],
+    ] + $extra_env,
     unless => "restic snapshots",
     require => [
       Package['restic'],

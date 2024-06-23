@@ -1,0 +1,11 @@
+[Unit]
+Description=runs restic-rest-server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/podman run --rm --name restic-rest-server -p 8000:8000 -v /media/persistent/restic:/data docker.io/restic/rest-server:latest
+ExecStop=/usr/bin/podman stop restic-rest-server
+Restart=always
+
+[Install]
+WantedBy=default.target
