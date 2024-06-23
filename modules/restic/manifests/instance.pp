@@ -22,4 +22,8 @@ class restic::instance($repo, $extra_paths, $extra_env = []) {
       Package["restic"],
     ]
   }
+
+  systemd::override { "restic":
+    source => "puppet:///modules/restic/restic-override.conf";
+  }
 }
