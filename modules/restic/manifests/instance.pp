@@ -14,9 +14,10 @@ class restic::instance($repo, $extra_paths) {
     require => File["/etc/restic"];
   }
 
-  exec { "restic init --repository-file=/etc/restic/repository --password-file=/etc/restic/password":
+  exec { "restic init":
     provider => shell,
-    unless => "restic snapshots --repository-file=/etc/restic/repository --password-file=/etc/restic/password",
+    command => "restic init --repository-file=/etc/restic/repository --password-file=/etc/restic/password",
+    unless => "restic snapshots --repository-file=/etc/restic/repository --password-file=/etc/restic/password latest",
     require => [
       Package['restic'],
       File["/etc/restic/repository"],
