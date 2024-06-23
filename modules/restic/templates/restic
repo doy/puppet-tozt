@@ -19,6 +19,8 @@ restic backup \
 	--verbose \
 	/home /etc /usr/local/bin <%= @extra_paths.join(" ") %>
 restic forget \
+	--cache-dir='/var/cache/restic' \
+	--verbose \
 	--keep-within-daily 7d \
 	--keep-within-weekly 1m \
 	--keep-within-monthly 1y \
