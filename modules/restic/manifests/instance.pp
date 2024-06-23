@@ -1,17 +1,26 @@
-class restic::instance($repo, $extra_paths, $extra_env = []) {
+class restic::instance($repo, $extra_paths) {
   include restic
 
-  $restic_password = secret::value('restic_password')
+  file {
+    "/etc/restic":
+      ensure => directory;
+    "/etc/restic/repository":
+      content => $repo,
+      require => File["/etc/restic"];
+  }
 
-  exec { "restic init":
+  secret { "/etc/restic/password":
+    source => "restic_password",
+    require => File["/etc/restic"];
+  }
+
+  exec { "restic init --repository-file=/etc/restic/repository --password-file=/etc/restic/password":
     provider => shell,
-    environment => [
-      "RESTIC_REPOSITORY=${repo}",
-      "RESTIC_PASSWORD=${restic_password}",
-    ] + $extra_env,
-    unless => "restic snapshots",
+    unless => "restic snapshots --repository-file=/etc/restic/repository --password-file=/etc/restic/password",
     require => [
       Package['restic'],
+      File["/etc/restic/repository"],
+      File["/etc/restic/password"],
     ];
   }
 
@@ -20,6 +29,8 @@ class restic::instance($repo, $extra_paths, $extra_env = []) {
     content => template("restic/restic"),
     require => [
       Package["restic"],
+      File["/etc/restic/repository"],
+      File["/etc/restic/password"],
     ]
   }
 

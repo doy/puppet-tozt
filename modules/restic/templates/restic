@@ -1,28 +1,26 @@
 #!/bin/sh
-
-RESTIC_REPOSITORY='<%= @repo %>'
-RESTIC_PASSWORD='<%= @restic_password.gsub("'", "'\"'\"'") %>'
-export RESTIC_REPOSITORY RESTIC_PASSWORD
-<%- @extra_env.each do |env| -%>
-export <%= parts = env.split("=", 2); parts[0] + "='" + parts[1].gsub("'", "'\"'\"'") + "'" %>
-<%- end -%>
+set -eu
 
 restic backup \
-	--exclude-caches \
-	--exclude='/home/*/.cache' \
-	--exclude='/home/*/.cargo' \
-	--exclude='/home/*/.rustup' \
-	--exclude='/home/doy/mnt' \
-	--exclude='/home/doy/tmp' \
-	--cache-dir='/var/cache/restic' \
-	--one-file-system \
-	--verbose \
-	/home /etc /usr/local/bin <%= @extra_paths.join(" ") %>
+    --repository-file=/etc/restic/repository \
+    --password-file=/etc/restic/password \
+    --exclude-caches \
+    --exclude='/home/*/.cache' \
+    --exclude='/home/*/.cargo' \
+    --exclude='/home/*/.rustup' \
+    --exclude='/home/doy/mnt' \
+    --exclude='/home/doy/tmp' \
+    --cache-dir='/var/cache/restic' \
+    --one-file-system \
+    --verbose \
+    /home /etc /usr/local/bin <%= @extra_paths.join(" ") %>
 restic forget \
-	--cache-dir='/var/cache/restic' \
-	--verbose \
-	--keep-within-daily 7d \
-	--keep-within-weekly 1m \
-	--keep-within-monthly 1y \
-	--keep-yearly unlimited \
-	--keep-last 4
+    --repository-file=/etc/restic/repository \
+    --password-file=/etc/restic/password \
+    --cache-dir='/var/cache/restic' \
+    --verbose \
+    --keep-within-daily 7d \
+    --keep-within-weekly 1m \
+    --keep-within-monthly 1y \
+    --keep-yearly unlimited \
+    --keep-last 4
