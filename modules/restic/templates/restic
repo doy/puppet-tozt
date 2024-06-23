@@ -4,7 +4,7 @@ RESTIC_REPOSITORY='<%= @repo %>'
 RESTIC_PASSWORD='<%= @restic_password.gsub("'", "'\"'\"'") %>'
 export RESTIC_REPOSITORY RESTIC_PASSWORD
 <%- @extra_env.each do |env| -%>
-export <%= env %>
+export <%= parts = env.split("=", 2); parts[0] + "='" + parts[1].gsub("'", "'\"'\"'") + "'" %>
 <%- end -%>
 
 restic backup \
