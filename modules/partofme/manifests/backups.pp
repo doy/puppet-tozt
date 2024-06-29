@@ -2,20 +2,6 @@ class partofme::backups {
   syncthing::user { $::default_user:
   }
 
-  include borg
-  file {
-    "/media/persistent/borg/.ssh/authorized_keys":
-      source => 'puppet:///modules/partofme/borg_authorized_keys',
-      owner => 'borg',
-      group => 'borg',
-      mode => '0600',
-      require => Class['borg'];
-  }
-
-  class { 'borgmatic':
-    host => 'localhost';
-  }
-
   include restic::server
   file {
     "/media/persistent/restic/.ssh/authorized_keys":

@@ -32,7 +32,6 @@ class tick::client::base_plugins {
 
   class {
     [
-      "tick::client::plugin::borg",
       "tick::client::plugin::godwrap",
       "tick::client::plugin::pacman",
       "tick::client::plugin::restic",
