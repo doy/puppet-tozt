@@ -22,3 +22,7 @@ User-agent: peer39_crawler/1.0
 User-agent: PerplexityBot
 User-agent: YouBot
 Disallow: /
+
+User-agent: *
+Disallow:
+Crawl-delay: 30
