@@ -5,8 +5,8 @@ require 'json'
 
 now = Time.now
 
-snapshot_data = JSON.load(%x{sudo restic --repository-file=/etc/restic/repository --password-file=/etc/restic/password snapshots --json latest})[0]
-stats_data = JSON.load(%x{sudo restic --repository-file=/etc/restic/repository --password-file=/etc/restic/password stats --json latest})
+snapshot_data = JSON.load(%x{sudo restic --no-lock --repository-file=/etc/restic/repository --password-file=/etc/restic/password snapshots --json latest})[0]
+stats_data = JSON.load(%x{sudo restic --no-lock --repository-file=/etc/restic/repository --password-file=/etc/restic/password stats --json latest})
 summary = snapshot_data["summary"]
 
 backup_start = DateTime.iso8601(summary["backup_start"]).to_time
