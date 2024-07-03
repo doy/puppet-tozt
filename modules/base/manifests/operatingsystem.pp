@@ -28,7 +28,7 @@ class base::operatingsystem {
 
   exec { "lower makepkg compression":
     provider => shell,
-    command => "sed -i 's/^COMPRESSZST=/COMPRESSZST=(zstd -c -T0 -)/' /etc/makepkg.conf",
+    command => "sed -i 's/^COMPRESSZST=.*$/COMPRESSZST=(zstd -c -T0 -)/' /etc/makepkg.conf",
     onlyif => "grep -q '^COMPRESSZST=.* -20' /etc/makepkg.conf";
   }
 
