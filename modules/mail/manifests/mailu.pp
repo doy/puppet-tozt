@@ -110,4 +110,9 @@ class mail::mailu {
       Systemd::Service["mailu"],
     ];
   }
+
+  cron::job { "hack-kick-mailu":
+    frequency => "daily",
+    source => "puppet:///modules/mail/hack-kick-mailu";
+  }
 }
