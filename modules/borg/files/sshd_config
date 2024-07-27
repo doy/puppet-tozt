@@ -1,5 +1,0 @@
-Match User borg
-        ClientAliveInterval 10
-        ClientAliveCountMax 30
-
-# vim:ft=sshdconfig

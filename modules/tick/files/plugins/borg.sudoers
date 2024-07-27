@@ -1,3 +1,0 @@
-Cmnd_Alias BORGMATIC = /usr/bin/borgmatic
-telegraf  ALL=(ALL) NOPASSWD: BORGMATIC
-Defaults!BORGMATIC !logfile, !syslog, !pam_session
