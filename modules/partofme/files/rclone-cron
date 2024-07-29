@@ -21,6 +21,7 @@ mount -o ro /dev/partofme/backup /media/backup
 rclone \
     --config /etc/rclone.conf \
     --exclude '/borg/**' \
+    --delete-excluded \
     sync \
     --fast-list \
     /media/backup crypt:partofme
