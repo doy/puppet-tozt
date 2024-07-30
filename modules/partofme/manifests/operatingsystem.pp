@@ -1,6 +1,7 @@
 class partofme::operatingsystem {
   include reflector
   include tailscale
+  include logrotate
   
   file {
     '/etc/mkinitcpio.conf':
