@@ -8,7 +8,7 @@ config_dirs = [
 ]
 
 config_dirs.each do |config_dir|
-  next unless Dir.exists?(config_dir)
+  next unless Dir.exist?(config_dir)
   (Dir.entries("#{config_dir}/live/") - [".", ".."]).each do |site|
     next unless File.directory?("#{config_dir}/live/#{site}")
     cert = File.read("#{config_dir}/live/#{site}/cert.pem")
