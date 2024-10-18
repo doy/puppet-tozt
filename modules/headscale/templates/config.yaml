@@ -4,9 +4,9 @@ metrics_listen_addr: 0.0.0.0:9091
 private_key_path: <%= @data_dir %>/private.key
 noise:
   private_key_path: <%= @data_dir %>/noise_private.key
-ip_prefixes:
-  - fd7a:115c:a1e0::/48
-  - 100.64.0.0/10
+prefixes:
+  v6: fd7a:115c:a1e0::/48
+  v4: 100.64.0.0/10
 derp:
   server:
     enabled: true
@@ -15,5 +15,8 @@ derp:
     region_name: "Headscale Embedded DERP"
     stun_listen_addr: 0.0.0.0:3478
 disable_check_updates: true
-db_type: sqlite3
-db_path: <%= @data_dir %>/db.sqlite
+database:
+  type: sqlite
+  sqlite:
+    path: <%= @data_dir %>/db.sqlite
+    write_ahead_log: true
