@@ -20,3 +20,5 @@ database:
   sqlite:
     path: <%= @data_dir %>/db.sqlite
     write_ahead_log: true
+dns:
+  magic_dns: false
