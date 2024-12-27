@@ -8,4 +8,4 @@ vpn_ips:
   partofme: 100.64.0.5
 
 # when updating this value, also rm /opt/metabase/metabase.jar
-metabase::version: 'v0.50.7'
+metabase::version: 'v0.51.10'
