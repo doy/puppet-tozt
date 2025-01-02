@@ -24,4 +24,16 @@ define rust::user($user=$name) {
       Exec["install and configure stable toolchain for $user"],
     ],
   }
+
+  exec { "install wasm target":
+    provider => "shell",
+    command => "rustup target add wasm32-wasip1",
+    user => $user,
+    unless => "rustup target list | grep -q 'wasm32-wasip1.*installed'",
+    require => [
+      Package["rustup"],
+      User[$user],
+      Exec["install and configure stable toolchain for $user"],
+    ],
+  }
 }

@@ -26,6 +26,7 @@ define conf::user($user=$name) {
     creates => "$home/.zshrc",
     require => [
       Class['c_toolchain'],
+      Rust::User[$user],
       User[$user],
       Exec["git clone doy/conf for $user"],
       Package["vim"],
