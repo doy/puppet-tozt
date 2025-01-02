@@ -10,6 +10,7 @@ class base::tools {
       "dust",
       "eza",
       "fzf",
+      "ghostty-terminfo",
       "git-delta",
       "helix",
       "htop",
@@ -23,6 +24,7 @@ class base::tools {
       "stow",
       "strace",
       "tmux",
+      "zellij",
     ]:
     ensure => 'installed';
   }
