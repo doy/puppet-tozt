@@ -26,12 +26,15 @@ define conf::user($user=$name) {
     creates => "$home/.zshrc",
     require => [
       Class['c_toolchain'],
-      Rust::User[$user],
       User[$user],
       Exec["git clone doy/conf for $user"],
       Package["vim"],
       Package["fortune-mod"],
       Package["less"],
     ];
+  }
+
+  if $user != 'root' {
+    Rust::User[$user] -> Exec["conf make install for $user"]
   }
 }
