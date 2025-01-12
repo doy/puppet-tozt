@@ -5,6 +5,8 @@ class grafana {
 
   file {
     "/media/persistent/grafana":
+      owner => 'grafana',
+      group => 'grafana',
       ensure => directory;
   }
 
