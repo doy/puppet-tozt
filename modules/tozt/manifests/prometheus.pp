@@ -1,5 +1,4 @@
 class tozt::prometheus {
-  include postgres;
   include prometheus
   include grafana
 
@@ -22,29 +21,6 @@ class tozt::prometheus {
   file { "/etc/grafana.ini":
     content => template("tozt/grafana.ini"),
     require => Package["grafana"];
-  }
-
-  exec { "create grafana db user":
-    provider => shell,
-    command => "createuser -d grafana",
-    user => 'postgres',
-    unless => "psql -Atc 'select usename from pg_catalog.pg_user' | grep -F grafana",
-    require => [
-      Package["postgresql"],
-      Service["postgresql"],
-    ];
-  }
-
-  exec { "create grafana db":
-    provider => shell,
-    command => "createdb -U grafana grafana",
-    user => 'postgres',
-    unless => "psql -Atc 'select datname from pg_catalog.pg_database' | grep -F grafana",
-    require => [
-      Exec["create grafana db user"],
-      Package["postgresql"],
-      Service["postgresql"],
-    ];
   }
 
   nginx::site {

@@ -3,6 +3,11 @@ class grafana {
     ensure => installed;
   }
 
+  file {
+    "/media/persistent/grafana":
+      ensure => directory;
+  }
+
   service { "grafana":
     ensure => running,
     enable => true,
