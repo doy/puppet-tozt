@@ -23,6 +23,13 @@ class tozt::prometheus {
     require => Package["grafana"];
   }
 
+  exec { "install grafana sqlite plugin":
+    provider => shell,
+    command => "grafana cli plugins install frser-sqlite-datasource",
+    creates => "/var/lib/grafana/plugins/frser-sqlite-datasource",
+    require => Package["grafana"],
+  }
+
   nginx::site {
     "grafana-tls":
       source => 'puppet:///modules/tozt/nginx/grafana-tls.conf',
