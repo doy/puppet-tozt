@@ -9,7 +9,6 @@ node 'tozt', 'tozt.localdomain' {
   include tozt::bitwarden
   include tozt::git
   include tozt::headscale
-  include tozt::metabase
   include tozt::monitoring
   include tozt::paste
   include tozt::prometheus
