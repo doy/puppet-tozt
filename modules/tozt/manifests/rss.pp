@@ -16,7 +16,7 @@ class tozt::rss {
   }
 
   file { "/media/persistent/freshrss/.htaccess":
-    source => 'puppet:///modules/tozt/freshrss-htaccess'
+    source => 'puppet:///modules/tozt/freshrss-htaccess',
     require => [
       Class["tozt::persistent"],
       Package['nginx'],
