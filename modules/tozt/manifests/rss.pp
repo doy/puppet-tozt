@@ -7,16 +7,23 @@ class tozt::rss {
     require => Class["tozt::persistent"];
   }
 
-  secret { "/media/persistent/freshrss/data/.htpasswd":
-    source => "rss",
-    require => [
-      Class["tozt::persistent"],
-      Package['nginx'],
-    ];
+  file {
+    "/media/persistent/freshrss":
+      ensure => directory;
+    "/media/persistent/freshrss/data":
+      ensure => directory;
+    "/media/persistent/freshrss/extensions":
+      ensure => directory;
+    "/media/persistent/freshrss/.htaccess":
+      source => 'puppet:///modules/tozt/freshrss-htaccess',
+      require => [
+        Class["tozt::persistent"],
+        Package['nginx'],
+      ];
   }
 
-  file { "/media/persistent/freshrss/.htaccess":
-    source => 'puppet:///modules/tozt/freshrss-htaccess',
+  secret { "/media/persistent/freshrss/data/.htpasswd":
+    source => "rss",
     require => [
       Class["tozt::persistent"],
       Package['nginx'],
