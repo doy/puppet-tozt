@@ -6,6 +6,3 @@ vpn_ips:
   phone: 100.64.0.3
   mail: 100.64.0.4
   partofme: 100.64.0.5
-
-# when updating this value, also rm /opt/metabase/metabase.jar
-metabase::version: 'v0.51.10'
