@@ -3,4 +3,5 @@ persistent_data: '/media/persistent'
 base::extra_script: |
   (cd /home/doy/coding/metabase-utils && git pull)
   (sudo podman pull docker.io/vaultwarden/server)
+  (sudo podman pull docker.io/freshrss/freshrss)
 godwrap::directory: /media/persistent/godwrap
