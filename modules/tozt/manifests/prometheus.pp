@@ -46,4 +46,59 @@ class tozt::prometheus {
       Package['nginx'],
     ];
   }
+
+  file {
+    "/home/doy/.config/ynab":
+      ensure => directory,
+      owner => 'doy',
+      group => 'doy',
+      require => Conf::User["doy"];
+    "/home/doy/.config/google":
+      ensure => directory,
+      owner => 'doy',
+      group => 'doy',
+      require => Conf::User["doy"];
+  }
+
+  secret { "/home/doy/.config/ynab/api-key":
+    source => "ynab",
+    owner => 'doy',
+    group => 'doy',
+    require => File["/home/doy/.config/ynab"];
+  }
+
+  secret { "/home/doy/.config/google/investments-sheet":
+    source => "investments-sheet",
+    owner => 'doy',
+    group => 'doy',
+    require => File["/home/doy/.config/google"];
+  }
+
+  package::cargo { "ynab-export for doy":
+    ensure => installed,
+    user => 'doy',
+    package => 'ynab-export';
+  }
+
+  exec { "clone metabase-utils":
+    command => "/usr/bin/git clone https://github.com/doy/metabase-utils",
+    user => "doy",
+    cwd => "/home/doy/coding",
+    creates => "/home/doy/coding/metabase-utils",
+    require => [
+      Class["git"],
+      File["/home/doy/coding"],
+    ],
+  }
+
+  cron::job { "refresh-metabase":
+    frequency => "hourly",
+    source => "puppet:///modules/tozt/metabase",
+    require => [
+      Package::Cargo["ynab-export for doy"],
+      Exec["clone metabase-utils"],
+      Secret["/home/doy/.config/ynab/api-key"],
+      Secret["/home/doy/.config/google/investments-sheet"],
+    ];
+  }
 }
