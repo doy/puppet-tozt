@@ -1,0 +1,4 @@
+AuthUserFile /var/www/FreshRSS/data/.htpasswd
+AuthName "FreshRSS"
+AuthType Basic
+Require valid-user

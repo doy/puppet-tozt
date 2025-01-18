@@ -3,7 +3,7 @@ Description=runs freshrss
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/podman run --rm -p 8082:80 -e TZ=America/New_York -e 'CRON_MIN=1,31' -v freshrss_data:<%= @data_dir %>/data -v freshrss_extensions:<%= @data_dir %>/extensions --name freshrss freshrss/freshrss
+ExecStart=/usr/bin/podman run --rm -p 8082:80 -e TZ=America/New_York -e 'CRON_MIN=1,31' -v <%= @data_dir %>/data:/var/www/FreshRSS/data -v <%= @data_dir %>/extensions:/var/www/FreshRSS/extensions -v <%= @data_dir %>/.htaccess:/var/www/FreshRSS/p/i/.htaccess -v <%= @data_dir %>/.htpasswd:/var/www/FreshRSS/data/.htpasswd --name freshrss freshrss/freshrss
 ExecStop=/usr/bin/podman stop freshrss
 Restart=always
 

@@ -7,9 +7,16 @@ class tozt::rss {
     require => Class["tozt::persistent"];
   }
 
-  secret { "/media/persistent/rss.htpasswd":
+  secret { "/media/persistent/freshrss/data/.htpasswd":
     source => "rss",
-    owner => 'http',
+    require => [
+      Class["tozt::persistent"],
+      Package['nginx'],
+    ];
+  }
+
+  file { "/media/persistent/freshrss/.htaccess":
+    source => 'puppet:///modules/tozt/freshrss-htaccess'
     require => [
       Class["tozt::persistent"],
       Package['nginx'],
