@@ -8,8 +8,13 @@ class freshrss($data_dir) {
     require => Package["podman"];
   }
 
-  file { $data_dir:
-    ensure => directory;
+  file {
+    "$data_dir":
+      ensure => directory;
+    "$data_dir/data":
+      ensure => directory;
+    "$data_dir/extensions":
+      ensure => directory;
   }
 
   systemd::service { "freshrss":

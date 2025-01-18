@@ -2,31 +2,28 @@ class tozt::rss {
   include tozt::certbot
   include tozt::persistent
 
+  $data_dir = "/media/persistent/freshrss";
+
   class { "freshrss":
-    data_dir => "/media/persistent/freshrss",
+    data_dir => "$data_dir",
     require => Class["tozt::persistent"];
   }
 
-  file {
-    "/media/persistent/freshrss":
-      ensure => directory;
-    "/media/persistent/freshrss/data":
-      ensure => directory;
-    "/media/persistent/freshrss/extensions":
-      ensure => directory;
-    "/media/persistent/freshrss/.htaccess":
-      source => 'puppet:///modules/tozt/freshrss-htaccess',
-      require => [
-        Class["tozt::persistent"],
-        Package['nginx'],
-      ];
+  file { "$data_dir/.htaccess":
+    source => 'puppet:///modules/tozt/freshrss-htaccess',
+    require => [
+      Class["tozt::persistent"],
+      Package['nginx'],
+      File["$data_dir"],
+    ];
   }
 
-  secret { "/media/persistent/freshrss/data/.htpasswd":
+  secret { "$data_dir/.htpasswd":
     source => "rss",
     require => [
       Class["tozt::persistent"],
       Package['nginx'],
+      File["$data_dir"],
     ];
   }
 
