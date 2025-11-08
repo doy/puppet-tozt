@@ -4,7 +4,7 @@ define base::user(
   $group=$user,
   $extra_groups=[],
   $homedir_mode='0700',
-  $shell='/usr/bin/zsh',
+  $shell='/usr/bin/fish',
 ) {
   $home = base::home($user)
 
@@ -112,5 +112,9 @@ define base::user(
   if $shell == '/usr/bin/zsh' {
     include zsh
     Class['zsh'] -> User[$user]
+  }
+  if $shell == '/usr/bin/fish' {
+    include fish
+    Class['fish'] -> User[$user]
   }
 }
