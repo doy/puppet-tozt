@@ -23,4 +23,5 @@ restic forget \
     --keep-within-weekly 1m \
     --keep-within-monthly 1y \
     --keep-yearly unlimited \
-    --keep-last 4
+    --keep-last 4 \
+    --prune
