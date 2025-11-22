@@ -14,4 +14,4 @@ chown doy:doy "$tmp"
 cd "$tmp"
 
 # shellcheck disable=SC2046
-su doy /home/doy/coding/metabase-utils/bin/load $(cat /home/doy/.config/google/investments-sheet) > /dev/null
+sudo -u doy /home/doy/coding/metabase-utils/bin/load $(cat /home/doy/.config/google/investments-sheet) > /dev/null
