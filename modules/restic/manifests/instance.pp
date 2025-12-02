@@ -19,7 +19,7 @@ class restic::instance($repo, $extra_paths) {
     command => "restic init --repository-file=/etc/restic/repository --password-file=/etc/restic/password",
     unless => "restic snapshots --repository-file=/etc/restic/repository --password-file=/etc/restic/password latest",
     require => [
-      Package['restic-git'],
+      Package['restic'],
       File["/etc/restic/repository"],
       File["/etc/restic/password"],
     ];
@@ -29,7 +29,7 @@ class restic::instance($repo, $extra_paths) {
     frequency => "daily",
     content => template("restic/restic"),
     require => [
-      Package["restic-git"],
+      Package["restic"],
       File["/etc/restic/repository"],
       File["/etc/restic/password"],
     ]
