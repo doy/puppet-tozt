@@ -1,5 +1,5 @@
 class restic {
-  package { 'restic-git':
+  package { 'restic':
     ensure => installed;
   }
 }
