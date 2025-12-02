@@ -7,6 +7,7 @@ define package::makepkg($ensure, $build_user, $asdeps=false) {
   }
 
   include c_toolchain
+  include makepkg
   include git
 
   case $ensure {
