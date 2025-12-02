@@ -3,6 +3,6 @@ default_user: doy
 vpn_ips:
   hornet: 100.64.0.1
   tozt: 100.64.0.2
-  phone: 100.64.0.3
+  partofme: 100.64.0.3
   mail: 100.64.0.4
-  partofme: 100.64.0.5
+  phone: 100.64.0.7
