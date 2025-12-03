@@ -22,6 +22,4 @@ database:
     write_ahead_log: true
 dns:
   magic_dns: false
-  nameservers:
-    global:
-      - 4.2.2.4
+  override_local_dns: false
