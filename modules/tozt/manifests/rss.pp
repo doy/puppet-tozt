@@ -1,6 +1,5 @@
 class tozt::rss {
   include tozt::certbot
-  include tozt::persistent
 
   nginx::site {
     "freshrss-tls":
