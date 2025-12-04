@@ -14,5 +14,4 @@ node 'tozt', 'tozt.localdomain' {
   include tozt::prometheus
   include tozt::services
   include tozt::site
-  include tozt::rss
 }

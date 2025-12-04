@@ -13,7 +13,6 @@ class certbot($config_dir=undef) {
     "blog.tozt.net",
     "paste.tozt.net",
     "git.tozt.net",
-    "rss.tozt.net",
     "metabase.tozt.net",
     "bitwarden.tozt.net",
     "grafana.tozt.net",
