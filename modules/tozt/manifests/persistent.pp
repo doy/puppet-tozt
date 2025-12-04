@@ -29,8 +29,6 @@ class tozt::persistent {
     [
       "/media/persistent/public_html",
       "/media/persistent/paste",
-      "/media/persistent/git",
-      "/media/persistent/releases",
       "/media/persistent/certbot",
     ]:
       ensure => directory,
