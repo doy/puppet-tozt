@@ -3,15 +3,12 @@ class partofme::rss {
 
   $data_dir = "/media/persistent/freshrss";
 
-  file {
-    "$data_dir":
-      ensure => directory;
-    "$data_dir/.htaccess":
-      source => 'puppet:///modules/partofme/freshrss-htaccess',
-      require => [
-        File["/media/persistent"],
-        File["$data_dir"],
-      ];
+  file { "$data_dir/.htaccess":
+    source => 'puppet:///modules/partofme/freshrss-htaccess',
+    require => [
+      File["/media/persistent"],
+      File["$data_dir"],
+    ];
   }
 
   secret { "$data_dir/.htpasswd":
