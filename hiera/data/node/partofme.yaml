@@ -5,6 +5,7 @@
 # persistent_data:
 base::extra_script: |
   (sudo podman pull docker.io/pihole/pihole)
+  (sudo podman pull docker.io/freshrss/freshrss)
 # still configure godwrap to write to /media/persistent since it will exist
 # most of the time, and if a few cron runs end up on the root filesystem
 # instead of the mounted disk, that's not the end of the world
