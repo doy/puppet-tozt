@@ -4,11 +4,6 @@ class tozt::rss {
 
   $data_dir = "/media/persistent/freshrss";
 
-  class { "freshrss":
-    data_dir => "$data_dir",
-    require => Class["tozt::persistent"];
-  }
-
   file { "$data_dir/.htaccess":
     source => 'puppet:///modules/tozt/freshrss-htaccess',
     require => [
