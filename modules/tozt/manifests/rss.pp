@@ -4,13 +4,16 @@ class tozt::rss {
 
   $data_dir = "/media/persistent/freshrss";
 
-  file { "$data_dir/.htaccess":
-    source => 'puppet:///modules/tozt/freshrss-htaccess',
-    require => [
-      Class["tozt::persistent"],
-      Package['nginx'],
-      File["$data_dir"],
-    ];
+  file {
+    "$data_dir":
+      ensure => directory;
+    "$data_dir/.htaccess":
+      source => 'puppet:///modules/tozt/freshrss-htaccess',
+      require => [
+        Class["tozt::persistent"],
+        Package['nginx'],
+        File["$data_dir"],
+      ];
   }
 
   secret { "$data_dir/.htpasswd":
