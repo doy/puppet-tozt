@@ -27,4 +27,12 @@ class partofme::persistent {
   file { "/etc/udev/rules.d/99-local.rules":
     source => "puppet:///modules/partofme/99-media-persistent.rules";
   }
+
+  file {
+    [
+      "/media/persistent/git",
+      "/media/persistent/releases",
+    ]:
+      ensure => directory;
+  }
 }
