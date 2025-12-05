@@ -1,4 +1,4 @@
-class tozt::prometheus {
+class partofme::prometheus {
   include prometheus
   include grafana
 
@@ -13,13 +13,13 @@ class tozt::prometheus {
   }
 
   systemd::override { "prometheus":
-    source => 'puppet:///modules/tozt/prometheus-override.conf';
+    source => 'puppet:///modules/partofme/prometheus-override.conf';
   }
 
   $smtp_password = secret::value("grafana_smtp_password")
 
   file { "/etc/grafana.ini":
-    content => template("tozt/grafana.ini"),
+    content => template("partofme/grafana.ini"),
     require => Package["grafana"];
   }
 
@@ -28,23 +28,6 @@ class tozt::prometheus {
     command => "grafana cli plugins install frser-sqlite-datasource",
     creates => "/var/lib/grafana/plugins/frser-sqlite-datasource",
     require => Package["grafana"],
-  }
-
-  nginx::site {
-    "grafana-tls":
-      source => 'puppet:///modules/tozt/nginx/grafana-tls.conf',
-      require => Class['certbot'];
-    "grafana":
-      source => 'puppet:///modules/tozt/nginx/grafana.conf';
-  }
-
-  secret { "/media/persistent/grafana.htpasswd":
-    source => "grafana",
-    owner => 'http',
-    require => [
-      Class["tozt::persistent"],
-      Package['nginx'],
-    ];
   }
 
   file {
@@ -93,7 +76,7 @@ class tozt::prometheus {
 
   cron::job { "refresh-metabase":
     frequency => "hourly",
-    source => "puppet:///modules/tozt/metabase",
+    source => "puppet:///modules/partofme/metabase",
     require => [
       Package::Cargo["ynab-export for doy"],
       Exec["clone metabase-utils"],

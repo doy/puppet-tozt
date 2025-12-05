@@ -8,10 +8,10 @@ node 'tozt', 'tozt.localdomain' {
   include tozt::backups
   include tozt::bitwarden
   include tozt::git
+  include tozt::grafana
   include tozt::headscale
   include tozt::monitoring
   include tozt::paste
-  include tozt::prometheus
   include tozt::services
   include tozt::site
 }
