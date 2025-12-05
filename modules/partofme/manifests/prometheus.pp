@@ -25,7 +25,7 @@ class partofme::prometheus {
 
   exec { "install grafana sqlite plugin":
     provider => shell,
-    command => "grafana cli plugins install frser-sqlite-datasource",
+    command => "grafana cli --homepath=/usr/share/grafana --config=/etc/grafana.ini plugins install frser-sqlite-datasource",
     creates => "/var/lib/grafana/plugins/frser-sqlite-datasource",
     require => Package["grafana"],
   }
