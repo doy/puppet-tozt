@@ -4,6 +4,8 @@ set -eu
 conf_location="/usr/local/share/puppet-tozt"
 conf_repo="https://github.com/doy/puppet-tozt"
 
+# something seems to be running in the background at startup?
+sleep 10
 apt-get -y update
 apt-get -y install git
 
