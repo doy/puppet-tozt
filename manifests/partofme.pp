@@ -4,6 +4,7 @@ node 'partofme', 'partofme.localdomain' {
   Class['partofme::operatingsystem'] -> Package<| provider == "pacman" |>
 
   include partofme::backups
+  include partofme::bitwarden
   include partofme::filesharing
   include partofme::git
   include partofme::mdadm
