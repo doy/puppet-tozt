@@ -1,6 +1,7 @@
 [Unit]
 Description=runs freshrss
 After=network.target
+RequiresMountsFor=/media/persistent
 
 [Service]
 ExecStart=/usr/bin/podman run --rm -p 8082:80 -e TZ=America/New_York -e 'CRON_MIN=1,31' -v <%= @data_dir %>/data:/var/www/FreshRSS/data -v <%= @data_dir %>/extensions:/var/www/FreshRSS/extensions -v <%= @data_dir %>/.htaccess:/var/www/FreshRSS/p/i/.htaccess -v <%= @data_dir %>/.htpasswd:/var/www/FreshRSS/data/.htpasswd --name freshrss freshrss/freshrss

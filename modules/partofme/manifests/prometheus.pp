@@ -30,6 +30,10 @@ class partofme::prometheus {
     require => Package["grafana"],
   }
 
+  systemd::override { "grafana":
+    source => 'puppet:///modules/partofme/grafana-override.conf';
+  }
+
   file {
     "/home/doy/.config/ynab":
       ensure => directory,
