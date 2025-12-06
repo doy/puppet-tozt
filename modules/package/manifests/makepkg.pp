@@ -15,7 +15,7 @@ define package::makepkg($ensure, $build_user, $asdeps=false) {
       exec { "makepkg install $name":
         provider => "shell",
         command => "
-          cd /tmp
+          cd /var/tmp
           rm -rf 'makepkg-$name'
           su $build_user -c 'git clone https://aur.archlinux.org/$name.git makepkg-$name'
           cd 'makepkg-$name'
