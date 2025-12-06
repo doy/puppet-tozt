@@ -5,9 +5,15 @@ conf_location="/usr/local/share/puppet-tozt"
 conf_repo="https://github.com/doy/puppet-tozt"
 
 # something seems to be running in the background at startup?
-sleep 30
-apt-get -y update
-apt-get -y install git
+for i in $(seq 30); do
+  if apt-get -y update && apt-get -y install git; then
+    break
+  fi
+  if [ "$i" = "30" ]; then
+    echo "out of retries" >&2
+    exit 1
+  fi
+done
 
 mkdir -p "$conf_location"
 cd "$conf_location" || exit 1
