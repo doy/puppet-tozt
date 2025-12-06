@@ -4,6 +4,8 @@
 # time to type in a password
 # persistent_data:
 base::extra_script: |
+  (cd /home/doy/coding/metabase-utils && git pull)
+  (sudo podman pull docker.io/vaultwarden/server)
   (sudo podman pull docker.io/pihole/pihole)
   (sudo podman pull docker.io/freshrss/freshrss)
 # still configure godwrap to write to /media/persistent since it will exist
