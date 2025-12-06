@@ -24,6 +24,7 @@ define conf::user($user=$name) {
       "PWD=$home/conf",
     ],
     creates => "$home/.zshrc",
+    timeout => 1800,
     require => [
       Class['c_toolchain'],
       User[$user],
