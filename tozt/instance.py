@@ -49,7 +49,7 @@ class Instance(pulumi.ComponentResource):
         self.instance = do.Droplet(
             self.name,
             name=dns_name,
-            image="debian-13-x64",
+            image="debian-12-x64",
             region=region,
             size=size,
             ssh_keys=[ssh.id],
