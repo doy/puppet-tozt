@@ -71,10 +71,10 @@ class Instance(pulumi.ComponentResource):
             user="root",
             dial_error_limit=100,
         )
-        bootstrap_debian_file = command.remote.CopyFile(
+        bootstrap_debian_file = command.remote.CopyToRemote(
             f"{self.name}-bootstrap_debian",
             connection=connection,
-            local_path="bootstrap/debian",
+            source=pulumi.FileAsset("bootstrap/debian"),
             remote_path="/tmp/bootstrap",
             opts=pulumi.ResourceOptions(parent=self),
         )
@@ -97,20 +97,20 @@ class Instance(pulumi.ComponentResource):
             create="mkdir /tmp/secrets",
             opts=pulumi.ResourceOptions(parent=self, depends_on=[sleep]),
         )
-        bootstrap_arch_file = command.remote.CopyFile(
+        bootstrap_arch_file = command.remote.CopyToRemote(
             f"{self.name}-bootstrap_arch",
             connection=connection,
-            local_path="bootstrap/arch",
+            source=pulumi.FileAsset("bootstrap/arch"),
             remote_path="/tmp/bootstrap",
             opts=pulumi.ResourceOptions(parent=self, depends_on=[sleep]),
         )
         secret_files = []
         for file in Path(f"/mnt/puppet/{name}").glob("*"):
             secret_files.append(
-                command.remote.CopyFile(
+                command.remote.CopyToRemote(
                     f"{self.name}-secret-{file.name}",
                     connection=connection,
-                    local_path=str(file),
+                    source=pulumi.FileAsset(str(file)),
                     remote_path=f"/tmp/secrets/{file.name}",
                     opts=pulumi.ResourceOptions(
                         parent=self, depends_on=[make_secrets_dir]
