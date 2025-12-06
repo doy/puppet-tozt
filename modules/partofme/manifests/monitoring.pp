@@ -1,4 +1,5 @@
 class partofme::monitoring {
+  include node_exporter
   include smartmontools
   include tick::client::base_plugins
 

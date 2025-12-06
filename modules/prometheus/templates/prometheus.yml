@@ -8,3 +8,9 @@ scrape_configs:
 <% @vpn_ips.each do |_, ip| -%>
     - "<%= ip %>:9273"
 <% end -%>
+- job_name: prometheus-node-exporter
+  static_configs:
+  - targets:
+<% @vpn_ips.each do |_, ip| -%>
+    - "<%= ip %>:9100"
+<% end -%>

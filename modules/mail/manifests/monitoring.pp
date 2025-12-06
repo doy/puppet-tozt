@@ -1,4 +1,5 @@
 class mail::monitoring {
+  include node_exporter
   include tick::client::base_plugins
 
   class {
