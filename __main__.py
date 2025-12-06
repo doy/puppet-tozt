@@ -9,7 +9,7 @@ from tozt.instance import Instance  # noqa: E402
 tozt = Instance(
     "tozt",
     region="nyc3",
-    size="s-1vcpu-2gb",
+    size="s-1vcpu-1gb",
     dns_name="tozt.net",
     reserved_ip="138.197.58.11",
     volume_name="tozt-persistent",

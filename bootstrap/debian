@@ -10,7 +10,6 @@ apt-get -y install git
 mkdir -p "$conf_location"
 cd "$conf_location" || exit 1
 git clone "$conf_repo" .
-git checkout pulumi
 git submodule update --init --recursive
 
 cd digitalocean-debian-to-arch || exit 1

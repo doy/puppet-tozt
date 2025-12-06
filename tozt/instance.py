@@ -49,7 +49,7 @@ class Instance(pulumi.ComponentResource):
         self.instance = do.Droplet(
             self.name,
             name=dns_name,
-            image="debian-10-x64",
+            image="debian-13-x64",
             region=region,
             size=size,
             ssh_keys=[ssh.id],
@@ -89,9 +89,7 @@ class Instance(pulumi.ComponentResource):
         sleep = command.local.Command(
             f"{self.name}-sleep",
             create="sleep 30",
-            opts=pulumi.ResourceOptions(
-                parent=self, depends_on=[bootstrap_debian]
-            ),
+            opts=pulumi.ResourceOptions(parent=self, depends_on=[bootstrap_debian]),
         )
         make_secrets_dir = command.remote.Command(
             f"{self.name}-make_secrets_dir",

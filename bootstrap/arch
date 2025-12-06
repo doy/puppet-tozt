@@ -7,7 +7,6 @@ conf_repo="https://github.com/doy/puppet-tozt"
 mkdir -p "$conf_location"
 cd "$conf_location" || exit 1
 git clone "$conf_repo" .
-git checkout pulumi
 git submodule update --init --recursive
 cp -r /tmp/secrets/ modules/secret/files
 
