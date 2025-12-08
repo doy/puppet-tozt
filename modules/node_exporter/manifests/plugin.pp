@@ -11,12 +11,20 @@ define node_exporter::plugin($source=undef, $content=undef, $ensure=undef, $freq
     ensure => $ensure,
     frequency => $frequency,
     content => template("node_exporter/cron"),
-    require => File["/etc/prometheus-node-exporter/plugins/$name"];
+    user => "node_exporter",
+    require => [
+      Package["prometheus-node-exporter"],
+      File["/etc/prometheus-node-exporter/plugins/$name"],
+    ];
   }
 
   exec { "initial run of node-exporter-${name}":
     command => "/etc/cronjobs/node-exporter-${name}",
+    user => "node_exporter",
     creates => "/run/prometheus-node-exporter/${name}.prom",
-    require => Cron::Job["node-exporter-${name}"];
+    require => [
+      Package["prometheus-node-exporter"],
+      Cron::Job["node-exporter-${name}"],
+    ];
   }
 }

@@ -1,4 +1,4 @@
-define cron::job($frequency, $source = undef, $content = undef, $ensure = undef) {
+define cron::job($frequency, $source = undef, $content = undef, $ensure = undef, $user = undef) {
   require cron
   require godwrap
   include systemd
