@@ -1,4 +1,4 @@
-define node_exporter::plugin($name, $source=undef, $content=undef, $ensure=undef, $frequency="minutely") {
+define node_exporter::plugin($source=undef, $content=undef, $ensure=undef, $frequency="minutely") {
   file { "/etc/prometheus-node-exporter/plugins/$name":
     ensure => $ensure,
     source => $source,
