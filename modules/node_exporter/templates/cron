@@ -1,5 +1,7 @@
 #!/bin/sh
 set -eu
 
-/etc/prometheus-node-exporter/plugins/$name > /run/prometheus-node-exporter/$name.prom.$$
-mv /run/prometheus-node-exporter/$name.prom.$$ /run/prometheus-node-exporter/$name.prom
+mkdir -p /run/prometheus-node-exporter
+
+/etc/prometheus-node-exporter/plugins/<%= @name %> > /run/prometheus-node-exporter/<%= @name %>.prom.$$
+mv /run/prometheus-node-exporter/<%= @name %>.prom.$$ /run/prometheus-node-exporter/<%= @name %>.prom
