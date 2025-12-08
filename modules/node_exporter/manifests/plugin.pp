@@ -13,4 +13,10 @@ define node_exporter::plugin($source=undef, $content=undef, $ensure=undef, $freq
     content => template("node_exporter/cron"),
     require => File["/etc/prometheus-node-exporter/plugins/$name"];
   }
+
+  exec { "initial run of node-exporter-${name}":
+    command => "/etc/cronjobs/node-exporter-${name}",
+    creates => "/run/prometheus-node-exporter/${name}.prom",
+    require => Cron::Job["node-exporter-${name}"];
+  }
 }
