@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+
+from datetime import datetime, timezone
+import json
+import subprocess
+
+from prometheus_client import CollectorRegistry, Gauge, generate_latest
+
+NOW = datetime.now(timezone.utc).astimezone()
+
+
+def write_snapshot_data(registry: CollectorRegistry):
+    since_last_run_g = Gauge(
+        "restic_since_last_run",
+        "Duration since last restic run",
+        registry=registry,
+    )
+    last_run_duration_g = Gauge(
+        "restic_last_run_duration",
+        "Duration of most recent restic run",
+        registry=registry,
+    )
+
+    snapshot_data = json.loads(
+        subprocess.check_output(
+            [
+                "restic",
+                "--no-lock",
+                "--repository-file",
+                "/etc/restic/repository",
+                "--password-file",
+                "/etc/restic/password",
+                "snapshots",
+                "--json",
+                "latest",
+            ]
+        )
+    )
+
+    summary = snapshot_data[0]["summary"]
+    backup_start = datetime.fromisoformat(summary["backup_start"])
+    backup_end = datetime.fromisoformat(summary["backup_end"])
+
+    since_last_run_g.set((NOW - backup_end).total_seconds())
+    last_run_duration_g.set((backup_end - backup_start).total_seconds())
+
+
+def write_stats_data(registry: CollectorRegistry):
+    file_size_g = Gauge(
+        "restic_file_size",
+        "Size of the restic repository",
+        registry=registry,
+    )
+    file_count_g = Gauge(
+        "restic_file_count",
+        "Number of files in the restic repository",
+        registry=registry,
+    )
+
+    stats_data = json.loads(
+        subprocess.check_output(
+            [
+                "restic",
+                "--no-lock",
+                "--repository-file",
+                "/etc/restic/repository",
+                "--password-file",
+                "/etc/restic/password",
+                "stats",
+                "--json",
+                "latest",
+            ]
+        )
+    )
+
+    file_size_g.set(stats_data["total_size"])
+    file_count_g.set(stats_data["total_file_count"])
+
+
+def main():
+    registry = CollectorRegistry()
+    write_snapshot_data(registry)
+    write_stats_data(registry)
+    print(generate_latest(registry).decode(), end="")
+
+
+if __name__ == "__main__":
+    main()

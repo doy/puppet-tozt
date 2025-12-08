@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+
+from datetime import datetime, timezone
+import json
+import subprocess
+
+from prometheus_client import CollectorRegistry, Gauge, generate_latest
+
+NOW = datetime.now(timezone.utc).astimezone()
+
+
+def rclone(*args: str):
+    return subprocess.check_output(
+        ["rclone", "--config", "/etc/rclone.conf", *args],
+        encoding="utf-8",
+    )
+
+
+def write_rclone_data(registry: CollectorRegistry):
+    since_last_run_g = Gauge(
+        "rclone_since_last_run",
+        "Duration since last rclone run",
+        ["location"],
+        registry=registry,
+    )
+    last_run_duration_g = Gauge(
+        "rclone_last_run_duration",
+        "Duration of most recent rclone run",
+        ["location"],
+        registry=registry,
+    )
+    file_size_g = Gauge(
+        "rclone_file_size",
+        "Size of files in the rclone repository",
+        ["location"],
+        registry=registry,
+    )
+    file_count_g = Gauge(
+        "rclone_file_count",
+        "Number of files in the rclone repository",
+        ["location"],
+        registry=registry,
+    )
+
+    for dir in json.loads(rclone("lsjson", "crypt:")):
+        run_start = datetime.fromisoformat(
+            rclone("cat", f"crypt:{dir["Path"]}/last_run_start").strip()
+        )
+        with open("/media/persistent/last_run_end") as f:
+            run_end = datetime.fromisoformat(f.read().strip())
+        since_last_run_g.labels(location=dir["Path"]).set(
+            (NOW - run_end).total_seconds()
+        )
+        last_run_duration_g.labels(location=dir["Path"]).set(
+            (run_end - run_start).total_seconds()
+        )
+
+        size = json.loads(
+            rclone(
+                "size",
+                f"b2:doy-rclone/{dir["Path"]}",
+                "--b2-versions",
+                "--json",
+                "--fast-list",
+            )
+        )
+        file_size_g.labels(location=dir["Path"]).set(int(size["bytes"]))
+        file_count_g.labels(location=dir["Path"]).set(int(size["count"]))
+
+
+def main():
+    registry = CollectorRegistry()
+    write_rclone_data(registry)
+    print(generate_latest(registry).decode(), end="")
+
+
+if __name__ == "__main__":
+    main()

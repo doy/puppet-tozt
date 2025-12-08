@@ -3,5 +3,5 @@ set -eu
 
 mkdir -p /run/prometheus-node-exporter
 
-sudo -u node_exporter /etc/prometheus-node-exporter/plugins/<%= @name %> > /run/prometheus-node-exporter/<%= @name %>.prom.$$
+<%= @root ? "" : "sudo -u node_exporter " %>/etc/prometheus-node-exporter/plugins/<%= @name %> > /run/prometheus-node-exporter/<%= @name %>.prom.$$
 mv /run/prometheus-node-exporter/<%= @name %>.prom.$$ /run/prometheus-node-exporter/<%= @name %>.prom
