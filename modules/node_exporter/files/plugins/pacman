@@ -5,4 +5,4 @@ update_count="$(yay -Qu | wc -l)"
 
 echo "# HELP pacman_updates number of packages waiting to be updated"
 echo "# TYPE pacman_updates gauge"
-echo "pacman_updates=${update_count}"
+echo "pacman_updates ${update_count}"
