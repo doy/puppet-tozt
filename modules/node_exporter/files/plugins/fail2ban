@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+
+import re
+import subprocess
+
+from prometheus_client import CollectorRegistry, Gauge, generate_latest
+
+
+def write_fail2ban_data(registry: CollectorRegistry):
+    fail_g = Gauge(
+        "fail2ban_fails",
+        "Number of ips which have failed checks",
+        ["jail"],
+        registry=registry,
+    )
+    ban_g = Gauge(
+        "fail2ban_bans",
+        "Number of currently banned ips",
+        ["jail"],
+        registry=registry,
+    )
+    status = subprocess.check_output(["fail2ban-client", "status"], encoding="utf-8")
+    jail_list = re.search(r"- Jail list:\s+(.*)", status)
+    assert jail_list is not None
+    jails = jail_list.group(1).split(", ")
+    for jail in jails:
+        status = subprocess.check_output(
+            ["fail2ban-client", "status", jail],
+            encoding="utf-8",
+        )
+        currently_failed = re.search(r"- Currently failed:\s+(.*)", status)
+        assert currently_failed is not None
+        fail_g.labels(jail=jail).set(int(currently_failed.group(1)))
+        currently_banned = re.search(r"- Currently banned:\s+(.*)", status)
+        assert currently_banned is not None
+        ban_g.labels(jail=jail).set(int(currently_banned.group(1)))
+
+
+def main():
+    registry = CollectorRegistry()
+    write_fail2ban_data(registry)
+    print(generate_latest(registry).decode(), end="")
+
+
+if __name__ == "__main__":
+    main()

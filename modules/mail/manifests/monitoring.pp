@@ -6,6 +6,7 @@ class mail::monitoring {
   class {
     [
       "node_exporter::plugin::certbot",
+      "node_exporter::plugin::fail2ban",
       "tick::client::plugin::certbot",
       "tick::client::plugin::fail2ban",
     ]:
