@@ -1,4 +1,4 @@
-define cron::job($frequency, $source = undef, $content = undef, $ensure = undef) {
+define cron::job($frequency, $on_boot = false, $source = undef, $content = undef, $ensure = undef) {
   require cron
   require godwrap
   include systemd
@@ -29,7 +29,7 @@ define cron::job($frequency, $source = undef, $content = undef, $ensure = undef)
     }
     default: {
       service { $name:
-        enable => false,
+        enable => $on_boot,
         require => [
           File["/etc/systemd/system/${name}.service"],
         ];
