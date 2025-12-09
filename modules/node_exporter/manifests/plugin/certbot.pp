@@ -4,5 +4,6 @@ class node_exporter::plugin::certbot {
   node_exporter::plugin { "certbot":
     source => "puppet:///modules/node_exporter/plugins/certbot",
     root => true,
+    require => Class['node_exporter::python_plugin'];
   }
 }
