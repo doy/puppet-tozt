@@ -17,15 +17,19 @@ def write_certbot_data(registry: CollectorRegistry):
         ["site"],
         registry=registry,
     )
-    for dir in Path("/media/persistent/certbot/live").iterdir():
-        if not dir.is_dir():
-            continue
-        with open(dir / "cert.pem", "rb") as f:
-            cert_data = f.read()
-        cert = x509.load_pem_x509_certificate(cert_data)
-        g.labels(site=re.sub("[^a-zA-Z0-9]", "_", dir.name)).set(
-            (cert.not_valid_after_utc - NOW).total_seconds()
-        )
+    for certbot_path in [
+        Path(p)
+        for p in ["/media/persistent/certbot", "/media/persistent/certs/letsencrypt"]
+    ]:
+        for dir in (certbot_path / "live").iterdir():
+            if not dir.is_dir():
+                continue
+            with open(dir / "cert.pem", "rb") as f:
+                cert_data = f.read()
+            cert = x509.load_pem_x509_certificate(cert_data)
+            g.labels(site=re.sub("[^a-zA-Z0-9]", "_", dir.name)).set(
+                (cert.not_valid_after_utc - NOW).total_seconds()
+            )
 
 
 def main():
