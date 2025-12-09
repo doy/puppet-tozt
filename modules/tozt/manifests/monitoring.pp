@@ -5,6 +5,7 @@ class tozt::monitoring {
 
   class {
     [
+      "node_exporter::plugin::certbot",
       "tick::client::plugin::certbot",
       "tick::client::plugin::fail2ban",
     ]:
