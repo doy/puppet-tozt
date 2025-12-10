@@ -1,7 +1,7 @@
 [Unit]
 Description=cron job <%= @name %>
-<%- if @needs_network -%>
-After=network-online.target
+<%- if @_after -%>
+After=<%= @_after.join(' ') %>
 <%- end -%>
 <%- if @needs_persist -%>
 RequiresMountsFor=/media/persistent
