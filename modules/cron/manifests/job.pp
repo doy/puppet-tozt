@@ -1,4 +1,4 @@
-define cron::job($frequency, $on_boot = false, $source = undef, $content = undef, $ensure = undef) {
+define cron::job($frequency, $on_boot = false, $needs_network = false, $needs_persist = false, $source = undef, $content = undef, $ensure = undef) {
   require cron
   include systemd
 

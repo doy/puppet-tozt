@@ -1,7 +1,10 @@
 [Unit]
 Description=cron job <%= @name %>
-<%- if @on_boot -%>
+<%- if @needs_network -%>
 After=network-online.target
+<%- end -%>
+<%- if @needs_persist -%>
+RequiresMountsFor=/media/persistent
 <%- end -%>
 
 [Service]

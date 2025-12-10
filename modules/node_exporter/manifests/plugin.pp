@@ -1,4 +1,4 @@
-define node_exporter::plugin($source=undef, $content=undef, $ensure=undef, $frequency="minutely", $root=false) {
+define node_exporter::plugin($source=undef, $content=undef, $ensure=undef, $frequency="minutely", $root=false, $needs_network=false, $needs_persist=false) {
   file { "/etc/prometheus-node-exporter/plugins/$name":
     ensure => $ensure,
     source => $source,
@@ -11,6 +11,8 @@ define node_exporter::plugin($source=undef, $content=undef, $ensure=undef, $freq
     ensure => $ensure,
     frequency => $frequency,
     on_boot => true,
+    needs_network => $needs_network,
+    needs_persist => $needs_persist,
     content => template("node_exporter/cron"),
     require => File["/etc/prometheus-node-exporter/plugins/$name"];
   }
