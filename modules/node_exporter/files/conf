@@ -1,1 +1,1 @@
-NODE_EXPORTER_ARGS="--collector.textfile.directory=/run/prometheus-node-exporter/"
+NODE_EXPORTER_ARGS="--collector.textfile.directory=/run/prometheus-node-exporter/ --collector.systemd"
