@@ -7,6 +7,7 @@ class partofme::monitoring {
   class {
     [
       "node_exporter::plugin::rclone",
+      "node_exporter::plugin::smartmon",
       "tick::client::plugin::rclone",
       "tick::client::plugin::smart",
     ]:
