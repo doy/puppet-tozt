@@ -1,3 +1,9 @@
+[Unit]
+Description=cron job <%= @name %>
+<%- if @on_boot -%>
+After=network-online.target
+<%- end -%>
+
 [Service]
 Type=oneshot
 ExecStart=/etc/cronjobs/<%= @name %>
