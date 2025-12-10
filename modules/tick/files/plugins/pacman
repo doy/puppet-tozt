@@ -1,4 +1,0 @@
-#!/bin/sh
-
-update_count="$(yay -Qu | wc -l)"
-echo "pacman updates=${update_count}i"

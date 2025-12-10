@@ -1,3 +1,0 @@
-Cmnd_Alias RESTIC = /usr/bin/restic
-telegraf  ALL=(ALL) NOPASSWD: RESTIC
-Defaults!RESTIC !logfile, !syslog, !pam_session

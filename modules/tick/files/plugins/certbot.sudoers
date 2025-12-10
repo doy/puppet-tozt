@@ -1,3 +1,0 @@
-Cmnd_Alias CERTBOTINNER = /etc/telegraf/plugins/certbot_inner
-telegraf  ALL=(ALL) NOPASSWD: CERTBOTINNER
-Defaults!CERTBOTINNER !logfile, !syslog, !pam_session
