@@ -1,3 +1,2 @@
 ---
 persistent_data: '/media/persistent'
-godwrap::directory: /media/persistent/godwrap

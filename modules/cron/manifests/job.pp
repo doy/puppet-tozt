@@ -1,9 +1,6 @@
 define cron::job($frequency, $on_boot = false, $source = undef, $content = undef, $ensure = undef) {
   require cron
-  require godwrap
   include systemd
-
-  $godwrap_directory = $godwrap::directory;
 
   file {
     "/etc/cronjobs/${name}":
