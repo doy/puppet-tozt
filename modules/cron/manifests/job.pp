@@ -1,11 +1,6 @@
-define cron::job($frequency, $on_boot = false, $needs_network = false, $needs_persist = false, $after = undef, $source = undef, $content = undef, $ensure = undef) {
+define cron::job($frequency, $on_boot = false, $source = undef, $content = undef, $ensure = undef) {
   require cron
   include systemd
-
-  $_after = $needs_network ? {
-    true => ["network-online.target"] + $after,
-    false => $after,
-  }
 
   file {
     "/etc/cronjobs/${name}":

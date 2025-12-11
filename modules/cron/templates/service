@@ -1,17 +1,9 @@
 [Unit]
 Description=cron job <%= @name %>
-<%- if @_after -%>
-After=<%= @_after.join(' ') %>
-<%- end -%>
-<%- if @needs_persist -%>
-RequiresMountsFor=/media/persistent
-<%- end -%>
 
 [Service]
 Type=oneshot
 ExecStart=/etc/cronjobs/<%= @name %>
-<%- if @on_boot -%>
 
 [Install]
 WantedBy=default.target
-<%- end -%>

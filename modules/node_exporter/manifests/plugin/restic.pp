@@ -1,18 +1,15 @@
 class node_exporter::plugin::restic {
   include node_exporter::python_plugin
 
-  $_needs_network = $facts['networking']['hostname'] ? {
+  $_remote = $facts['networking']['hostname'] ? {
     'partofme' => false,
     default => true,
   };
-  $_needs_persist = $facts['networking']['hostname'] ? {
-    'partofme' => true,
-    default => false,
-  };
-  $_after = $facts['networking']['hostname'] ? {
-    'partofme' => undef,
-    default => ["tailscaled.service"],
-  };
+
+  systemd::override { "node-exporter-restic":
+    content => template("node_exporter/plugins/restic-override.conf"),
+    before => Service["node-exporter-restic"];
+  }
 
   node_exporter::plugin { "restic":
     source => "puppet:///modules/node_exporter/plugins/restic",
