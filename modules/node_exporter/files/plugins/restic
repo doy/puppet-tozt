@@ -26,6 +26,8 @@ def write_snapshot_data(registry: CollectorRegistry):
             [
                 "restic",
                 "--no-lock",
+                "--cache-dir",
+                "/var/cache/restic",
                 "--repository-file",
                 "/etc/restic/repository",
                 "--password-file",
@@ -62,6 +64,8 @@ def write_stats_data(registry: CollectorRegistry):
             [
                 "restic",
                 "--no-lock",
+                "--cache-dir",
+                "/var/cache/restic",
                 "--repository-file",
                 "/etc/restic/repository",
                 "--password-file",
