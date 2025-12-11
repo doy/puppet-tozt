@@ -11,7 +11,7 @@ class node_exporter::plugin::restic {
   };
   $_after = $facts['networking']['hostname'] ? {
     'partofme' => undef,
-    default => ["tailscaled.service", "sys-subsystem-net-devices-tailscale0.device"],
+    default => ["tailscaled.service"],
   };
 
   node_exporter::plugin { "restic":
