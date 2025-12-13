@@ -12,4 +12,9 @@ class partofme::operatingsystem {
   exec { '/usr/bin/mkinitcpio -p linux':
     refreshonly => true;
   }
+
+  service { 'mdmonitor':
+    ensure => stopped,
+    enable => false;
+  }
 }
