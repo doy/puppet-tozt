@@ -11,9 +11,6 @@ class partofme::persistent {
     "raid-scrub":
       frequency => "weekly",
       source => 'puppet:///modules/partofme/raid-scrub';
-    "raid-scrub-check":
-      frequency => "hourly",
-      source => 'puppet:///modules/partofme/raid-scrub-check';
   }
 
   $fstab_line = "/dev/partofme/data /media/persistent ext4 rw,relatime,noauto 0 2"
