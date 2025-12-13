@@ -5,6 +5,7 @@ class partofme::monitoring {
 
   class {
     [
+      "node_exporter::plugin::raid_scrub_check",
       "node_exporter::plugin::rclone",
       "node_exporter::plugin::smartmon",
     ]:
