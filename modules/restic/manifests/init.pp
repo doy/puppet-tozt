@@ -1,5 +1,5 @@
 class restic {
-  package { 'restic':
+  package { ['restic', 'fuse2']:
     ensure => installed;
   }
 }
