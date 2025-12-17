@@ -59,17 +59,12 @@ class tozt::site {
       ];
   }
 
-  nginx::site {
-    "doy-tls":
-      source => 'puppet:///modules/tozt/nginx/doy-tls.conf',
-      require => Class['certbot'];
+  nginx::vhost {
     "doy":
-      source => 'puppet:///modules/tozt/nginx/doy.conf';
-    "blog-tls":
-      source => 'puppet:///modules/tozt/nginx/blog-tls.conf',
-      require => Class['certbot'];
+      host => 'tozt.net',
+      content => file('tozt/nginx/doy');
     "blog":
-      source => 'puppet:///modules/tozt/nginx/blog.conf';
+      content => file('tozt/nginx/blog');
   }
 
   file {

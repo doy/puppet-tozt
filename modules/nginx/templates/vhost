@@ -1,0 +1,27 @@
+<%- @prefix -%>
+
+server {
+    listen       443 ssl http2;
+    listen       [::]:443 ssl http2;
+    server_name  <%= @_host %>;
+
+    access_log  /var/log/nginx/<%= @name %>.access.log;
+    error_log   /var/log/nginx/<%= @name %>.error.log;
+
+    include ssl;
+
+    location /robots.txt { alias /etc/nginx/robots.txt; }
+
+<% @content %>
+}
+
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name  <%= @_host %>;
+
+    access_log   /var/log/nginx/<%= @name %>.access.log;
+    error_log    /var/log/nginx/<%= @name %>.error.log;
+
+    rewrite      ^(.*) https://$host$1 permanent;
+}

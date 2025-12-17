@@ -6,11 +6,8 @@ class tozt::headscale {
     data_dir => "/media/persistent/headscale";
   }
 
-  nginx::site {
-    "headscale-tls":
-      source => 'puppet:///modules/tozt/nginx/headscale-tls.conf',
-      require => Class['certbot'];
-    "headscale":
-      source => 'puppet:///modules/tozt/nginx/headscale.conf';
+  nginx::vhost { "headscale":
+    content => file('tozt/nginx/headscale'),
+    prefix => file('nginx/websockets');
   }
 }

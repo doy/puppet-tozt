@@ -1,0 +1,7 @@
+    include      /etc/nginx/mime.types.paste;
+
+    root         /home/doy/paste;
+    default_type text/plain;
+    gzip_types   text/plain;
+
+    location / { }

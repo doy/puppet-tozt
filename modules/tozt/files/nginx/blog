@@ -1,0 +1,1 @@
+    rewrite ^(.*) https://tozt.net/blog$1 permanent;

@@ -24,11 +24,7 @@ class tozt::paste {
       ];
   }
 
-  nginx::site {
-    "paste-tls":
-      source => 'puppet:///modules/tozt/nginx/paste-tls.conf',
-      require => Class['certbot'];
-    "paste":
-      source => 'puppet:///modules/tozt/nginx/paste.conf';
+  nginx::vhost { "paste":
+    content => file('tozt/nginx/paste');
   }
 }

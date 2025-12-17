@@ -1,14 +1,3 @@
-server {
-    listen       443 default ssl;
-    server_name  tozt.net;
-
-    access_log  /var/log/nginx/doy.access.log;
-    error_log   /var/log/nginx/doy.error.log;
-
-    include ssl;
-
-    location /robots.txt { alias /etc/nginx/robots.txt; }
-
     location /.well-known/webfinger {
         if ($arg_resource ~* 'acct(:|%3A)doy(@|%40)tozt.net') {
             return 301 https://recurse.social/.well-known/webfinger?resource=acct:doy@recurse.social;
@@ -19,5 +8,3 @@ server {
         root   /home/doy;
         try_files /site$uri /site$uri/index.html /public_html$uri =404;
     }
-}
-# vim:ft=nginx
