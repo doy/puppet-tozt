@@ -146,6 +146,8 @@ class nginx::config {
       purge => true;
     "/etc/nginx/ssl":
       source => 'puppet:///modules/nginx/ssl';
+    "/etc/nginx/block_bots":
+      content => template('nginx/block_bots');
     "/etc/nginx/robots.txt":
       content => template('nginx/robots.txt');
     "/etc/nginx/mime.types.paste":

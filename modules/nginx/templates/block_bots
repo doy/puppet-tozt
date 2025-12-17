@@ -1,0 +1,15 @@
+# from https://github.com/ai-robots-txt/ai.robots.txt/blob/main/nginx-block-ai-bots.conf
+
+set $block 0;
+
+if ($http_user_agent ~* "(<%= @spambots.map{|bot| Regexp.escape(bot)}.join("|") %>)") {
+    set $block 1;
+}
+
+if ($request_uri = "/robots.txt") {
+    set $block 0;
+}
+
+if ($block) {
+    return 403;
+}

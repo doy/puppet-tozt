@@ -9,6 +9,7 @@ server {
     error_log   /var/log/nginx/<%= @name %>.error.log;
 
     include ssl;
+    include block_bots;
 
     location /robots.txt { alias /etc/nginx/robots.txt; }
 
@@ -22,6 +23,8 @@ server {
 
     access_log   /var/log/nginx/<%= @name %>.access.log;
     error_log    /var/log/nginx/<%= @name %>.error.log;
+
+    include      block_bots;
 
     rewrite      ^(.*) https://$host$1 permanent;
 }
