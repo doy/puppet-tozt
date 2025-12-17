@@ -1,5 +1,5 @@
 class tozt::services {
-  include ufw
+  include nftables
   
   fail2ban::jail { ["sshd", "nginx-botsearch"]:
   }
