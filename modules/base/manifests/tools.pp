@@ -17,6 +17,8 @@ class base::tools {
       "iftop",
       "iotop",
       "lsof",
+      "man-db",
+      "man-pages",
       "neomutt",
       "ncdu",
       "ripgrep",
