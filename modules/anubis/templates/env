@@ -1,0 +1,3 @@
+BIND=:<%= @port %>
+METRICS_BIND=:<%= @metrics_port %>
+TARGET=<%= @target %>

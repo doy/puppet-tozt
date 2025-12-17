@@ -74,6 +74,12 @@ class partofme::git {
     ];
   }
 
+  anubis::instance { "git":
+    port => "29876",
+    metrics_port => "39876",
+    target => "http://localhost:8083";
+  }
+
   nginx::site {
     "git":
       source => 'puppet:///modules/partofme/nginx/git.conf';
