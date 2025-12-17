@@ -1,0 +1,8 @@
+<%- @spambots.each do |spambot| -%>
+User-agent: <%= spambot %>
+<%- end -%>
+Disallow: /
+
+User-agent: *
+Disallow:
+Crawl-delay: 30
