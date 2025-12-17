@@ -135,6 +135,8 @@ class nginx::config {
     'MJ12bot',
   ]
 
+  $banned_ips = secret::value('banned_ips').chomp().split("\n");
+
   file {
     "/etc/nginx/sites-available":
       ensure => directory,
@@ -148,6 +150,8 @@ class nginx::config {
       source => 'puppet:///modules/nginx/ssl';
     "/etc/nginx/block_bots":
       content => template('nginx/block_bots');
+    "/etc/nginx/block_ips":
+      content => template('nginx/block_ips');
     "/etc/nginx/robots.txt":
       content => template('nginx/robots.txt');
     "/etc/nginx/mime.types.paste":

@@ -10,6 +10,7 @@ server {
 
     include ssl;
     include block_bots;
+    include block_ips;
 
     location /robots.txt { alias /etc/nginx/robots.txt; }
 
@@ -25,6 +26,7 @@ server {
     error_log    /var/log/nginx/<%= @name %>.error.log;
 
     include      block_bots;
+    include      block_ips;
 
     rewrite      ^(.*) https://$host$1 permanent;
 }

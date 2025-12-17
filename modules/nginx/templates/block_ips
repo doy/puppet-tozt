@@ -1,0 +1,3 @@
+<%- @banned_ips.each do |ip| -%>
+deny <%= ip %>;
+<%- end -%>
