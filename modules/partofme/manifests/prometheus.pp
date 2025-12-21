@@ -87,7 +87,7 @@ class partofme::prometheus {
     frequency => "hourly",
     source => "puppet:///modules/partofme/metabase",
     require => [
-      Package::Cargo["ynab-export for doy"],
+      Exec["clone ynab-export"],
       Exec["clone metabase-utils"],
       Secret["/home/doy/.config/ynab/api-key"],
       Secret["/home/doy/.config/google/investments-sheet"],
