@@ -61,10 +61,15 @@ class partofme::prometheus {
     require => File["/home/doy/.config/google"];
   }
 
-  package::cargo { "ynab-export for doy":
-    ensure => installed,
-    user => 'doy',
-    package => 'ynab-export';
+  exec { "clone ynab-export":
+    command => "/usr/bin/git clone https://github.com/doy/ynab-export",
+    user => "doy",
+    cwd => "/home/doy/coding",
+    creates => "/home/doy/coding/ynab-export",
+    require => [
+      Class["git"],
+      File["/home/doy/coding"],
+    ],
   }
 
   exec { "clone metabase-utils":

@@ -5,6 +5,7 @@ define base::user(
   $extra_groups=[],
   $homedir_mode='0700',
   $shell='/usr/bin/fish',
+  $rust=false,
 ) {
   $home = base::home($user)
 
@@ -48,62 +49,9 @@ define base::user(
   }
 
   if $user != 'root' {
-    if $persistent_data != undef { # lint:ignore:variable_scope
-      file {
-        "$persistent_data/cargo":
-          ensure => 'directory';
-        "$persistent_data/rustup":
-          ensure => 'directory';
-        "$persistent_data/cargo/${user}":
-          ensure => 'directory',
-          owner => $user,
-          group => $group,
-          mode => $homedir_mode,
-          require => [
-            User[$user],
-            Group[$group],
-            File["$persistent_data/cargo"],
-          ];
-        "$persistent_data/rustup/${user}":
-          ensure => 'directory',
-          owner => $user,
-          group => $group,
-          mode => $homedir_mode,
-          require => [
-            User[$user],
-            Group[$group],
-            File["$persistent_data/rustup"],
-          ];
-        "${home}/.cargo":
-          ensure => link,
-          target => "$persistent_data/cargo/${user}",
-          owner => $user,
-          group => $group,
-          require => [
-            User[$user],
-            Group[$group],
-            File[$home],
-          ];
-        "${home}/.rustup":
-          ensure => link,
-          target => "$persistent_data/rustup/${user}",
-          owner => $user,
-          group => $group,
-          require => [
-            User[$user],
-            Group[$group],
-            File[$home],
-          ];
+    if $rust {
+      rust::user { $user:
       }
-
-      File["${home}/.rustup"] -> Rust::User[$user]
-      File["$persistent_data/rustup/${user}"] -> Rust::User[$user]
-
-      File["${home}/.cargo"] -> Package::Cargo<| |>
-      File["$persistent_data/cargo/${user}"] -> Package::Cargo<| |>
-    }
-
-    rust::user { $user:
     }
     sudo::user { $user:
     }

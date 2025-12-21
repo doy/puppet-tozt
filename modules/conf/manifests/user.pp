@@ -34,8 +34,4 @@ define conf::user($user=$name) {
       Package["less"],
     ];
   }
-
-  if $user != 'root' {
-    Rust::User[$user] -> Exec["conf make install for $user"]
-  }
 }
