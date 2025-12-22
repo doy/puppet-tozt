@@ -66,6 +66,7 @@ async def puppet_tozt(host: str):
         "ssh",
         host,
         "sudo",
+        "-E",
         "--stdin",
         *sys.argv[1:],
         stdin=asyncio.subprocess.PIPE,

@@ -4,7 +4,7 @@ set -o pipefail
 
 puppet-tozt
 
-sudo -u doy sh -c "cd ~/conf && git pull && make install"
+sudo -E -u doy sh -c "cd ~/conf && git pull && make install"
 sudo sh -c "cd ~/conf && git pull && make install"
 
 sudo -u doy yay --noconfirm
