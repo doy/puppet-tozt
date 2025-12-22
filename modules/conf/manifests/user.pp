@@ -23,7 +23,7 @@ define conf::user($user=$name) {
       "HOME=$home",
       "PWD=$home/conf",
     ],
-    creates => "$home/.zshrc",
+    creates => "$home/.bashrc",
     timeout => 1800,
     require => [
       Class['c_toolchain'],
