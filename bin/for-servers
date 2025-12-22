@@ -55,7 +55,6 @@ async def read_stream(
 
         if sudo_cb and buf == f"[sudo] password for {os.environ['USER']}: ".encode():
             await sudo_cb
-            sudo_cb = None
             buf = b""
 
 
@@ -65,8 +64,6 @@ async def puppet_tozt(host: str):
     proc = await asyncio.create_subprocess_exec(
         "ssh",
         host,
-        "sudo",
-        "--stdin",
         *sys.argv[1:],
         stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
