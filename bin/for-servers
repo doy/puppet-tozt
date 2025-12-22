@@ -37,7 +37,7 @@ async def get_password(host: str):
 async def read_stream(
     stream: asyncio.StreamReader,
     print_cb: Callable[[str], None],
-    sudo_cb: Coroutine[Any, Any, None] | None,
+    sudo_cb: Callable[[], Coroutine[Any, Any, None]] | None,
 ):
     buf = b""
     while True:
@@ -54,7 +54,7 @@ async def read_stream(
             print_cb(line.decode())
 
         if sudo_cb and buf == f"[sudo] password for {os.environ['USER']}: ".encode():
-            await sudo_cb
+            await sudo_cb()
             sudo_cb = None
             buf = b""
 
@@ -91,7 +91,7 @@ async def puppet_tozt(host: str):
         read_stream(
             proc.stderr,
             lambda line: print(f"[{colored_host}:\x1b[31merr\x1b[m] {line}"),
-            sudo_cb(),
+            sudo_cb,
         ),
     )
 
