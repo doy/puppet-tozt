@@ -5,9 +5,9 @@
 # persistent_data:
 base::user::rust: true
 base::extra_script: |
-  rustup update
-  (cd /home/doy/coding/ynab-export && git pull)
-  (cd /home/doy/coding/metabase-utils && git pull)
+  sudo rustup update
+  (sudo -u doy cd /home/doy/coding/ynab-export && git pull)
+  (sudo -u doy cd /home/doy/coding/metabase-utils && git pull)
   (sudo podman pull docker.io/vaultwarden/server)
   (sudo podman pull docker.io/pihole/pihole)
   (sudo podman pull docker.io/freshrss/freshrss)
