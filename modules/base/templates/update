@@ -7,7 +7,6 @@ puppet-tozt
 (cd ~/conf && git pull && make install)
 sudo sh -c "cd ~/conf && git pull && make install"
 
-yay --noconfirm
-yay -Yc --noconfirm
-rustup update
+sudo -u doy yay --noconfirm
+sudo -u doy yay -Yc --noconfirm
 <%= @extra_script %>
