@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import asyncio
 import os
+import platform
 import sys
-from typing import Any, Callable, Coroutine
+from typing import Callable
 
 
 HOST_COLORS = {
@@ -16,28 +17,9 @@ def color_host(host: str):
     return HOST_COLORS[host] + host + "\x1b[m"
 
 
-async def unlock_rbw():
-    proc = await asyncio.create_subprocess_exec("rbw", "unlock")
-    await proc.wait()
-
-
-async def get_password(host: str):
-    proc = await asyncio.create_subprocess_exec(
-        "rbw",
-        "get",
-        host,
-        os.environ["USER"],
-        stdout=asyncio.subprocess.PIPE,
-    )
-
-    stdout, _ = await proc.communicate()
-    return stdout.rstrip()
-
-
 async def read_stream(
     stream: asyncio.StreamReader,
     print_cb: Callable[[str], None],
-    sudo_cb: Coroutine[Any, Any, None] | None,
 ):
     buf = b""
     while True:
@@ -53,17 +35,15 @@ async def read_stream(
         for line in lines:
             print_cb(line.decode())
 
-        if sudo_cb and buf == f"[sudo] password for {os.environ['USER']}: ".encode():
-            await sudo_cb
-            buf = b""
-
 
 async def puppet_tozt(host: str):
-    password = await get_password(host)
-
     proc = await asyncio.create_subprocess_exec(
         "ssh",
         host,
+        "sh",
+        "-c",
+        f"'SUDO_ASKPASS=\"ssh {platform.node()} env DISPLAY=:0 rbw get {host} {os.environ['USER']}\" exec \"$@\"'",
+        sys.argv[1],
         *sys.argv[1:],
         stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
@@ -74,21 +54,14 @@ async def puppet_tozt(host: str):
 
     colored_host = color_host(host)
 
-    async def sudo_cb():
-        assert proc.stdin is not None
-        proc.stdin.write(password + b"\n")
-        await proc.stdin.drain()
-
     await asyncio.gather(
         read_stream(
             proc.stdout,
             lambda line: print(f"[{colored_host}:out] {line}"),
-            None,
         ),
         read_stream(
             proc.stderr,
             lambda line: print(f"[{colored_host}:\x1b[31merr\x1b[m] {line}"),
-            sudo_cb(),
         ),
     )
 
@@ -100,7 +73,6 @@ async def puppet_tozt(host: str):
 
 
 async def main():
-    await unlock_rbw()
     await asyncio.gather(
         puppet_tozt("tozt"),
         puppet_tozt("mail"),
