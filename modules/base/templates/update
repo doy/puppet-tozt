@@ -2,18 +2,11 @@
 set -eux
 set -o pipefail
 
-if [ -n "$SUDO_ASKPASS" ]; then
-  sudo -Av
-  SUDOFLAGS="--sudoflags=-A"
-else
-  SUDOFLAGS=
-fi
-
 puppet-tozt
 
 sudo -u doy sh -c "cd ~/conf && git pull && make install"
 sudo sh -c "cd ~/conf && git pull && make install"
 
-sudo -u doy yay --noconfirm $SUDOFLAGS
-sudo -u doy yay -Yc --noconfirm $SUDOFLAGS
+sudo -u doy yay --noconfirm
+sudo -u doy yay -Yc --noconfirm
 <%= @extra_script %>

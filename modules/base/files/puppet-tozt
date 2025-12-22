@@ -2,10 +2,6 @@
 set -eu
 set -o pipefail
 
-if [ -n "$SUDO_ASKPASS" ]; then
-  sudo -Av
-fi
-
 branch=${1:-main}
 (cd /usr/local/share/puppet-tozt && sudo git remote update && sudo git checkout -B "$branch" && sudo git submodule update --init --recursive && sudo git reset --hard "origin/$branch")
 
