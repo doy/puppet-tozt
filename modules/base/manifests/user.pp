@@ -57,10 +57,6 @@ define base::user(
     }
   }
 
-  if $shell == '/usr/bin/zsh' {
-    include zsh
-    Class['zsh'] -> User[$user]
-  }
   if $shell == '/usr/bin/fish' {
     include fish
     Class['fish'] -> User[$user]
