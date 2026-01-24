@@ -1,4 +1,5 @@
 class partofme::filesharing {
+  include gonic
   include samba
 
   file { '/etc/samba/smb.conf':

@@ -5,6 +5,7 @@ class c_toolchain {
       "automake",
       "gcc",
       "make",
+      "patch",
       "pkgconf",
     ]:
     ensure => installed,

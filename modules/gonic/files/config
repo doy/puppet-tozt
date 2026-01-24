@@ -1,0 +1,6 @@
+listen-addr                 0.0.0.0:4747
+db-path                     /var/lib/gonic/gonic.db
+music-path                  /media/persistent/media/audio
+podcast-path                /media/persistent/media/podcasts
+playlists-path              /media/persistent/media/playlists
+cache-path                  /var/cache/gonic
