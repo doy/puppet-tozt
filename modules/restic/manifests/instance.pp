@@ -18,6 +18,7 @@ class restic::instance($repo, $extra_paths) {
     provider => shell,
     command => "restic init --repository-file=/etc/restic/repository --password-file=/etc/restic/password",
     unless => "restic snapshots --repository-file=/etc/restic/repository --password-file=/etc/restic/password latest",
+    environment => ["HOME=/root"],
     require => [
       Package['restic'],
       File["/etc/restic/repository"],
