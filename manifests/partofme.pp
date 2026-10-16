@@ -5,6 +5,7 @@ node 'partofme', 'partofme.localdomain' {
 
   include partofme::backups
   include partofme::bitwarden
+  include partofme::calendar
   include partofme::filesharing
   include partofme::git
   include partofme::mdadm
