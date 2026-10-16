@@ -3,7 +3,7 @@
 # since we want it to be encrypted, and we can't really access it at boot
 # time to type in a password
 # persistent_data:
-base::user::rust: true
+base::users::rust: true
 base::extra_script: |
   sudo -u doy rustup update
   (cd /home/doy/coding/ynab-export && sudo -u doy git pull)
