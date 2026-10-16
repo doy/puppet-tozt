@@ -1,0 +1,8 @@
+[Service]
+ExecStart=/usr/bin/cargo run --release --bin watch-calendar -- /media/persistent/syncthing/doy/obsidian/obsidian-test/todo/now.md
+User=doy
+WorkingDirectory=/home/doy/coding/calendar
+Restart=always
+
+[Install]
+WantedBy=default.target
