@@ -1,3 +1,7 @@
+[Unit]
+After=network.target
+RequiresMountsFor=/media/persistent
+
 [Service]
 ExecStart=/usr/bin/cargo run --release --bin watch-calendar -- /media/persistent/syncthing/doy/obsidian/obsidian-test/todo/now.md
 User=doy
