@@ -25,9 +25,13 @@ class partofme::prometheus {
 
   exec { "install grafana sqlite plugin":
     provider => shell,
+    user => 'grafana',
     command => "grafana cli --homepath=/usr/share/grafana --config=/etc/grafana.ini plugins install frser-sqlite-datasource",
     creates => "/var/lib/grafana/plugins/frser-sqlite-datasource",
-    require => Package["grafana"],
+    require => [
+      Package["grafana"],
+      File['/var/lib/grafana/plugins'],
+    ],
   }
 
   systemd::override { "grafana":

@@ -7,7 +7,13 @@ class grafana {
     "/media/persistent/grafana":
       owner => 'grafana',
       group => 'grafana',
-      ensure => directory;
+      ensure => directory,
+      require => Package['grafana'];
+    "/var/lib/grafana/plugins":
+      owner => 'grafana',
+      group => 'grafana',
+      ensure => directory,
+      require => Package['grafana'];
   }
 
   service { "grafana":
