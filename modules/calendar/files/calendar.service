@@ -3,6 +3,7 @@ After=network.target
 RequiresMountsFor=/media/persistent
 
 [Service]
+Environment=TZ=America/New_York
 ExecStart=/usr/bin/cargo run --release --bin watch-calendar -- /media/persistent/syncthing/doy/obsidian/obsidian-test/todo/now.md
 User=doy
 WorkingDirectory=/home/doy/coding/calendar
